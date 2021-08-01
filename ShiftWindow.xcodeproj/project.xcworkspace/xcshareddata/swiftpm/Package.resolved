@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "SpiceKey",
+        "repositoryURL": "https://github.com/Kyome22/SpiceKey.git",
+        "state": {
+          "branch": null,
+          "revision": "282e158d6b7309284c52df75df3aa5f6b384e050",
+          "version": "4.1.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

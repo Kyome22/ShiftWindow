@@ -1,0 +1,24 @@
+/* 
+  Localizable.strings
+  ShiftWindow
+
+  Created by Takuto Nakamura on 2021/07/31.
+  
+*/
+
+"preferences" = "環境設定…";
+"aboutApp" = "ShiftWindowについて";
+"terminateApp" = "ShiftWindowを終了";
+
+"shiftTopHalf" = "上側 1/2 に寄せる";
+"shiftBottomHalf" = "下側 1/2 に寄せる";
+"shiftLeftHalf" = "左側 1/2 に寄せる";
+"shiftRighthalf" = "右側 1/2 に寄せる";
+
+"shiftLeftThird" = "左側 1/3 に寄せる";
+"shiftLeftTwoThirds" = "左側 2/3 に寄せる";
+"shiftMiddleThird" = "中央 1/3 に寄せる";
+"shiftRightThirds" = "右側 2/3 に寄せる";
+"shiftRightThird" = "右側 1/3 に寄せる";
+
+"maximize" = "最大限広げる";
