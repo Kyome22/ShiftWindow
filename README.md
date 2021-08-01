@@ -13,4 +13,4 @@ You can register your favorite keyboard-shortcuts for the command.
 
 1. Download `installer.zip` from [releases](https://github.com/Kyome22/ShiftWindow/releases) page.
 2. Unzip the file and open the `ShiftWindow Installer.dmg`.
-3. Copy the app to the application folder.
+3. Copy the App to the Applications folder.
