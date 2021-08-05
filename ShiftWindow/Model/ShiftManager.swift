@@ -39,8 +39,9 @@ class ShiftManager {
         
         // override new frame to window
         guard let newFrame = self.makeNewFrame(type: type) else { return }
-        self.setPosition(element: window, position: newFrame.origin)
+        // サイズを先に変更しないとなぜかうまくいかない
         self.setSize(element: window, size: newFrame.size)
+        self.setPosition(element: window, position: newFrame.origin)
     }
     
     private func makeNewFrame(type: ShiftType) -> CGRect? {
