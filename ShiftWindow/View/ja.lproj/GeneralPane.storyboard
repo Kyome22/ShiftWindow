@@ -39,7 +39,7 @@
                                     </box>
                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="upi-sc-D95">
                                         <rect key="frame" x="14" y="40" width="272" height="48"/>
-                                        <textFieldCell key="cell" selectable="YES" alignment="justified" title="このアプリを使用するには、 システム環境設定 =&gt; セキュリティとプライバシー =&gt; アクセシビリティにて権限を付与する必要があります。" id="b6l-Xr-wlC">
+                                        <textFieldCell key="cell" selectable="YES" alignment="justified" title="このアプリを使用するには、システム環境設定 =&gt; セキュリティとプライバシー =&gt; アクセシビリティにて権限を付与する必要があります。" id="b6l-Xr-wlC">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
