@@ -24,22 +24,24 @@ import SpiceKey
 
 class ShortcutsPaneVC: NSViewController {
     
-    @IBOutlet weak var contentView: NSView!
+    @IBOutlet weak var stackView: NSStackView!
     var originalSize = CGSize.zero
     private var spiceKeyFields = [SpiceKeyField]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.originalSize = self.view.frame.size
-        self.spiceKeyFields = self.contentView.subviews
-            .sorted(by: { $0.tag < $1.tag })
-            .compactMap({ view in
-                if let spiceKeyField = view as? SpiceKeyField {
-                    spiceKeyField.delegate = self
-                    spiceKeyField.id = ShiftType(rawValue: view.tag)?.id
-                    return spiceKeyField
-                }
-                return nil
+        
+        self.spiceKeyFields = self.stackView
+            .arrangedSubviews
+            .enumerated()
+            .compactMap({ (offset, element) -> SpiceKeyField? in
+                guard let sv = element as? NSStackView,
+                      let spiceKeyField = sv.arrangedSubviews[safe: 2] as? SpiceKeyField
+                else { return nil }
+                spiceKeyField.delegate = self
+                spiceKeyField.id = ShiftType(rawValue: offset)?.id
+                return spiceKeyField
             })
         let patterns = AppDelegate.shared.patterns
         assert(self.spiceKeyFields.count == patterns.count, "imposible")

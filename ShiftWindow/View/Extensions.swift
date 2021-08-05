@@ -81,3 +81,9 @@ extension CGFloat {
         return 2.0 * CGFloat(Double(self / 3.0).rounded())
     }
 }
+
+extension Array {
+    subscript (safe index: Index) -> Element? {
+        return self.indices.contains(index) ? self[index] : nil
+    }
+}

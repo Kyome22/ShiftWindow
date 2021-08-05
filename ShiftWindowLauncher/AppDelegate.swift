@@ -22,7 +22,7 @@
 import Cocoa
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let mainAppId = "com.kyome.ShiftWindow"
         let isRunning = NSWorkspace.shared.runningApplications.contains { app in
@@ -39,6 +39,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
     }
-
+    
 }
 

@@ -116,22 +116,6 @@ class ShiftManager {
         return self.copyAttributeValue(element, attribute: kAXSubroleAttribute) as? String
     }
     
-    //    private func getPosition(element: AXUIElement) -> CGPoint? {
-    //        var position = CGPoint.zero
-    //        guard let ref = self.copyAttributeValue(element, attribute: kAXPositionAttribute),
-    //              AXValueGetValue(ref as! AXValue, AXValueType.cgPoint, &position)
-    //        else { return nil }
-    //        return position
-    //    }
-    
-    //    private func getSize(element: AXUIElement) -> CGSize? {
-    //        var size = CGSize.zero
-    //        guard let ref = self.copyAttributeValue(element, attribute: kAXSizeAttribute),
-    //              AXValueGetValue(ref as! AXValue, AXValueType.cgSize, &size)
-    //        else { return nil }
-    //        return size
-    //    }
-    
     private func isFullscreen(element: AXUIElement) -> Bool {
         let result = self.copyAttributeValue(element, attribute: "AXFullScreen") as? NSNumber
         return result?.boolValue ?? false
