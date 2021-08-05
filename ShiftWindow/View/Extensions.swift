@@ -68,6 +68,10 @@ extension NSImage {
     static let windowMaximize = NSImage(imageLiteralResourceName: "WindowMaximize")
 }
 
+extension CGColor {
+    static let panelBackground = NSColor(named: "PanelBackground")!.cgColor
+}
+
 extension CGFloat {
     var half: CGFloat {
         return CGFloat(Double(self / 2.0).rounded())

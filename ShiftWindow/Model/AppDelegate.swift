@@ -25,6 +25,7 @@ import SpiceKey
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     private var preferencesWC: NSWindowController?
+    private var shortcutPanel: ShortcutPanel?
     private var menuManager: MenuManager!
     private var shiftManager: ShiftManager!
     private(set) var patterns = [ShiftPattern]()
@@ -67,13 +68,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.shiftManager.shiftWindow(type: sender.pattern.type)
     }
     
+    private func showShortcutPanel(keyEquivalent: String) {
+        #if DEBUG
+        shortcutPanel = ShortcutPanel(keyEquivalent: keyEquivalent)
+        shortcutPanel?.delegate = self
+        shortcutPanel?.orderFrontRegardless()
+        #endif
+    }
+    
     // MARK: Keyboard Shortcuts
     private func initShortcuts() {
         self.patterns.forEach { pattern in
             guard let keyCombo = pattern.spiceKeyData?.keyCombination else { return }
-            let spiceKey = SpiceKey(keyCombo, keyDownHandler: { [weak self] in
+            let spiceKey = SpiceKey(keyCombo) { [weak self] in
+                self?.showShortcutPanel(keyEquivalent: keyCombo.string)
                 self?.shiftManager.shiftWindow(type: pattern.type)
-            })
+            } keyUpHandler: { [weak self] in
+                self?.shortcutPanel?.fadeOut()
+            }
             spiceKey.register()
             pattern.spiceKeyData?.spiceKey = spiceKey
         }
@@ -82,9 +94,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func updateShortcut(id: String, key: Key, flags: ModifierFlags) {
         if let pattern = self.patterns.first(where: { $0.type.id == id }) {
             let keyCombo = KeyCombination(key, flags)
-            let spiceKey = SpiceKey(keyCombo, keyDownHandler: { [weak self] in
+            let spiceKey = SpiceKey(keyCombo) { [weak self] in
+                self?.showShortcutPanel(keyEquivalent: keyCombo.string)
                 self?.shiftManager.shiftWindow(type: pattern.type)
-            })
+            } keyUpHandler: { [weak self] in
+                self?.shortcutPanel?.fadeOut()
+            }
             spiceKey.register()
             pattern.spiceKeyData = SpiceKeyData(id, key, flags, spiceKey)
             self.menuManager.updateMenuItems(self.patterns)
@@ -109,6 +124,8 @@ extension AppDelegate: NSWindowDelegate {
         guard let window = notification.object as? NSWindow else { return }
         if window === self.preferencesWC?.window {
             self.preferencesWC = nil
+        } else if window === self.shortcutPanel {
+            self.shortcutPanel = nil
         }
     }
     

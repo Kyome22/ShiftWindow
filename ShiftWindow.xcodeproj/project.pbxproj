@@ -11,6 +11,7 @@
 		1C0D29DE26AEFBDC00DD0690 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C0D29DD26AEFBDC00DD0690 /* Assets.xcassets */; };
 		1C0D29EA26AEFC0000DD0690 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0D29E926AEFC0000DD0690 /* main.swift */; };
 		1C0D29ED26AEFC6900DD0690 /* SpiceKey in Frameworks */ = {isa = PBXBuildFile; productRef = 1C0D29EC26AEFC6900DD0690 /* SpiceKey */; };
+		1C1461D626BC1629006442F5 /* ShortcutPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1461D526BC1629006442F5 /* ShortcutPanel.swift */; };
 		1C64A54B26B65EED004A5299 /* GeneralPaneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C64A54A26B65EED004A5299 /* GeneralPaneVC.swift */; };
 		1C64A55326B6680F004A5299 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C64A55226B6680F004A5299 /* AppDelegate.swift */; };
 		1C64A56126B668BB004A5299 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C64A56026B668BB004A5299 /* main.swift */; };
@@ -52,6 +53,7 @@
 		1C0D29E326AEFBDC00DD0690 /* ShiftWindow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShiftWindow.entitlements; sourceTree = "<group>"; };
 		1C0D29E926AEFC0000DD0690 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		1C1461D426BBDC88006442F5 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ja; path = ja.lproj/ShortcutsPane.storyboard; sourceTree = "<group>"; };
+		1C1461D526BC1629006442F5 /* ShortcutPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutPanel.swift; sourceTree = "<group>"; };
 		1C64A54A26B65EED004A5299 /* GeneralPaneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPaneVC.swift; sourceTree = "<group>"; };
 		1C64A55026B6680F004A5299 /* ShiftWindowLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShiftWindowLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C64A55226B6680F004A5299 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				1C64A57326B678CD004A5299 /* ShortcutsPane.storyboard */,
 				1CF1380B26B5A10900E2147E /* ShortcutsPaneVC.swift */,
 				1CF1380D26B5A16500E2147E /* CencelWindow.swift */,
+				1C1461D526BC1629006442F5 /* ShortcutPanel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 				1CF137F426B561DD00E2147E /* ShiftMenuItem.swift in Sources */,
 				1CF1380426B5947800E2147E /* ShiftPattern.swift in Sources */,
 				1C0D29DA26AEFBDA00DD0690 /* AppDelegate.swift in Sources */,
+				1C1461D626BC1629006442F5 /* ShortcutPanel.swift in Sources */,
 				1CF1380E26B5A16500E2147E /* CencelWindow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -467,7 +471,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShiftWindow/ShiftWindow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.0.1;
+				CURRENT_PROJECT_VERSION = 1.0.2;
 				DEVELOPMENT_TEAM = VJ5N2X84K8;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = ShiftWindow/Info.plist;
@@ -489,7 +493,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShiftWindow/ShiftWindow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.0.1;
+				CURRENT_PROJECT_VERSION = 1.0.2;
 				DEVELOPMENT_TEAM = VJ5N2X84K8;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = ShiftWindow/Info.plist;
@@ -510,7 +514,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShiftWindowLauncher/ShiftWindowLauncher.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.0.1;
+				CURRENT_PROJECT_VERSION = 1.0.2;
 				DEVELOPMENT_TEAM = VJ5N2X84K8;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = ShiftWindowLauncher/Info.plist;
@@ -533,7 +537,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShiftWindowLauncher/ShiftWindowLauncher.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.0.1;
+				CURRENT_PROJECT_VERSION = 1.0.2;
 				DEVELOPMENT_TEAM = VJ5N2X84K8;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = ShiftWindowLauncher/Info.plist;
