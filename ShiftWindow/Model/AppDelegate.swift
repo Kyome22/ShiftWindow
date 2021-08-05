@@ -70,6 +70,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     private func showShortcutPanel(keyEquivalent: String) {
         #if DEBUG
+        if shortcutPanel != nil { return }
         shortcutPanel = ShortcutPanel(keyEquivalent: keyEquivalent)
         shortcutPanel?.delegate = self
         shortcutPanel?.orderFrontRegardless()
