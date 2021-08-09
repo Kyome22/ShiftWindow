@@ -25,18 +25,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let mainAppId = "com.kyome.ShiftWindow"
-        let isRunning = NSWorkspace.shared.runningApplications.contains { app in
+        let workspace = NSWorkspace.shared
+        let isRunning = workspace.runningApplications.contains { app in
             app.bundleIdentifier == mainAppId
         }
-        if isRunning {
-            NSApp.terminate(nil)
-        } else {
-            if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: mainAppId) {
-                let config = NSWorkspace.OpenConfiguration()
-                NSWorkspace.shared.openApplication(at: url, configuration: config) { _, _ in
+        if !isRunning, let url = workspace.urlForApplication(withBundleIdentifier: mainAppId) {
+            let config = NSWorkspace.OpenConfiguration()
+            NSWorkspace.shared.openApplication(at: url, configuration: config) { _, _ in
+                DispatchQueue.main.async {
                     NSApp.terminate(nil)
                 }
             }
+        } else {
+            NSApp.terminate(nil)
         }
     }
     
