@@ -45,6 +45,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationWillTerminate(_ notification: Notification) {
         DataManager.shared.patterns = self.patterns
+        self.toggleIconsVisible(flag: false)
     }
     
     @IBAction func openPreferences(_ sender: Any?) {
@@ -66,6 +67,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @IBAction func shiftWindow(_ sender: ShiftMenuItem) {
         self.shiftManager.shiftWindow(type: sender.pattern.type)
+    }
+    
+    @IBAction func hideDesktopIcons(_ sender: NSMenuItem) {
+        let flag = !sender.state.isOn
+        self.toggleIconsVisible(flag: flag)
+        sender.state = flag.state
+    }
+    
+    private func toggleIconsVisible(flag: Bool) {
+        let args = flag
+            ? "defaults write com.apple.finder CreateDesktop -bool FALSE; killall Finder"
+            : "defaults delete com.apple.finder CreateDesktop; killall Finder"
+        let shell = Process()
+        shell.launchPath = "/bin/sh"
+        shell.arguments = ["-c", args]
+        shell.launch()
+        shell.waitUntilExit()
     }
     
     private func showShortcutPanel(keyEquivalent: String) {

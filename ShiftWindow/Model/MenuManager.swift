@@ -53,13 +53,20 @@ class MenuManager {
             }
         }
         
+        // Add Hide Desktop Icons
+        let toggleItem = NSMenuItem(
+            title: "hideDesktopIcons".localized,
+            action: #selector(AppDelegate.hideDesktopIcons(_:))
+        )
+        self.menu.addItem(toggleItem)
+        self.menu.addItem(NSMenuItem.separator())
+        
         // Add General Items
         let preferencesItem = NSMenuItem(
             title: "preferences".localized,
             action: #selector(AppDelegate.openPreferences(_:))
         )
         self.menu.addItem(preferencesItem)
-        
         self.menu.addItem(NSMenuItem.separator())
         
         let aboutItem = NSMenuItem(
