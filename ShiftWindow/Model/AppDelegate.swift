@@ -45,7 +45,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationWillTerminate(_ notification: Notification) {
         DataManager.shared.patterns = self.patterns
-        self.toggleIconsVisible(flag: false)
+        if self.menuManager.isHiddenIcons {
+            self.toggleIconsVisible(flag: false)
+        }
     }
     
     @IBAction func openPreferences(_ sender: Any?) {

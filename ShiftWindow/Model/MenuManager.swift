@@ -25,6 +25,11 @@ class MenuManager {
     
     private let statusItem = NSStatusItem.default
     private let menu = NSMenu()
+    private var toggleItem: NSMenuItem?
+    
+    var isHiddenIcons: Bool {
+        return toggleItem?.state.isOn ?? false
+    }
     
     init() {
         if let button = self.statusItem.button {
@@ -54,11 +59,11 @@ class MenuManager {
         }
         
         // Add Hide Desktop Icons
-        let toggleItem = NSMenuItem(
+        toggleItem = NSMenuItem(
             title: "hideDesktopIcons".localized,
             action: #selector(AppDelegate.hideDesktopIcons(_:))
         )
-        self.menu.addItem(toggleItem)
+        self.menu.addItem(toggleItem!)
         self.menu.addItem(NSMenuItem.separator())
         
         // Add General Items
