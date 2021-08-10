@@ -39,17 +39,31 @@ class ShiftManager {
         
         // override new frame to window
         guard let newFrame = self.makeNewFrame(type: type) else { return }
-        // サイズを先に変更しないとなぜかうまくいかない
-        self.setSize(element: window, size: newFrame.size)
         self.setPosition(element: window, position: newFrame.origin)
+        self.setSize(element: window, size: newFrame.size)
+    }
+    
+    private func getValidFrame() -> CGRect? {
+        guard let mainScreen = NSScreen.main else { return nil }
+        let visibleFrame = mainScreen.visibleFrame
+        let offsetY = visibleFrame.height + visibleFrame.origin.y
+        var validFrame = CGRect(x: visibleFrame.origin.x,
+                                y: mainScreen.frame.height - offsetY,
+                                width: visibleFrame.width,
+                                height: visibleFrame.height)
+        // Dock Left or Right
+        if visibleFrame.width < mainScreen.frame.width {
+            validFrame.size.width -= 1
+            // Dock Left
+            if 0 < validFrame.origin.x {
+                validFrame.origin.x += 1
+            }
+        }
+        return validFrame
     }
     
     private func makeNewFrame(type: ShiftType) -> CGRect? {
-        guard let mainScreen = NSScreen.main else { return nil }
-        let validFrame = CGRect(x: mainScreen.visibleFrame.origin.x,
-                                y: mainScreen.frame.height - mainScreen.visibleFrame.height,
-                                width: mainScreen.visibleFrame.width,
-                                height: mainScreen.visibleFrame.height)
+        guard let validFrame = getValidFrame() else { return nil }
         
         var newOrigin = validFrame.origin // 上からの距離
         switch type {
