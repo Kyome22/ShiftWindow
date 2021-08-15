@@ -5,11 +5,11 @@ You can split the foremost window to the left half of the screen, the left two-t
 
 ![demo](./resources/demo.gif)
 
-You can register your favorite keyboard-shortcuts for the command.
+You can also register your favorite keyboard-shortcuts for the command.
 
 ![screenshot](./resources/screenshot.png)
 
-## Instration
+## Installation
 
 ShiftWindow ver 1.0 works on macOS 11.0 or later.
 
