@@ -1,7 +1,7 @@
 # ShiftWindow
 
 A window arrangement manager for macOS like [BetterSnapTool](https://apps.apple.com/us/app/bettersnaptool/id417375580) and [Magnet](https://apps.apple.com/us/app/magnet/id441258766).
-You can split the foremost window to the left half of the screen, the left two-thirds, etc.
+You can split the frontmost window to the left half of the screen, the left two-thirds, etc.
 
 ![demo](./resources/demo.gif)
 
