@@ -34,15 +34,15 @@ class ShortcutsPaneVC: NSViewController {
         
         self.spiceKeyFields = self.stackView
             .arrangedSubviews
-            .enumerated()
-            .compactMap({ (offset, element) -> SpiceKeyField? in
+            .compactMap({ element -> SpiceKeyField? in
                 guard let sv = element as? NSStackView,
                       let spiceKeyField = sv.arrangedSubviews[safe: 2] as? SpiceKeyField
                 else { return nil }
                 spiceKeyField.delegate = self
-                spiceKeyField.id = ShiftType(rawValue: offset)?.id
+                spiceKeyField.id = ShiftType(rawValue: spiceKeyField.tag)?.id
                 return spiceKeyField
             })
+        
         let patterns = AppDelegate.shared.patterns
         assert(self.spiceKeyFields.count == patterns.count, "imposible")
         for i in (0 ..< patterns.count) {

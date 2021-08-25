@@ -80,7 +80,7 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xF5-mq-uAa" customClass="SpiceKeyField" customModule="SpiceKey">
+                                            <textField verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="xF5-mq-uAa" customClass="SpiceKeyField" customModule="SpiceKey">
                                                 <rect key="frame" x="108" y="0.0" width="96" height="21"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="8KE-cp-dXp">
                                                     <font key="font" metaFont="system"/>
@@ -122,7 +122,7 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Qa3-0b-Zvf" customClass="SpiceKeyField" customModule="SpiceKey">
+                                            <textField verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="Qa3-0b-Zvf" customClass="SpiceKeyField" customModule="SpiceKey">
                                                 <rect key="frame" x="108" y="0.0" width="96" height="21"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="M3m-nR-O7t">
                                                     <font key="font" metaFont="system"/>
@@ -164,7 +164,7 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VGc-VK-FrU" customClass="SpiceKeyField" customModule="SpiceKey">
+                                            <textField verticalHuggingPriority="750" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="VGc-VK-FrU" customClass="SpiceKeyField" customModule="SpiceKey">
                                                 <rect key="frame" x="108" y="0.0" width="96" height="21"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="M7h-LH-qTN">
                                                     <font key="font" metaFont="system"/>
@@ -209,7 +209,7 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XZj-0D-o5g" customClass="SpiceKeyField" customModule="SpiceKey">
+                                            <textField verticalHuggingPriority="750" tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="XZj-0D-o5g" customClass="SpiceKeyField" customModule="SpiceKey">
                                                 <rect key="frame" x="108" y="0.0" width="96" height="21"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="sGD-AD-HT7">
                                                     <font key="font" metaFont="system"/>
@@ -251,7 +251,7 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="euC-iU-KT9" customClass="SpiceKeyField" customModule="SpiceKey">
+                                            <textField verticalHuggingPriority="750" tag="5" translatesAutoresizingMaskIntoConstraints="NO" id="euC-iU-KT9" customClass="SpiceKeyField" customModule="SpiceKey">
                                                 <rect key="frame" x="108" y="0.0" width="96" height="21"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="lap-dh-prZ">
                                                     <font key="font" metaFont="system"/>
@@ -293,7 +293,7 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jXF-6m-BFV" customClass="SpiceKeyField" customModule="SpiceKey">
+                                            <textField verticalHuggingPriority="750" tag="6" translatesAutoresizingMaskIntoConstraints="NO" id="jXF-6m-BFV" customClass="SpiceKeyField" customModule="SpiceKey">
                                                 <rect key="frame" x="108" y="0.0" width="96" height="21"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="jSi-x7-xdC">
                                                     <font key="font" metaFont="system"/>
@@ -335,7 +335,7 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4fR-8v-Ohn" customClass="SpiceKeyField" customModule="SpiceKey">
+                                            <textField verticalHuggingPriority="750" tag="7" translatesAutoresizingMaskIntoConstraints="NO" id="4fR-8v-Ohn" customClass="SpiceKeyField" customModule="SpiceKey">
                                                 <rect key="frame" x="108" y="0.0" width="96" height="21"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="jdw-xX-8h9">
                                                     <font key="font" metaFont="system"/>
@@ -377,7 +377,7 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TZW-hW-O0c" customClass="SpiceKeyField" customModule="SpiceKey">
+                                            <textField verticalHuggingPriority="750" tag="8" translatesAutoresizingMaskIntoConstraints="NO" id="TZW-hW-O0c" customClass="SpiceKeyField" customModule="SpiceKey">
                                                 <rect key="frame" x="108" y="0.0" width="96" height="21"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="6DU-or-ddC">
                                                     <font key="font" metaFont="system"/>
@@ -422,7 +422,7 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pXI-bE-8Gp" customClass="SpiceKeyField" customModule="SpiceKey">
+                                            <textField verticalHuggingPriority="750" tag="9" translatesAutoresizingMaskIntoConstraints="NO" id="pXI-bE-8Gp" customClass="SpiceKeyField" customModule="SpiceKey">
                                                 <rect key="frame" x="108" y="0.0" width="96" height="21"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="pae-7G-0qV">
                                                     <font key="font" metaFont="system"/>
