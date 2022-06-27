@@ -44,7 +44,7 @@ enum ShiftType: Int {
         case .middleThird: return "shiftMiddleThird"
         case .rightTwoThirds: return "shiftRightThirds"
         case .rightThird: return "shiftRightThird"
-        case .maximize: return "maximize"
+        case .maximize: return "shiftMaximize"
         }
     }
     
