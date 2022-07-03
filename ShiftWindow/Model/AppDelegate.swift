@@ -22,15 +22,11 @@
 import Cocoa
 import SpiceKey
 
-class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     private var shortcutPanel: ShortcutPanel?
     private var menuManager: MenuManager!
     private var shiftManager: ShiftManager!
     private(set) var patterns = [ShiftPattern]()
-    
-    class var shared: AppDelegate {
-        return NSApplication.shared.delegate as! AppDelegate
-    }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         self.menuManager = MenuManager()
@@ -109,9 +105,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func updateShortcut(id: String, key: Key, flags: ModifierFlags) {
+    func updateShortcut(id: String, keyCombo: KeyCombination) {
         if let pattern = self.patterns.first(where: { $0.type.id == id }) {
-            let keyCombo = KeyCombination(key, flags)
             let spiceKey = SpiceKey(keyCombo) { [weak self] in
                 self?.showShortcutPanel(keyEquivalent: keyCombo.string)
                 self?.shiftManager.shiftWindow(type: pattern.type)
@@ -119,7 +114,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self?.shortcutPanel?.fadeOut()
             }
             spiceKey.register()
-            pattern.spiceKeyData = SpiceKeyData(id, key, flags, spiceKey)
+            pattern.spiceKeyData = SpiceKeyData(id, keyCombo.key, keyCombo.modifierFlags, spiceKey)
             self.menuManager.updateMenuItems(self.patterns)
             DataManager.shared.patterns = self.patterns
         }
@@ -133,16 +128,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             DataManager.shared.patterns = self.patterns
         }
     }
-    
 }
 
 extension AppDelegate: NSWindowDelegate {
-    
     func windowWillClose(_ notification: Notification) {
         guard let window = notification.object as? NSWindow else { return }
         if window === self.shortcutPanel {
             self.shortcutPanel = nil
         }
     }
-    
 }

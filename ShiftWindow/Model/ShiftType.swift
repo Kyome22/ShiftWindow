@@ -20,8 +20,9 @@
 //
 
 import Cocoa
+import SwiftUI
 
-enum ShiftType: Int {
+enum ShiftType: Int, CaseIterable {
     case topHalf
     case bottomHalf
     case leftHalf
@@ -35,35 +36,39 @@ enum ShiftType: Int {
     
     var id: String {
         switch self {
-        case .topHalf: return "shiftTopHalf"
-        case .bottomHalf: return "shiftBottomHalf"
-        case .leftHalf: return "shiftLeftHalf"
-        case .rightHalf: return "shiftRighthalf"
-        case .leftThird: return "shiftLeftThird"
-        case .leftTwoThirds: return "shiftLeftTwoThirds"
-        case .middleThird: return "shiftMiddleThird"
+        case .topHalf:        return "shiftTopHalf"
+        case .bottomHalf:     return "shiftBottomHalf"
+        case .leftHalf:       return "shiftLeftHalf"
+        case .rightHalf:      return "shiftRighthalf"
+        case .leftThird:      return "shiftLeftThird"
+        case .leftTwoThirds:  return "shiftLeftTwoThirds"
+        case .middleThird:    return "shiftMiddleThird"
         case .rightTwoThirds: return "shiftRightThirds"
-        case .rightThird: return "shiftRightThird"
-        case .maximize: return "shiftMaximize"
+        case .rightThird:     return "shiftRightThird"
+        case .maximize:       return "shiftMaximize"
         }
     }
     
-    var title: String {
-        self.id.localized
+    var titleKey: LocalizedStringKey {
+        return LocalizedStringKey(self.id)
     }
-    
-    var image: NSImage {
+
+    var imageTitle: String {
         switch self {
-        case .topHalf: return .windowTopHalf
-        case .bottomHalf: return .windowBottomHalf
-        case .leftHalf: return .windowLeftHalf
-        case .rightHalf: return .windowRightHalf
-        case .leftThird: return .windowLeftThird
-        case .leftTwoThirds: return .windowLeftTwoThirds
-        case .middleThird: return .windowMiddleThird
-        case .rightTwoThirds: return .windowRightTwoThirds
-        case .rightThird: return .windowRightThird
-        case .maximize: return .windowMaximize
+        case .topHalf:        return "WindowTopHalf"
+        case .bottomHalf:     return "WindowBottomHalf"
+        case .leftHalf:       return "WindowLeftHalf"
+        case .rightHalf:      return "WindowRightHalf"
+        case .leftThird:      return "WindowLeftThird"
+        case .leftTwoThirds:  return "WindowLeftTwoThirds"
+        case .middleThird:    return "WindowMiddleThird"
+        case .rightTwoThirds: return "WindowRightTwoThirds"
+        case .rightThird:     return "WindowRightThird"
+        case .maximize:       return "WindowMaximize"
         }
+    }
+
+    var image: NSImage {
+        return NSImage(imageLiteralResourceName: self.imageTitle)
     }
 }

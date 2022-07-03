@@ -28,28 +28,13 @@
 
 // General Settings
 "general" = "General";
-
 "launchAtLogin:" = "Launch at login:";
 "enable" = "Enable";
 "permission:" = "Permission:";
 "explain1" = "ShiftWindow requires permission to control parts of your computer via the so called Accessibility API.";
-"explain2" = "To use this app, the permission must be granted in System Preferences => Security & Privacy => Accessibility.";
+"explain2" = "To use this app, the permission must be granted in System Preferences -> Security & Privacy -> Accessibility.";
 "openSystemPreferences" = "Open System Preferences";
 
 // Shortcut Settings
 "shortcut" = "Shortcut";
-
-"topHalf" = "Top half";
-"bottomHalf" = "Bottom half";
-"leftHalf" = "Left half";
-"rightHalf" = "Right half";
-
-"leftThird" = "Left third";
-"leftTwoThirds" = "Left two thirds";
-"middleThird" = "Middle third";
-"rightTwoThirds" = "Right two thirds";
-"rightThird" = "Right third";
-
-"maximize" = "Maximize";
-
-"widthAnchor" = "Right two thirds";
+"widthAnchor" = "Shift Bottom 1/2";

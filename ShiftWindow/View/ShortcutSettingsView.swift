@@ -6,71 +6,34 @@
 //
 
 import SwiftUI
+import SpiceKey
 
 struct ShortcutSettingsView: View {
-    @StateObject var viewModel = ShortcutSettingsViewModel()
-    @State var tmp: String = ""
+    @EnvironmentObject private var appDelegate: AppDelegate
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Group {
-                HStack(alignment: .firstTextBaseline, spacing: 8) {
-                    Image("WindowTopHalf")
-                    wrapText("topHalf")
-                    TextField("", text: $tmp)
+            ForEach(appDelegate.patterns, id: \.type.id) { pattern in
+                HStack(alignment: .center, spacing: 8) {
+                    Image(pattern.imageTitle)
+                    wrapText(pattern.titleKey)
+                    SKTextField(id: pattern.type.id,
+                                initialKeyCombination: pattern.keyCombination)
+                    .onRegistered { id, keyCombination in
+                        guard let id = id else { return }
+                        appDelegate.updateShortcut(id: id, keyCombo: keyCombination)
+                    }
+                    .onDeleted { id in
+                        guard let id = id else { return }
+                        appDelegate.removeShortcut(id: id)
+                    }
                 }
-                HStack(alignment: .firstTextBaseline, spacing: 8) {
-                    Image("WindowBottomHalf")
-                    wrapText("bottomHalf")
-                    TextField("", text: $tmp)
+                if pattern.type == .rightHalf || pattern.type == .rightThird {
+                    Divider()
                 }
-                HStack(alignment: .firstTextBaseline, spacing: 8) {
-                    Image("WindowLeftHalf")
-                    wrapText("leftHalf")
-                    TextField("", text: $tmp)
-                }
-                HStack(alignment: .firstTextBaseline, spacing: 8) {
-                    Image("WindowRightHalf")
-                    wrapText("rightHalf")
-                    TextField("", text: $tmp)
-                }
-            }
-            Divider()
-            Group {
-                HStack(alignment: .firstTextBaseline, spacing: 8) {
-                    Image("WindowLeftThird")
-                    wrapText("leftThird")
-                    TextField("", text: $tmp)
-                }
-                HStack(alignment: .firstTextBaseline, spacing: 8) {
-                    Image("WindowLeftTwoThirds")
-                    wrapText("leftTwoThirds")
-                    TextField("", text: $tmp)
-                }
-                HStack(alignment: .firstTextBaseline, spacing: 8) {
-                    Image("WindowMiddleThird")
-                    wrapText("middleThird")
-                    TextField("", text: $tmp)
-                }
-                HStack(alignment: .firstTextBaseline, spacing: 8) {
-                    Image("WindowRightTwoThirds")
-                    wrapText("rightTwoThirds")
-                    TextField("", text: $tmp)
-                }
-                HStack(alignment: .firstTextBaseline, spacing: 8) {
-                    Image("WindowRightThird")
-                    wrapText("rightThird")
-                    TextField("", text: $tmp)
-                }
-            }
-            Divider()
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Image("WindowMaximize")
-                wrapText("maximize")
-                TextField("", text: $tmp)
             }
         }
-        .frame(width: 250)
+        .frame(width: 240)
         .fixedSize()
     }
 

@@ -8,8 +8,7 @@
 import Cocoa
 import SpiceKey
 
-class ShortcutPanel: NSPanel {
-    
+final class ShortcutPanel: NSPanel {
     let label = NSTextField(labelWithString: "")
     
     init(keyEquivalent: String) {
@@ -71,5 +70,4 @@ class ShortcutPanel: NSPanel {
             self.close()
         }
     }
-    
 }

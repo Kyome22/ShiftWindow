@@ -25,16 +25,10 @@ import SpiceKey
 
 fileprivate let RESET_USER_DEFAULTS = false
 
-class DataManager {
-    
+final class DataManager {
     static let shared = DataManager()
     
     private let userDefaults = UserDefaults.standard
-    
-    var launchAtLogin: Bool {
-        get { return userDefaults.bool(forKey: "launcher") }
-        set { userDefaults.set(newValue, forKey: "launcher") }
-    }
     
     var patterns: [ShiftPattern] {
         get {
@@ -58,8 +52,6 @@ class DataManager {
         }
         self.showAllData()
         #endif
-
-        self.userDefaults.register(defaults: ["launcher": false])
         if self.patterns.isEmpty {
             self.patterns = ShiftPattern.defaults
         }
@@ -78,5 +70,4 @@ class DataManager {
             }
         }
     }
-
 }

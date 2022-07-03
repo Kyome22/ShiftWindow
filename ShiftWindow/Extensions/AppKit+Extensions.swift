@@ -33,17 +33,4 @@ extension NSControl.StateValue {
 
 extension NSImage {
     static let statusIcon = NSImage(imageLiteralResourceName: "StatusIcon")
-
-    static let windowTopHalf = NSImage(imageLiteralResourceName: "WindowTopHalf")
-    static let windowBottomHalf = NSImage(imageLiteralResourceName: "WindowBottomHalf")
-    static let windowLeftHalf = NSImage(imageLiteralResourceName: "WindowLeftHalf")
-    static let windowRightHalf = NSImage(imageLiteralResourceName: "WindowRightHalf")
-
-    static let windowLeftThird = NSImage(imageLiteralResourceName: "WindowLeftThird")
-    static let windowLeftTwoThirds = NSImage(imageLiteralResourceName: "WindowLeftTwoThirds")
-    static let windowMiddleThird = NSImage(imageLiteralResourceName: "WindowMiddleThird")
-    static let windowRightTwoThirds = NSImage(imageLiteralResourceName: "WindowRightTwoThirds")
-    static let windowRightThird = NSImage(imageLiteralResourceName: "WindowRightThird")
-
-    static let windowMaximize = NSImage(imageLiteralResourceName: "WindowMaximize")
 }

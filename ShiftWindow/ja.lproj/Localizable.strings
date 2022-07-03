@@ -28,28 +28,13 @@
 
 // General Settings
 "general" = "一般";
-
 "launchAtLogin:" = "ログイン時に起動:";
 "enable" = "有効";
 "permission:" = "アクセス権限:";
 "explain1" = "ShiftWindowは、コンピュータを制御する目的でアクセシビリティAPIを使用するため許可を必要とします。";
-"explain2" = "このアプリを使用するには、システム環境設定 => セキュリティとプライバシー => アクセシビリティにて権限を付与する必要があります。";
+"explain2" = "このアプリを使用するには、システム環境設定 -> セキュリティとプライバシー -> アクセシビリティにて権限を付与する必要があります。";
 "openSystemPreferences" = "システム環境設定を開く";
 
 // Shortcut Settings
 "shortcut" = "ショートカット";
-
-"topHalf" = "上半分";
-"bottomHalf" = "下半分";
-"leftHalf" = "左半分";
-"rightHalf" = "右半分";
-
-"leftThird" = "左３分の１";
-"leftTwoThirds" = "左３分の２";
-"middleThird" = "中央３分の１";
-"rightTwoThirds" = "右３分の２";
-"rightThird" = "右３分の１";
-
-"maximize" = "最大化";
-
-"widthAnchor" = "中央３分の１";
+"widthAnchor" = "左側 2/3 に寄せる";

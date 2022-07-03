@@ -22,8 +22,7 @@
 import Cocoa
 import ApplicationServices
 
-class ShiftManager {
-    
+final class ShiftManager {
     init() {}
     
     func shiftWindow(type: ShiftType) {
@@ -159,5 +158,4 @@ class ShiftManager {
         }
         return false
     }
-    
 }
