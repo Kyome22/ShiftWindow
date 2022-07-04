@@ -8,7 +8,7 @@
 import AppKit
 import ServiceManagement
 
-fileprivate let HELPER_APP_ID = "com.kyome.XCMonitorLauncher"
+fileprivate let HELPER_APP_ID = "com.kyome.ShiftWindowLauncher"
 
 final class GeneralSettingsViewModel: ObservableObject {
     private var innerLaunchAtLogin: Bool
