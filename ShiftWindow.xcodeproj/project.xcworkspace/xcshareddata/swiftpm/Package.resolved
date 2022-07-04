@@ -1,16 +1,14 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "SpiceKey",
-        "repositoryURL": "https://github.com/Kyome22/SpiceKey.git",
-        "state": {
-          "branch": null,
-          "revision": "282e158d6b7309284c52df75df3aa5f6b384e050",
-          "version": "4.1.0"
-        }
+  "pins" : [
+    {
+      "identity" : "spicekey",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Kyome22/SpiceKey.git",
+      "state" : {
+        "revision" : "59954c585f7851b2f1917352d7f56428b62d70b8",
+        "version" : "4.3.0"
       }
-    ]
-  },
-  "version": 1
+    }
+  ],
+  "version" : 2
 }

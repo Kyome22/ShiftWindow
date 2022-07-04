@@ -20,10 +20,10 @@
 //
 
 import Cocoa
+import SwiftUI
 import SpiceKey
 
-class ShiftPattern: NSObject, NSCoding {
-    
+final class ShiftPattern: NSObject, NSCoding {
     static let `defaults`: [ShiftPattern] = [
         ShiftPattern(type: .topHalf),
         ShiftPattern(type: .bottomHalf),
@@ -39,16 +39,26 @@ class ShiftPattern: NSObject, NSCoding {
     
     let type: ShiftType
     var spiceKeyData: SpiceKeyData?
-    var title: String { return self.type.title }
-    var image: NSImage { return self.type.image }
+    var titleKey: LocalizedStringKey {
+        return self.type.titleKey
+    }
+    var title: String {
+        return self.type.id.localized
+    }
+    var imageTitle: String {
+        return self.type.imageTitle
+    }
+    var image: NSImage {
+        return self.type.image
+    }
     var keyString: String? {
         return self.spiceKeyData?.key?.string
     }    
     var modifierMask: NSEvent.ModifierFlags? {
         return self.spiceKeyData?.modifierFlags?.flags
     }
-    var keyComboString: String? {
-        return self.spiceKeyData?.keyCombination?.string
+    var keyCombination: KeyCombination? {
+        return self.spiceKeyData?.keyCombination
     }
     
     init(type: ShiftType) {
@@ -67,7 +77,6 @@ class ShiftPattern: NSObject, NSCoding {
     
     override var description: String {
         let str = self.spiceKeyData?.keyCombination?.string ?? "nil"
-        return "type: \(self.title), spiceKeyData: \(str)"
+        return "type: \(self.titleKey), spiceKeyData: \(str)"
     }
-    
 }

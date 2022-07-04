@@ -1,8 +1,8 @@
 //
-//  CencelWindow.swift
+//  ShiftWindowApp.swift
 //  ShiftWindow
 //
-//  Created by Takuto Nakamura on 2021/08/01.
+//  Created by Takuto Nakamura on 2022/06/27.
 //
 //  Copyright 2021 Takuto Nakamura (Kyome22)
 //
@@ -19,12 +19,15 @@
 //  limitations under the License.
 //
 
-import Cocoa
+import SwiftUI
 
-class CancelWindow: NSWindow {
+@main
+struct ShiftWindowApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
-    override func cancelOperation(_ sender: Any?) {
-        self.close()
+    var body: some Scene {
+        Settings {
+            SettingsView()
+        }
     }
-    
 }

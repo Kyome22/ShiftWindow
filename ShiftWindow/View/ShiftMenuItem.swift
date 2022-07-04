@@ -21,8 +21,7 @@
 
 import Cocoa
 
-class ShiftMenuItem: NSMenuItem {
-    
+final class ShiftMenuItem: NSMenuItem {
     let pattern: ShiftPattern
 
     init(pattern: ShiftPattern, action: Selector) {
@@ -39,5 +38,4 @@ class ShiftMenuItem: NSMenuItem {
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

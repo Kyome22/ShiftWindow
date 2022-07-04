@@ -21,8 +21,7 @@
 
 import Cocoa
 
-class AppDelegate: NSObject, NSApplicationDelegate {
-    
+final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let mainAppId = "com.kyome.ShiftWindow"
         let workspace = NSWorkspace.shared
@@ -40,5 +39,4 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSApp.terminate(nil)
         }
     }
-    
 }

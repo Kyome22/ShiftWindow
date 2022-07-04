@@ -21,8 +21,7 @@
 
 import Cocoa
 
-class MenuManager {
-    
+final class MenuManager {
     private let statusItem = NSStatusItem.default
     private let menu = NSMenu()
     private var toggleItem: NSMenuItem?
@@ -86,5 +85,4 @@ class MenuManager {
         )
         self.menu.addItem(terminateItem)
     }
- 
 }

@@ -9,17 +9,19 @@
 /* Begin PBXBuildFile section */
 		1C0D29DA26AEFBDA00DD0690 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0D29D926AEFBDA00DD0690 /* AppDelegate.swift */; };
 		1C0D29DE26AEFBDC00DD0690 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C0D29DD26AEFBDC00DD0690 /* Assets.xcassets */; };
-		1C0D29EA26AEFC0000DD0690 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0D29E926AEFC0000DD0690 /* main.swift */; };
 		1C0D29ED26AEFC6900DD0690 /* SpiceKey in Frameworks */ = {isa = PBXBuildFile; productRef = 1C0D29EC26AEFC6900DD0690 /* SpiceKey */; };
 		1C1461D626BC1629006442F5 /* ShortcutPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1461D526BC1629006442F5 /* ShortcutPanel.swift */; };
-		1C64A54B26B65EED004A5299 /* GeneralPaneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C64A54A26B65EED004A5299 /* GeneralPaneVC.swift */; };
 		1C64A55326B6680F004A5299 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C64A55226B6680F004A5299 /* AppDelegate.swift */; };
 		1C64A56126B668BB004A5299 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C64A56026B668BB004A5299 /* main.swift */; };
 		1C64A56326B6692E004A5299 /* ShiftWindowLauncher.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1C64A55026B6680F004A5299 /* ShiftWindowLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		1C64A56626B67732004A5299 /* PreferencesTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C64A56826B67732004A5299 /* PreferencesTab.storyboard */; };
-		1C64A56B26B67757004A5299 /* GeneralPane.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C64A56D26B67757004A5299 /* GeneralPane.storyboard */; };
-		1C64A57126B678CD004A5299 /* ShortcutsPane.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C64A57326B678CD004A5299 /* ShortcutsPane.storyboard */; };
-		1CF137F026B4554000E2147E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF137EF26B4554000E2147E /* Extensions.swift */; };
+		1CC92CF82869E51C00D46424 /* ShiftWindowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC92CF72869E51C00D46424 /* ShiftWindowApp.swift */; };
+		1CC92CFB2869ED3700D46424 /* Foundation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC92CFA2869ED3700D46424 /* Foundation+Extensions.swift */; };
+		1CC92CFD2869ED5A00D46424 /* CoreGraphics+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC92CFC2869ED5A00D46424 /* CoreGraphics+Extensions.swift */; };
+		1CC92CFF2869ED8200D46424 /* AppKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC92CFE2869ED8200D46424 /* AppKit+Extensions.swift */; };
+		1CC92D022869EED200D46424 /* GeneralSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC92D012869EED200D46424 /* GeneralSettingsViewModel.swift */; };
+		1CC92D062869EF3D00D46424 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC92D052869EF3D00D46424 /* SettingsView.swift */; };
+		1CC92D082869EFAF00D46424 /* GeneralSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC92D072869EFAF00D46424 /* GeneralSettingsView.swift */; };
+		1CC92D0A2869EFBC00D46424 /* ShortcutSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC92D092869EFBC00D46424 /* ShortcutSettingsView.swift */; };
 		1CF137F226B5612C00E2147E /* ShiftType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF137F126B5612C00E2147E /* ShiftType.swift */; };
 		1CF137F426B561DD00E2147E /* ShiftMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF137F326B561DD00E2147E /* ShiftMenuItem.swift */; };
 		1CF137F626B5649A00E2147E /* MenuManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF137F526B5649A00E2147E /* MenuManager.swift */; };
@@ -27,9 +29,6 @@
 		1CF137FD26B57DBB00E2147E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1CF137FF26B57DBB00E2147E /* Localizable.strings */; };
 		1CF1380226B591DF00E2147E /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1380126B591DF00E2147E /* DataManager.swift */; };
 		1CF1380426B5947800E2147E /* ShiftPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1380326B5947800E2147E /* ShiftPattern.swift */; };
-		1CF1380826B5A0DC00E2147E /* PreferencesTabVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1380726B5A0DC00E2147E /* PreferencesTabVC.swift */; };
-		1CF1380C26B5A10900E2147E /* ShortcutsPaneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1380B26B5A10900E2147E /* ShortcutsPaneVC.swift */; };
-		1CF1380E26B5A16500E2147E /* CencelWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF1380D26B5A16500E2147E /* CencelWindow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,21 +50,20 @@
 		1C0D29DD26AEFBDC00DD0690 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1C0D29E226AEFBDC00DD0690 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C0D29E326AEFBDC00DD0690 /* ShiftWindow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShiftWindow.entitlements; sourceTree = "<group>"; };
-		1C0D29E926AEFC0000DD0690 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		1C1461D426BBDC88006442F5 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ja; path = ja.lproj/ShortcutsPane.storyboard; sourceTree = "<group>"; };
 		1C1461D526BC1629006442F5 /* ShortcutPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutPanel.swift; sourceTree = "<group>"; };
-		1C64A54A26B65EED004A5299 /* GeneralPaneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPaneVC.swift; sourceTree = "<group>"; };
 		1C64A55026B6680F004A5299 /* ShiftWindowLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShiftWindowLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C64A55226B6680F004A5299 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1C64A55B26B66810004A5299 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C64A55C26B66810004A5299 /* ShiftWindowLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShiftWindowLauncher.entitlements; sourceTree = "<group>"; };
 		1C64A56026B668BB004A5299 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		1C64A56726B67732004A5299 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/PreferencesTab.storyboard; sourceTree = "<group>"; };
-		1C64A56A26B67735004A5299 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/PreferencesTab.strings; sourceTree = "<group>"; };
-		1C64A56C26B67757004A5299 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/GeneralPane.storyboard; sourceTree = "<group>"; };
-		1C64A57026B67761004A5299 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ja; path = ja.lproj/GeneralPane.storyboard; sourceTree = "<group>"; };
-		1C64A57226B678CD004A5299 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ShortcutsPane.storyboard; sourceTree = "<group>"; };
-		1CF137EF26B4554000E2147E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		1CC92CF72869E51C00D46424 /* ShiftWindowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftWindowApp.swift; sourceTree = "<group>"; };
+		1CC92CFA2869ED3700D46424 /* Foundation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Foundation+Extensions.swift"; sourceTree = "<group>"; };
+		1CC92CFC2869ED5A00D46424 /* CoreGraphics+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Extensions.swift"; sourceTree = "<group>"; };
+		1CC92CFE2869ED8200D46424 /* AppKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppKit+Extensions.swift"; sourceTree = "<group>"; };
+		1CC92D012869EED200D46424 /* GeneralSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsViewModel.swift; sourceTree = "<group>"; };
+		1CC92D052869EF3D00D46424 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		1CC92D072869EFAF00D46424 /* GeneralSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsView.swift; sourceTree = "<group>"; };
+		1CC92D092869EFBC00D46424 /* ShortcutSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutSettingsView.swift; sourceTree = "<group>"; };
 		1CF137F126B5612C00E2147E /* ShiftType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftType.swift; sourceTree = "<group>"; };
 		1CF137F326B561DD00E2147E /* ShiftMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftMenuItem.swift; sourceTree = "<group>"; };
 		1CF137F526B5649A00E2147E /* MenuManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuManager.swift; sourceTree = "<group>"; };
@@ -74,9 +72,6 @@
 		1CF1380026B57DBD00E2147E /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1CF1380126B591DF00E2147E /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		1CF1380326B5947800E2147E /* ShiftPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftPattern.swift; sourceTree = "<group>"; };
-		1CF1380726B5A0DC00E2147E /* PreferencesTabVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesTabVC.swift; sourceTree = "<group>"; };
-		1CF1380B26B5A10900E2147E /* ShortcutsPaneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutsPaneVC.swift; sourceTree = "<group>"; };
-		1CF1380D26B5A16500E2147E /* CencelWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CencelWindow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,11 +114,13 @@
 		1C0D29D826AEFBDA00DD0690 /* ShiftWindow */ = {
 			isa = PBXGroup;
 			children = (
-				1C0D29E926AEFC0000DD0690 /* main.swift */,
+				1C0D29E226AEFBDC00DD0690 /* Info.plist */,
+				1CC92CF72869E51C00D46424 /* ShiftWindowApp.swift */,
+				1CC92CF92869E5AE00D46424 /* Extensions */,
 				1CF137F926B565DF00E2147E /* Model */,
+				1CC92D002869EEBD00D46424 /* ViewModel */,
 				1CF137FA26B5662700E2147E /* View */,
 				1C0D29DD26AEFBDC00DD0690 /* Assets.xcassets */,
-				1C0D29E226AEFBDC00DD0690 /* Info.plist */,
 				1C0D29E326AEFBDC00DD0690 /* ShiftWindow.entitlements */,
 				1CF137FF26B57DBB00E2147E /* Localizable.strings */,
 			);
@@ -139,6 +136,24 @@
 				1C64A55C26B66810004A5299 /* ShiftWindowLauncher.entitlements */,
 			);
 			path = ShiftWindowLauncher;
+			sourceTree = "<group>";
+		};
+		1CC92CF92869E5AE00D46424 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1CC92CFA2869ED3700D46424 /* Foundation+Extensions.swift */,
+				1CC92CFE2869ED8200D46424 /* AppKit+Extensions.swift */,
+				1CC92CFC2869ED5A00D46424 /* CoreGraphics+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1CC92D002869EEBD00D46424 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				1CC92D012869EED200D46424 /* GeneralSettingsViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		1CF137F926B565DF00E2147E /* Model */ = {
@@ -157,15 +172,10 @@
 		1CF137FA26B5662700E2147E /* View */ = {
 			isa = PBXGroup;
 			children = (
-				1CF137EF26B4554000E2147E /* Extensions.swift */,
 				1CF137F326B561DD00E2147E /* ShiftMenuItem.swift */,
-				1C64A56826B67732004A5299 /* PreferencesTab.storyboard */,
-				1CF1380726B5A0DC00E2147E /* PreferencesTabVC.swift */,
-				1C64A56D26B67757004A5299 /* GeneralPane.storyboard */,
-				1C64A54A26B65EED004A5299 /* GeneralPaneVC.swift */,
-				1C64A57326B678CD004A5299 /* ShortcutsPane.storyboard */,
-				1CF1380B26B5A10900E2147E /* ShortcutsPaneVC.swift */,
-				1CF1380D26B5A16500E2147E /* CencelWindow.swift */,
+				1CC92D052869EF3D00D46424 /* SettingsView.swift */,
+				1CC92D072869EFAF00D46424 /* GeneralSettingsView.swift */,
+				1CC92D092869EFBC00D46424 /* ShortcutSettingsView.swift */,
 				1C1461D526BC1629006442F5 /* ShortcutPanel.swift */,
 			);
 			path = View;
@@ -259,9 +269,6 @@
 			files = (
 				1C0D29DE26AEFBDC00DD0690 /* Assets.xcassets in Resources */,
 				1CF137FD26B57DBB00E2147E /* Localizable.strings in Resources */,
-				1C64A56B26B67757004A5299 /* GeneralPane.storyboard in Resources */,
-				1C64A56626B67732004A5299 /* PreferencesTab.storyboard in Resources */,
-				1C64A57126B678CD004A5299 /* ShortcutsPane.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,19 +287,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				1CF137F626B5649A00E2147E /* MenuManager.swift in Sources */,
+				1CC92D0A2869EFBC00D46424 /* ShortcutSettingsView.swift in Sources */,
+				1CC92D022869EED200D46424 /* GeneralSettingsViewModel.swift in Sources */,
 				1CF1380226B591DF00E2147E /* DataManager.swift in Sources */,
 				1CF137F826B565CC00E2147E /* ShiftManager.swift in Sources */,
-				1C0D29EA26AEFC0000DD0690 /* main.swift in Sources */,
-				1CF137F026B4554000E2147E /* Extensions.swift in Sources */,
-				1C64A54B26B65EED004A5299 /* GeneralPaneVC.swift in Sources */,
-				1CF1380826B5A0DC00E2147E /* PreferencesTabVC.swift in Sources */,
+				1CC92CF82869E51C00D46424 /* ShiftWindowApp.swift in Sources */,
+				1CC92D082869EFAF00D46424 /* GeneralSettingsView.swift in Sources */,
 				1CF137F226B5612C00E2147E /* ShiftType.swift in Sources */,
-				1CF1380C26B5A10900E2147E /* ShortcutsPaneVC.swift in Sources */,
+				1CC92CFB2869ED3700D46424 /* Foundation+Extensions.swift in Sources */,
+				1CC92CFF2869ED8200D46424 /* AppKit+Extensions.swift in Sources */,
 				1CF137F426B561DD00E2147E /* ShiftMenuItem.swift in Sources */,
 				1CF1380426B5947800E2147E /* ShiftPattern.swift in Sources */,
 				1C0D29DA26AEFBDA00DD0690 /* AppDelegate.swift in Sources */,
+				1CC92CFD2869ED5A00D46424 /* CoreGraphics+Extensions.swift in Sources */,
 				1C1461D626BC1629006442F5 /* ShortcutPanel.swift in Sources */,
-				1CF1380E26B5A16500E2147E /* CencelWindow.swift in Sources */,
+				1CC92D062869EF3D00D46424 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,33 +317,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		1C64A56826B67732004A5299 /* PreferencesTab.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1C64A56726B67732004A5299 /* Base */,
-				1C64A56A26B67735004A5299 /* ja */,
-			);
-			name = PreferencesTab.storyboard;
-			sourceTree = "<group>";
-		};
-		1C64A56D26B67757004A5299 /* GeneralPane.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1C64A56C26B67757004A5299 /* Base */,
-				1C64A57026B67761004A5299 /* ja */,
-			);
-			name = GeneralPane.storyboard;
-			sourceTree = "<group>";
-		};
-		1C64A57326B678CD004A5299 /* ShortcutsPane.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1C64A57226B678CD004A5299 /* Base */,
-				1C1461D426BBDC88006442F5 /* ja */,
-			);
-			name = ShortcutsPane.storyboard;
-			sourceTree = "<group>";
-		};
 		1CF137FF26B57DBB00E2147E /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -399,7 +381,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				GENERATE_INFOPLIST_FILE = NO;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -455,7 +438,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				GENERATE_INFOPLIST_FILE = NO;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -474,15 +458,16 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.1.2;
+				CURRENT_PROJECT_VERSION = 2.0.0;
 				DEVELOPMENT_TEAM = VJ5N2X84K8;
 				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShiftWindow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyome.ShiftWindow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -498,15 +483,16 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.1.2;
+				CURRENT_PROJECT_VERSION = 2.0.0;
 				DEVELOPMENT_TEAM = VJ5N2X84K8;
 				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShiftWindow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyome.ShiftWindow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -521,15 +507,17 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.0.2;
+				CURRENT_PROJECT_VERSION = 2.0.0;
 				DEVELOPMENT_TEAM = VJ5N2X84K8;
 				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShiftWindowLauncher/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyome.ShiftWindowLauncher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -545,15 +533,17 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1.0.2;
+				CURRENT_PROJECT_VERSION = 2.0.0;
 				DEVELOPMENT_TEAM = VJ5N2X84K8;
 				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShiftWindowLauncher/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyome.ShiftWindowLauncher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -598,8 +588,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Kyome22/SpiceKey.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.1;
+				kind = exactVersion;
+				version = 4.3.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

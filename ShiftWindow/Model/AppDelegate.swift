@@ -22,17 +22,11 @@
 import Cocoa
 import SpiceKey
 
-class AppDelegate: NSObject, NSApplicationDelegate {
-    
-    private var preferencesWC: NSWindowController?
+final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     private var shortcutPanel: ShortcutPanel?
     private var menuManager: MenuManager!
     private var shiftManager: ShiftManager!
     private(set) var patterns = [ShiftPattern]()
-    
-    class var shared: AppDelegate {
-        return NSApplication.shared.delegate as! AppDelegate
-    }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         self.menuManager = MenuManager()
@@ -50,28 +44,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    @IBAction func openPreferences(_ sender: Any?) {
-        if self.preferencesWC == nil {
-            let sb = NSStoryboard(name: "PreferencesTab", bundle: nil)
-            let wc = (sb.instantiateInitialController() as! NSWindowController)
-            wc.window?.delegate = self
-            wc.window?.isMovableByWindowBackground = true
-            self.preferencesWC = wc
+    @objc func openPreferences(_ sender: Any?) {
+        NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
+        NSApp.windows.forEach { window in
+            if window.canBecomeMain {
+                window.orderFrontRegardless()
+                window.center()
+                NSApp.activate(ignoringOtherApps: true)
+            }
         }
-        NSApp.activate(ignoringOtherApps: true)
-        self.preferencesWC?.showWindow(nil)
     }
     
-    @IBAction func openAbout(_ sender: Any?) {
+    @objc func openAbout(_ sender: Any?) {
         NSApp.activate(ignoringOtherApps: true)
         NSApp.orderFrontStandardAboutPanel(nil)
     }
     
-    @IBAction func shiftWindow(_ sender: ShiftMenuItem) {
+    @objc func shiftWindow(_ sender: ShiftMenuItem) {
         self.shiftManager.shiftWindow(type: sender.pattern.type)
     }
     
-    @IBAction func hideDesktopIcons(_ sender: NSMenuItem) {
+    @objc func hideDesktopIcons(_ sender: NSMenuItem) {
         let flag = !sender.state.isOn
         self.toggleIconsVisible(flag: flag)
         sender.state = flag.state
@@ -112,9 +105,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    func updateShortcut(id: String, key: Key, flags: ModifierFlags) {
+    func updateShortcut(id: String, keyCombo: KeyCombination) {
         if let pattern = self.patterns.first(where: { $0.type.id == id }) {
-            let keyCombo = KeyCombination(key, flags)
             let spiceKey = SpiceKey(keyCombo) { [weak self] in
                 self?.showShortcutPanel(keyEquivalent: keyCombo.string)
                 self?.shiftManager.shiftWindow(type: pattern.type)
@@ -122,7 +114,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self?.shortcutPanel?.fadeOut()
             }
             spiceKey.register()
-            pattern.spiceKeyData = SpiceKeyData(id, key, flags, spiceKey)
+            pattern.spiceKeyData = SpiceKeyData(id, keyCombo.key, keyCombo.modifierFlags, spiceKey)
             self.menuManager.updateMenuItems(self.patterns)
             DataManager.shared.patterns = self.patterns
         }
@@ -136,18 +128,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             DataManager.shared.patterns = self.patterns
         }
     }
-    
 }
 
 extension AppDelegate: NSWindowDelegate {
-    
     func windowWillClose(_ notification: Notification) {
         guard let window = notification.object as? NSWindow else { return }
-        if window === self.preferencesWC?.window {
-            self.preferencesWC = nil
-        } else if window === self.shortcutPanel {
+        if window === self.shortcutPanel {
             self.shortcutPanel = nil
         }
     }
-    
 }
