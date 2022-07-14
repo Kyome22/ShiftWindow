@@ -2,10 +2,8 @@
 
 <!-- ## Short Description -->
 
-A window arrangement manager for macOS like [BetterSnapTool](https://apps.apple.com/us/app/bettersnaptool/id417375580) and [Magnet](https://apps.apple.com/us/app/magnet/id441258766).<br/>
-You can split the frontmost window to the left half of the screen, the left two-thirds, etc.
-
-[README for Japanese](./README_JP.md)
+[BetterSnapTool](https://apps.apple.com/us/app/bettersnaptool/id417375580)や[Magnet](https://apps.apple.com/us/app/magnet/id441258766)のようなウィンドウ配置マネージャーです。<br/>
+最前面にあるウィンドウを画面の左半分に寄せたり、左 2/3 に寄せたりが楽々できます。
 
 <!-- ## Badges -->
 
@@ -19,14 +17,14 @@ You can split the frontmost window to the left half of the screen, the left two-
 
 ![demo](./resources/demo.gif)
 
-You can also register your favorite keyboard-shortcuts for the command.
+好きなショートカットを各コマンドに割り当てることが可能です！
 
 <img src="resources/screenshot.png" alt="screenshot" height="320px" />
 
 ## Installation
 
-ShiftWindow works on macOS 12.0 or later.
+ShiftWindow は macOS 12.0 以降で動作します。
 
-1. Download `installer.dmg` from [releases](https://github.com/Kyome22/ShiftWindow/releases) page.
-2. Double-click on the `installer.dmg` and open the generated `ShiftWindow Installer`.
-3. Copy the App to the Applications folder.
+1. `installer.dmg`を[releases](https://github.com/Kyome22/ShiftWindow/releases)ページからダウンロードします。
+2. `installer.dmg`をダブルクリックして解凍された`ShiftWindow Installer`を開きます。
+3. アプリケーションフォルダーにアプリをコピーします。
