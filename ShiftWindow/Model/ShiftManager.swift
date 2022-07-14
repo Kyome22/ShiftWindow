@@ -22,9 +22,11 @@
 import Cocoa
 import ApplicationServices
 
+fileprivate let kAXFullScreen = "AXFullScreen"
+
 final class ShiftManager {
     init() {}
-    
+
     func shiftWindow(type: ShiftType) {
         // get frontmoset window
         guard let app = NSWorkspace.shared.runningApplications.first(where: { $0.isActive }),
@@ -33,37 +35,43 @@ final class ShiftManager {
               role == kAXWindowRole,
               let subRole = self.getSubRole(element: window),
               subRole == kAXStandardWindowSubrole,
-              self.isFullscreen(element: window) == false
+              self.isFullscreen(element: window) == false,
+              let position = self.getPosition(element: window)
         else { return }
-        
+
         // override new frame to window
-        guard let newFrame = self.makeNewFrame(type: type) else { return }
+        guard let validFrame = getValidFrame(position: position),
+              let newFrame = self.makeNewFrame(type: type, validFrame: validFrame)
+        else { return }
         self.setPosition(element: window, position: newFrame.origin)
         self.setSize(element: window, size: newFrame.size)
     }
-    
-    private func getValidFrame() -> CGRect? {
-        guard let mainScreen = NSScreen.main else { return nil }
-        let visibleFrame = mainScreen.visibleFrame
-        let offsetY = visibleFrame.height + visibleFrame.origin.y
+
+    private func getValidFrame(position: CGPoint) -> CGRect? {
+        guard let (bounds, visibleFrame) = NSScreen.screens.compactMap({ screen -> (CGRect, CGRect)? in
+            let bounds = CGDisplayBounds(screen.displayID)
+            return bounds.contains(position) ? (bounds, screen.visibleFrame) : nil
+        }).first else {
+            return nil
+        }
+        let menuBarHeight = NSApp.mainMenu?.menuBarHeight ?? 0
         var validFrame = CGRect(x: visibleFrame.origin.x,
-                                y: mainScreen.frame.height - offsetY,
+                                y: bounds.origin.y + menuBarHeight,
                                 width: visibleFrame.width,
                                 height: visibleFrame.height)
-        // Dock Left or Right
-        if visibleFrame.width < mainScreen.frame.width {
+        // Dock is Left or Right
+        if visibleFrame.width < bounds.width {
             validFrame.size.width -= 1
-            // Dock Left
-            if 0 < validFrame.origin.x {
+            // Dock is Left
+            if bounds.origin.x < visibleFrame.origin.x {
                 validFrame.origin.x += 1
             }
         }
         return validFrame
     }
-    
-    private func makeNewFrame(type: ShiftType) -> CGRect? {
-        guard let validFrame = getValidFrame() else { return nil }
-        
+
+    // CoreGraphicsの座標系で返す必要がある
+    private func makeNewFrame(type: ShiftType, validFrame: CGRect) -> CGRect? {
         var newOrigin = validFrame.origin // 上からの距離
         switch type {
         case .bottomHalf:
@@ -77,7 +85,7 @@ final class ShiftManager {
         default:
             break
         }
-        
+
         var newSize = validFrame.size
         switch type {
         case .topHalf:
@@ -99,11 +107,21 @@ final class ShiftManager {
         default:
             break
         }
-        
+
         guard 0 <= newSize.width && 0 <= newSize.height else { return nil }
         return CGRect(origin: newOrigin, size: newSize)
     }
-    
+
+    // MARK: Get Attribute Names of an AXUIElement
+    private func getAttributeNames(element: AXUIElement) -> [String]? {
+        var ref: CFArray? = nil
+        let error = AXUIElementCopyAttributeNames(element, &ref)
+        if error == .success {
+            return ref! as [AnyObject] as? [String]
+        }
+        return nil
+    }
+
     // MARK: Get Window Attributes
     private func copyAttributeValue(_ element: AXUIElement, attribute: String) -> CFTypeRef? {
         var ref: CFTypeRef? = nil
@@ -113,7 +131,7 @@ final class ShiftManager {
         }
         return .none
     }
-    
+
     private func getFocusedWindow(pid: pid_t) -> AXUIElement? {
         let element = AXUIElementCreateApplication(pid)
         if let window = self.copyAttributeValue(element, attribute: kAXFocusedWindowAttribute) {
@@ -121,26 +139,35 @@ final class ShiftManager {
         }
         return nil
     }
-    
+
     private func getRole(element: AXUIElement) -> String? {
         return self.copyAttributeValue(element, attribute: kAXRoleAttribute) as? String
     }
-    
+
     private func getSubRole(element: AXUIElement) -> String? {
         return self.copyAttributeValue(element, attribute: kAXSubroleAttribute) as? String
     }
-    
+
+    private func getPosition(element: AXUIElement) -> CGPoint? {
+        var position: CGPoint = .zero
+        guard let ref = self.copyAttributeValue(element, attribute: kAXPositionAttribute),
+              AXValueGetValue(ref as! AXValue, AXValueType.cgPoint, &position) else {
+            return nil
+        }
+        return position
+    }
+
     private func isFullscreen(element: AXUIElement) -> Bool {
-        let result = self.copyAttributeValue(element, attribute: "AXFullScreen") as? NSNumber
+        let result = self.copyAttributeValue(element, attribute: kAXFullScreen) as? NSNumber
         return result?.boolValue ?? false
     }
-    
+
     // MARK: Override Window Attributes
     private func setAttributeValue(_ element: AXUIElement, attribute: String, value: CFTypeRef) -> Bool {
         let error = AXUIElementSetAttributeValue(element, attribute as CFString, value)
         return error == .success
     }
-    
+
     @discardableResult
     private func setPosition(element: AXUIElement, position: CGPoint) -> Bool {
         var position = position
@@ -149,7 +176,7 @@ final class ShiftManager {
         }
         return false
     }
-    
+
     @discardableResult
     private func setSize(element: AXUIElement, size: CGSize) -> Bool {
         var size = size

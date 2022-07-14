@@ -34,3 +34,10 @@ extension NSControl.StateValue {
 extension NSImage {
     static let statusIcon = NSImage(imageLiteralResourceName: "StatusIcon")
 }
+
+extension NSScreen {
+    var displayID: CGDirectDisplayID {
+        let key = NSDeviceDescriptionKey("NSScreenNumber")
+        return self.deviceDescription[key] as! CGDirectDisplayID
+    }
+}
