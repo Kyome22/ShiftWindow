@@ -82,12 +82,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     }
     
     private func showShortcutPanel(keyEquivalent: String) {
-        #if DEBUG
-        if shortcutPanel != nil { return }
-        shortcutPanel = ShortcutPanel(keyEquivalent: keyEquivalent)
-        shortcutPanel?.delegate = self
-        shortcutPanel?.orderFrontRegardless()
-        #endif
+        if DataManager.shared.showShortcutPanel {
+            if shortcutPanel != nil { return }
+            shortcutPanel = ShortcutPanel(keyEquivalent: keyEquivalent)
+            shortcutPanel?.delegate = self
+            shortcutPanel?.orderFrontRegardless()
+        }
     }
     
     // MARK: Keyboard Shortcuts

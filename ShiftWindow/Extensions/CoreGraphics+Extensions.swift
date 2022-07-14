@@ -6,11 +6,6 @@
 //
 
 import CoreGraphics
-import AppKit.NSColor
-
-extension CGColor {
-    static let panelBackground = NSColor(named: "PanelBackground")!.cgColor
-}
 
 extension CGFloat {
     var half: CGFloat {

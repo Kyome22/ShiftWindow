@@ -12,7 +12,7 @@ fileprivate let HELPER_APP_ID = "com.kyome.ShiftWindowLauncher"
 
 final class GeneralSettingsViewModel: ObservableObject {
     private var innerLaunchAtLogin: Bool
-    @Published var launchAtLogin: Bool 
+    @Published var launchAtLogin: Bool
 
     init() {
         let jobDicts = SMCopyAllJobDictionaries(kSMDomainUserLaunchd)

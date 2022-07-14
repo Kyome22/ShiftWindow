@@ -38,3 +38,4 @@
 // Shortcut Settings
 "shortcut" = "ショートカット";
 "widthAnchor" = "左側 2/3 に寄せる";
+"showShortcutPanel:" = "ショートカットのパネルを表示:";

@@ -14,6 +14,8 @@
 		1C64A55326B6680F004A5299 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C64A55226B6680F004A5299 /* AppDelegate.swift */; };
 		1C64A56126B668BB004A5299 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C64A56026B668BB004A5299 /* main.swift */; };
 		1C64A56326B6692E004A5299 /* ShiftWindowLauncher.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1C64A55026B6680F004A5299 /* ShiftWindowLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1C80700E2880684900A12D56 /* ShortcutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C80700D2880684900A12D56 /* ShortcutView.swift */; };
+		1C8070102880713000A12D56 /* ShortcutSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C80700F2880713000A12D56 /* ShortcutSettingsViewModel.swift */; };
 		1CC92CF82869E51C00D46424 /* ShiftWindowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC92CF72869E51C00D46424 /* ShiftWindowApp.swift */; };
 		1CC92CFB2869ED3700D46424 /* Foundation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC92CFA2869ED3700D46424 /* Foundation+Extensions.swift */; };
 		1CC92CFD2869ED5A00D46424 /* CoreGraphics+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC92CFC2869ED5A00D46424 /* CoreGraphics+Extensions.swift */; };
@@ -56,6 +58,8 @@
 		1C64A55B26B66810004A5299 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C64A55C26B66810004A5299 /* ShiftWindowLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShiftWindowLauncher.entitlements; sourceTree = "<group>"; };
 		1C64A56026B668BB004A5299 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		1C80700D2880684900A12D56 /* ShortcutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutView.swift; sourceTree = "<group>"; };
+		1C80700F2880713000A12D56 /* ShortcutSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutSettingsViewModel.swift; sourceTree = "<group>"; };
 		1CC92CF72869E51C00D46424 /* ShiftWindowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftWindowApp.swift; sourceTree = "<group>"; };
 		1CC92CFA2869ED3700D46424 /* Foundation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Foundation+Extensions.swift"; sourceTree = "<group>"; };
 		1CC92CFC2869ED5A00D46424 /* CoreGraphics+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Extensions.swift"; sourceTree = "<group>"; };
@@ -152,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				1CC92D012869EED200D46424 /* GeneralSettingsViewModel.swift */,
+				1C80700F2880713000A12D56 /* ShortcutSettingsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -177,6 +182,7 @@
 				1CC92D072869EFAF00D46424 /* GeneralSettingsView.swift */,
 				1CC92D092869EFBC00D46424 /* ShortcutSettingsView.swift */,
 				1C1461D526BC1629006442F5 /* ShortcutPanel.swift */,
+				1C80700D2880684900A12D56 /* ShortcutView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -295,6 +301,7 @@
 				1CC92D082869EFAF00D46424 /* GeneralSettingsView.swift in Sources */,
 				1CF137F226B5612C00E2147E /* ShiftType.swift in Sources */,
 				1CC92CFB2869ED3700D46424 /* Foundation+Extensions.swift in Sources */,
+				1C80700E2880684900A12D56 /* ShortcutView.swift in Sources */,
 				1CC92CFF2869ED8200D46424 /* AppKit+Extensions.swift in Sources */,
 				1CF137F426B561DD00E2147E /* ShiftMenuItem.swift in Sources */,
 				1CF1380426B5947800E2147E /* ShiftPattern.swift in Sources */,
@@ -302,6 +309,7 @@
 				1CC92CFD2869ED5A00D46424 /* CoreGraphics+Extensions.swift in Sources */,
 				1C1461D626BC1629006442F5 /* ShortcutPanel.swift in Sources */,
 				1CC92D062869EF3D00D46424 /* SettingsView.swift in Sources */,
+				1C8070102880713000A12D56 /* ShortcutSettingsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

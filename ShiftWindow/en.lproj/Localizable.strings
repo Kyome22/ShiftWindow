@@ -28,7 +28,7 @@
 
 // General Settings
 "general" = "General";
-"launchAtLogin:" = "Launch at login:";
+"launchAtLogin:" = "Launch at Login:";
 "enable" = "Enable";
 "permission:" = "Permission:";
 "explain1" = "ShiftWindow requires permission to control parts of your computer via the so called Accessibility API.";
@@ -38,3 +38,4 @@
 // Shortcut Settings
 "shortcut" = "Shortcut";
 "widthAnchor" = "Shift Bottom 1/2";
+"showShortcutPanel:" = "Show Shortcut Panel:";

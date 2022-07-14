@@ -29,7 +29,16 @@ final class DataManager {
     static let shared = DataManager()
     
     private let userDefaults = UserDefaults.standard
-    
+
+    var showShortcutPanel: Bool {
+        get {
+            return self.userDefaults.bool(forKey: "showShortcutPanel")
+        }
+        set {
+            self.userDefaults.set(newValue, forKey: "showShortcutPanel")
+        }
+    }
+
     var patterns: [ShiftPattern] {
         get {
             guard let data = self.userDefaults.data(forKey: "patterns"),

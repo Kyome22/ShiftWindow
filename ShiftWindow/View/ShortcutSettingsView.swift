@@ -10,6 +10,7 @@ import SpiceKey
 
 struct ShortcutSettingsView: View {
     @EnvironmentObject private var appDelegate: AppDelegate
+    @StateObject var viewModel = ShortcutSettingsViewModel()
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -30,6 +31,13 @@ struct ShortcutSettingsView: View {
                 }
                 if pattern.type == .rightHalf || pattern.type == .rightThird {
                     Divider()
+                }
+            }
+            Divider()
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                Text("showShortcutPanel:")
+                Toggle(isOn: $viewModel.showShortcutPanel) {
+                    Text("enable")
                 }
             }
         }

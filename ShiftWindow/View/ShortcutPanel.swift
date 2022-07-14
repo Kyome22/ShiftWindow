@@ -7,10 +7,9 @@
 
 import Cocoa
 import SpiceKey
+import SwiftUI
 
 final class ShortcutPanel: NSPanel {
-    let label = NSTextField(labelWithString: "")
-    
     init(keyEquivalent: String) {
         super.init(contentRect: NSRect(x: 0, y: 0, width: 200, height: 100),
                    styleMask: [.borderless, .nonactivatingPanel],
@@ -20,33 +19,10 @@ final class ShortcutPanel: NSPanel {
         self.collectionBehavior = [.canJoinAllSpaces]
         self.isOpaque = false
         self.backgroundColor = NSColor.clear
-        self.contentView?.wantsLayer = true
-        self.contentView?.layer?.cornerRadius = 8
-        self.contentView?.layer?.borderColor = CGColor.clear
-        self.contentView?.layer?.backgroundColor = CGColor.panelBackground
 
-        self.contentView?.addSubview(self.label)
-        self.label.stringValue = keyEquivalent
-        self.label.font = NSFont.systemFont(ofSize: 100, weight: .bold)
-        self.label.translatesAutoresizingMaskIntoConstraints = false
-        self.label.sizeToFit()
-        
-        self.label
-            .topAnchor
-            .constraint(equalTo: self.contentView!.topAnchor, constant: 20)
-            .isActive = true
-        self.label
-            .leftAnchor
-            .constraint(equalTo: self.contentView!.leftAnchor, constant: 20)
-            .isActive = true
-        self.label
-            .rightAnchor
-            .constraint(equalTo: self.contentView!.rightAnchor, constant: -20)
-            .isActive = true
-        self.label
-            .bottomAnchor
-            .constraint(equalTo: self.contentView!.bottomAnchor, constant: -20)
-            .isActive = true
+        let hostingView = NSHostingView(rootView: ShortcutView(keyEquivalent: keyEquivalent))
+        hostingView.setFrameSize(hostingView.fittingSize)
+        self.contentView = hostingView
     }
     
     override func orderFrontRegardless() {
