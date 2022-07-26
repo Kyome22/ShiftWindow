@@ -35,25 +35,21 @@ final class ShiftManager {
               role == kAXWindowRole,
               let subRole = self.getSubRole(element: window),
               subRole == kAXStandardWindowSubrole,
-              self.isFullscreen(element: window) == false,
-              let position = self.getPosition(element: window)
+              self.isFullscreen(element: window) == false
         else { return }
 
         // override new frame to window
-        guard let validFrame = getValidFrame(position: position),
+        guard let validFrame = getValidFrame(),
               let newFrame = self.makeNewFrame(type: type, validFrame: validFrame)
         else { return }
         self.setPosition(element: window, position: newFrame.origin)
         self.setSize(element: window, size: newFrame.size)
     }
 
-    private func getValidFrame(position: CGPoint) -> CGRect? {
-        guard let (bounds, visibleFrame) = NSScreen.screens.compactMap({ screen -> (CGRect, CGRect)? in
-            let bounds = CGDisplayBounds(screen.displayID)
-            return bounds.contains(position) ? (bounds, screen.visibleFrame) : nil
-        }).first else {
-            return nil
-        }
+    private func getValidFrame() -> CGRect? {
+        guard let screen = NSScreen.main else { return nil }
+        let bounds = CGDisplayBounds(screen.displayID)
+        let visibleFrame = screen.visibleFrame
         let menuBarHeight = NSApp.mainMenu?.menuBarHeight ?? 0
         var validFrame = CGRect(x: visibleFrame.origin.x,
                                 y: bounds.origin.y + menuBarHeight,
@@ -146,15 +142,6 @@ final class ShiftManager {
 
     private func getSubRole(element: AXUIElement) -> String? {
         return self.copyAttributeValue(element, attribute: kAXSubroleAttribute) as? String
-    }
-
-    private func getPosition(element: AXUIElement) -> CGPoint? {
-        var position: CGPoint = .zero
-        guard let ref = self.copyAttributeValue(element, attribute: kAXPositionAttribute),
-              AXValueGetValue(ref as! AXValue, AXValueType.cgPoint, &position) else {
-            return nil
-        }
-        return position
     }
 
     private func isFullscreen(element: AXUIElement) -> Bool {
