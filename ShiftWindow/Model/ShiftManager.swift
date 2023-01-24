@@ -19,15 +19,17 @@
 //  limitations under the License.
 //
 
-import Cocoa
+import AppKit
 import ApplicationServices
 
 fileprivate let kAXFullScreen = "AXFullScreen"
 
-final class ShiftManager {
-    init() {}
+protocol ShiftManager {
+    func shiftWindow(shiftType: ShiftType)
+}
 
-    func shiftWindow(type: ShiftType) {
+struct ShiftManagerImpl: ShiftManager {
+    func shiftWindow(shiftType: ShiftType) {
         // get frontmoset window
         guard let app = NSWorkspace.shared.runningApplications.first(where: { $0.isActive }),
               let window = self.getFocusedWindow(pid: app.processIdentifier),
@@ -40,7 +42,7 @@ final class ShiftManager {
 
         // override new frame to window
         guard let validFrame = getValidFrame(),
-              let newFrame = self.makeNewFrame(type: type, validFrame: validFrame)
+              let newFrame = self.makeNewFrame(shiftType: shiftType, validFrame: validFrame)
         else { return }
         self.setPosition(element: window, position: newFrame.origin)
         self.setSize(element: window, size: newFrame.size)
@@ -67,9 +69,9 @@ final class ShiftManager {
     }
 
     // CoreGraphicsの座標系で返す必要がある
-    private func makeNewFrame(type: ShiftType, validFrame: CGRect) -> CGRect? {
+    private func makeNewFrame(shiftType: ShiftType, validFrame: CGRect) -> CGRect? {
         var newOrigin = validFrame.origin // 上からの距離
-        switch type {
+        switch shiftType {
         case .bottomHalf:
             newOrigin.y += validFrame.height.half
         case .rightHalf:
@@ -83,7 +85,7 @@ final class ShiftManager {
         }
 
         var newSize = validFrame.size
-        switch type {
+        switch shiftType {
         case .topHalf:
             newSize.height = validFrame.height.half
         case .bottomHalf:
@@ -171,5 +173,12 @@ final class ShiftManager {
             return self.setAttributeValue(element, attribute: kAXSizeAttribute, value: value)
         }
         return false
+    }
+}
+
+// MARK: - Preview Mock
+extension PreviewMock {
+    struct ShiftManagerMock: ShiftManager {
+        func shiftWindow(shiftType: ShiftType) {}
     }
 }

@@ -30,6 +30,9 @@
 "general" = "一般";
 "launchAtLogin:" = "ログイン時に起動:";
 "enable" = "有効";
+"registerloginItems" = "ログイン時に自動でTweetShotを起動するように「ユーザとグループ」システム環境設定の「ログイン項目」パネルで設定できます。";
+"openSystemPreferences" = "システム環境設定を開く";
+
 "permission:" = "アクセス権限:";
 "explain1" = "ShiftWindowは、コンピュータを制御する目的でアクセシビリティAPIを使用するため許可を必要とします。";
 "explain2" = "このアプリを使用するには、システム環境設定 -> セキュリティとプライバシー -> アクセシビリティにて権限を付与する必要があります。";

@@ -1,10 +1,10 @@
 //
-//  CoreGraphics+Extensions.swift
+//  Utils.swift
 //  ShiftWindow
 //
-//  Created by Takuto Nakamura on 2022/06/27.
+//  Created by Takuto Nakamura on 2023/01/24.
 //
-//  Copyright 2022 Takuto Nakamura (Kyome22)
+//  Copyright 2023 Takuto Nakamura (Kyome22)
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -19,18 +19,21 @@
 //  limitations under the License.
 //
 
-import CoreGraphics
+import Foundation
 
-extension CGFloat {
-    var half: CGFloat {
-        return CGFloat(Double(self / 2.0).rounded())
-    }
-
-    var third: CGFloat {
-        return CGFloat(Double(self / 3.0).rounded())
-    }
-
-    var twoThirds: CGFloat {
-        return 2.0 * CGFloat(Double(self / 3.0).rounded())
-    }
+func logput(
+    _ items: Any...,
+    file: String = #file,
+    line: Int = #line,
+    function: String = #function
+) {
+#if DEBUG
+    let fileName = URL(fileURLWithPath: file).lastPathComponent
+    var array: [Any] = ["💫Log: \(fileName)", "Line:\(line)", function]
+    array.append(contentsOf: items)
+    Swift.print(array)
+#endif
 }
+
+let NOT_IMPLEMENTED = "not implemented"
+struct PreviewMock {}

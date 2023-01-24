@@ -1,10 +1,10 @@
 //
-//  ShortcutView.swift
+//  View+Extensions.swift
 //  ShiftWindow
 //
-//  Created by Takuto Nakamura on 2022/07/15.
+//  Created by Takuto Nakamura on 2023/01/24.
 //
-//  Copyright 2022 Takuto Nakamura (Kyome22)
+//  Copyright 2023 Takuto Nakamura (Kyome22)
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -21,22 +21,24 @@
 
 import SwiftUI
 
-struct ShortcutView: View {
-    let keyEquivalent: String
-
-    var body: some View {
-        Text(keyEquivalent)
-            .font(.system(size: 100, weight: .bold, design: .default))
-            .foregroundColor(Color.secondary)
-            .padding(.horizontal, 20)
-            .background(Color("PanelBackground"))
-            .cornerRadius(12)
-            .fixedSize()
+extension View {
+    var macOS13OrLater: Bool {
+        if #available(macOS 13, *) {
+            return true
+        } else {
+            return false
+        }
     }
-}
 
-struct ShortcutView_Previews: PreviewProvider {
-    static var previews: some View {
-        ShortcutView(keyEquivalent: "⌘→")
+    func wrapText(
+        maxKey: LocalizedStringKey,
+        key: LocalizedStringKey
+    ) -> some View {
+        return Text(maxKey)
+            .hidden()
+            .overlay(alignment: .leading) {
+                Text(key)
+            }
+            .fixedSize()
     }
 }

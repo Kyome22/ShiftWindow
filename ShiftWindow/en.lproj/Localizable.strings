@@ -30,6 +30,9 @@
 "general" = "General";
 "launchAtLogin:" = "Launch at Login:";
 "enable" = "Enable";
+"registerloginItems" = "You can set TweetShot to launch automatically when you login using the Login Items pane of Users & Groups System Preferences.";
+"openSystemPreferences" = "Open System Preferences";
+
 "permission:" = "Permission:";
 "explain1" = "ShiftWindow requires permission to control parts of your computer via the so called Accessibility API.";
 "explain2" = "To use this app, the permission must be granted in System Preferences -> Security & Privacy -> Accessibility.";

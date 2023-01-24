@@ -4,7 +4,7 @@
 //
 //  Created by Takuto Nakamura on 2022/06/27.
 //
-//  Copyright 2021 Takuto Nakamura (Kyome22)
+//  Copyright 2022 Takuto Nakamura (Kyome22)
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -23,11 +23,16 @@ import SwiftUI
 
 @main
 struct ShiftWindowApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    typealias GVMConcrete = GeneralSettingsViewModelImpl<LaunchAtLoginRepositoryImpl>
+//    typealias SMConcrete = ShortcutManagerImpl<UserDefaultsRepositoryImpl>
+    typealias SVMConcrete = ShortcutSettingsViewModelImpl<UserDefaultsRepositoryImpl, ShortcutManagerImpl<UserDefaultsRepositoryImpl>>
+
+    @StateObject private var appModel = ShiftWindowAppModelImpl()
 
     var body: some Scene {
         Settings {
-            SettingsView()
+            SettingsView<ShiftWindowAppModelImpl, GVMConcrete, SVMConcrete>()
+                .environmentObject(appModel)
         }
     }
 }

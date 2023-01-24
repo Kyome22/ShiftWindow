@@ -19,10 +19,10 @@
 //  limitations under the License.
 //
 
-import Cocoa
+import AppKit
 import SwiftUI
 
-enum ShiftType: Int, CaseIterable {
+enum ShiftType: Int, Codable, CaseIterable {
     case topHalf
     case bottomHalf
     case leftHalf
@@ -50,7 +50,7 @@ enum ShiftType: Int, CaseIterable {
     }
     
     var titleKey: LocalizedStringKey {
-        return LocalizedStringKey(self.id)
+        return LocalizedStringKey(id)
     }
 
     var imageTitle: String {
@@ -69,6 +69,6 @@ enum ShiftType: Int, CaseIterable {
     }
 
     var image: NSImage {
-        return NSImage(imageLiteralResourceName: self.imageTitle)
+        return NSImage(imageLiteralResourceName: imageTitle)
     }
 }

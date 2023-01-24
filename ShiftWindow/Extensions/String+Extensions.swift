@@ -1,10 +1,10 @@
 //
-//  main.swift
-//  ShiftWindowLauncher
+//  String+Extensions.swift
+//  ShiftWindow
 //
-//  Created by Takuto Nakamura on 2021/08/01.
+//  Created by Takuto Nakamura on 2022/06/27.
 //
-//  Copyright 2021 Takuto Nakamura (Kyome22)
+//  Copyright 2022 Takuto Nakamura (Kyome22)
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -19,8 +19,10 @@
 //  limitations under the License.
 //
 
-import Cocoa
+import Foundation
 
-let delegate = AppDelegate()
-NSApplication.shared.delegate = delegate
-_ = NSApplicationMain(CommandLine.argc, CommandLine.unsafeArgv)
+extension String {
+    var localized: String {
+        return NSLocalizedString(self, comment: self)
+    }
+}

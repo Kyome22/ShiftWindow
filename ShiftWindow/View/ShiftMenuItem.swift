@@ -19,14 +19,15 @@
 //  limitations under the License.
 //
 
-import Cocoa
+import AppKit
 
 final class ShiftMenuItem: NSMenuItem {
-    let pattern: ShiftPattern
+    var pattern: ShiftPattern
 
-    init(pattern: ShiftPattern, action: Selector) {
+    init(pattern: ShiftPattern, action: Selector, target: AnyObject?) {
         self.pattern = pattern
         super.init(title: pattern.title, action: action, keyEquivalent: "")
+        self.target = target
         self.image = pattern.image
         if let keyString = pattern.keyString,
            let modifierMask = pattern.modifierMask {
@@ -37,5 +38,17 @@ final class ShiftMenuItem: NSMenuItem {
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func update(_ pattern: ShiftPattern) {
+        self.pattern = pattern
+        if let keyString = pattern.keyString,
+           let modifierMask = pattern.modifierMask {
+            self.keyEquivalent = keyString
+            self.keyEquivalentModifierMask = modifierMask
+        } else {
+            self.keyEquivalent = ""
+            self.keyEquivalentModifierMask = []
+        }
     }
 }
