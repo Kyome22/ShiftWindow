@@ -39,7 +39,7 @@ final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
     typealias SCM = ShortcutModelImpl
     typealias SCMConcrete = SCM<UR, ShiftModelImpl>
     typealias WMConcrete = WindowModelImpl<UR, SCMConcrete>
-    typealias MMConcrete = MenuBarModelImpl<UR, ShiftModelImpl, SCMConcrete, WMConcrete>
+    typealias MMConcrete = MenuBarModelImpl<ShiftModelImpl, SCMConcrete, WMConcrete>
 
     @Published var settingsTab: SettingsTabType = .general
 
@@ -58,7 +58,7 @@ final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
         shiftModel = ShiftModelImpl()
         shortcutModel = SCM(userDefaultsRepository, shiftModel)
         windowModel = WindowModelImpl(userDefaultsRepository, shortcutModel)
-        menuBarModel = MenuBarModelImpl(userDefaultsRepository, shiftModel, shortcutModel, windowModel)
+        menuBarModel = MenuBarModelImpl(shiftModel, shortcutModel, windowModel)
         super.init()
 
         NotificationCenter.default.publisher(for: NSApplication.didFinishLaunchingNotification)

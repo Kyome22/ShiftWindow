@@ -25,7 +25,7 @@ import SpiceKey
 protocol ShortcutModel: AnyObject {
     var showPanelPublisher: AnyPublisher<String, Never> { get }
     var fadeOutPanelPublisher: AnyPublisher<Void, Never> { get }
-    var updatePatternsPublisher: AnyPublisher<Void, Never> { get }
+    var patternsPublisher: AnyPublisher<[ShiftPattern], Never> { get }
 
     func initializeShortcuts()
     func updateShortcut(id: String, keyCombo: KeyCombination)
@@ -42,9 +42,9 @@ final class ShortcutModelImpl<UR: UserDefaultsRepository,
     var fadeOutPanelPublisher: AnyPublisher<Void, Never> {
         return fadeOutPanelSubject.eraseToAnyPublisher()
     }
-    private let updatePatternsSubject = PassthroughSubject<Void, Never>()
-    var updatePatternsPublisher: AnyPublisher<Void, Never> {
-        return updatePatternsSubject.eraseToAnyPublisher()
+    private let patternsSubject = CurrentValueSubject<[ShiftPattern], Never>([])
+    var patternsPublisher: AnyPublisher<[ShiftPattern], Never> {
+        return patternsSubject.eraseToAnyPublisher()
     }
 
     private let userDefaultsRepository: UR
@@ -53,10 +53,11 @@ final class ShortcutModelImpl<UR: UserDefaultsRepository,
     init(_ userDefaultsRepository: UR, _ shiftModel: SM) {
         self.userDefaultsRepository = userDefaultsRepository
         self.shiftModel = shiftModel
+        self.patternsSubject.value = userDefaultsRepository.patterns
     }
 
     func initializeShortcuts() {
-        userDefaultsRepository.patterns.forEach { pattern in
+        patternsSubject.value.forEach { pattern in
             guard let keyCombo = pattern.spiceKeyData?.keyCombination else { return }
             let spiceKey = SpiceKey(keyCombo) { [weak self] in
                 self?.showPanelSubject.send(keyCombo.string)
@@ -69,9 +70,13 @@ final class ShortcutModelImpl<UR: UserDefaultsRepository,
         }
     }
 
+    private func getIndex(id: String) -> Int? {
+        return patternsSubject.value.firstIndex(where: { $0.shiftType.id == id })
+    }
+
     func updateShortcut(id: String, keyCombo: KeyCombination) {
-        let patterns = userDefaultsRepository.patterns
-        guard let pattern = patterns.first(where: { $0.shiftType.id == id }) else { return }
+        guard let index = getIndex(id: id) else { return }
+        let pattern = patternsSubject.value[index]
         let spiceKey = SpiceKey(keyCombo) { [weak self] in
             self?.showPanelSubject.send(keyCombo.string)
             self?.shiftModel.shiftWindow(shiftType: pattern.shiftType)
@@ -79,18 +84,18 @@ final class ShortcutModelImpl<UR: UserDefaultsRepository,
             self?.fadeOutPanelSubject.send(())
         }
         spiceKey.register()
-        pattern.spiceKeyData = SpiceKeyData(id, keyCombo.key, keyCombo.modifierFlags, spiceKey)
-        userDefaultsRepository.patterns = patterns
-        updatePatternsSubject.send(())
+        patternsSubject.value[index].spiceKeyData = SpiceKeyData(id,
+                                                                 keyCombo.key,
+                                                                 keyCombo.modifierFlags,
+                                                                 spiceKey)
+        userDefaultsRepository.patterns = patternsSubject.value
     }
 
     func removeShortcut(id: String) {
-        let patterns = userDefaultsRepository.patterns
-        guard let pattern = patterns.first(where: { $0.shiftType.id == id }) else { return }
-        pattern.spiceKeyData?.spiceKey?.unregister()
-        pattern.spiceKeyData = nil
-        userDefaultsRepository.patterns = patterns
-        updatePatternsSubject.send(())
+        guard let index = getIndex(id: id) else { return }
+        patternsSubject.value[index].spiceKeyData?.spiceKey?.unregister()
+        patternsSubject.value[index].spiceKeyData = nil
+        userDefaultsRepository.patterns = patternsSubject.value
     }
 }
 
@@ -103,8 +108,8 @@ extension PreviewMock {
         var fadeOutPanelPublisher: AnyPublisher<Void, Never> {
             Just(()).eraseToAnyPublisher()
         }
-        var updatePatternsPublisher: AnyPublisher<Void, Never> {
-            Just(()).eraseToAnyPublisher()
+        var patternsPublisher: AnyPublisher<[ShiftPattern], Never> {
+            Just([]).eraseToAnyPublisher()
         }
 
         func initializeShortcuts() {}

@@ -22,9 +22,8 @@ import AppKit
 import Combine
 
 protocol MenuBarModel: AnyObject {
-    var updateMenuItemsPublisher: AnyPublisher<Void, Never> { get }
+    var updateMenuItemsPublisher: AnyPublisher<[ShiftPattern], Never> { get }
     var resetIconsVisiblePublisher: AnyPublisher<Void, Never> { get }
-    var patterns: [ShiftPattern] { get }
 
     func shiftWindow(shiftType: ShiftType)
     func toggleIconsVisible(flag: Bool)
@@ -34,40 +33,33 @@ protocol MenuBarModel: AnyObject {
     func terminateApp()
 }
 
-final class MenuBarModelImpl<UR: UserDefaultsRepository,
-                             SM: ShiftModel,
+final class MenuBarModelImpl<SM: ShiftModel,
                              SCM: ShortcutModel,
                              WM: WindowModel>: NSObject, MenuBarModel {
-    private let updateMenuItemsSubject = PassthroughSubject<Void, Never>()
-    var updateMenuItemsPublisher: AnyPublisher<Void, Never> {
+    private let updateMenuItemsSubject = CurrentValueSubject<[ShiftPattern], Never>([])
+    var updateMenuItemsPublisher: AnyPublisher<[ShiftPattern], Never> {
         return updateMenuItemsSubject.eraseToAnyPublisher()
     }
     private let resetIconsVisibleSubject = PassthroughSubject<Void, Never>()
     var resetIconsVisiblePublisher: AnyPublisher<Void, Never> {
         return resetIconsVisibleSubject.eraseToAnyPublisher()
     }
-    var patterns: [ShiftPattern] {
-        return userDefaultsRepository.patterns
-    }
 
-    private let userDefaultsRepository: UR
     private let shiftModel: SM
     private let windowModel: WM
     private var cancellables = Set<AnyCancellable>()
 
     init(
-        _ userDefaultsRepository: UR,
         _ shiftModel: SM,
         _ shortcutModel: SCM,
         _ windowModel: WM
     ) {
-        self.userDefaultsRepository = userDefaultsRepository
         self.shiftModel = shiftModel
         self.windowModel = windowModel
         super.init()
-        shortcutModel.updatePatternsPublisher
-            .sink { [weak self] in
-                self?.updateMenuItemsSubject.send(())
+        shortcutModel.patternsPublisher
+            .sink { [weak self] patterns in
+                self?.updateMenuItemsSubject.send(patterns)
             }
             .store(in: &cancellables)
     }
@@ -107,13 +99,12 @@ final class MenuBarModelImpl<UR: UserDefaultsRepository,
 // MARK: - Preview Mock
 extension PreviewMock {
     final class MenuBarModelMock: MenuBarModel {
-        var updateMenuItemsPublisher: AnyPublisher<Void, Never> {
-            Just(()).eraseToAnyPublisher()
+        var updateMenuItemsPublisher: AnyPublisher<[ShiftPattern], Never> {
+            Just(ShiftPattern.defaults).eraseToAnyPublisher()
         }
         var resetIconsVisiblePublisher: AnyPublisher<Void, Never> {
             Just(()).eraseToAnyPublisher()
         }
-        let patterns: [ShiftPattern] = ShiftPattern.defaults
 
         func shiftWindow(shiftType: ShiftType) {}
         func toggleIconsVisible(flag: Bool) {}

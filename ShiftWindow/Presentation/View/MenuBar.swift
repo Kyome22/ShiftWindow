@@ -31,8 +31,7 @@ final class MenuBar<MM: MenuBarModel>: NSObject {
     init(menuBarModel: MM) {
         self.menuBarModel = menuBarModel
         super.init()
-
-        menuBarModel.patterns.forEach { pattern in
+        ShiftPattern.defaults.forEach { pattern in
             let item = ShiftMenuItem(pattern: pattern,
                                      action: #selector(shiftWindow(_:)),
                                      target: self)
@@ -64,8 +63,8 @@ final class MenuBar<MM: MenuBarModel>: NSObject {
         statusItem.menu = menu
 
         menuBarModel.updateMenuItemsPublisher
-            .sink { [weak self] in
-                self?.updateMenuItems()
+            .sink { [weak self] patterns in
+                self?.updateMenuItems(patterns)
             }
             .store(in: &cancellables)
         menuBarModel.resetIconsVisiblePublisher
@@ -100,9 +99,9 @@ final class MenuBar<MM: MenuBarModel>: NSObject {
         menuBarModel.terminateApp()
     }
 
-    func updateMenuItems() {
+    func updateMenuItems(_ patterns: [ShiftPattern]) {
         let items = menu.items.compactMap { $0 as? ShiftMenuItem }
-        for (pattern, item) in zip(menuBarModel.patterns, items) {
+        for (pattern, item) in zip(patterns, items) {
             item.update(pattern)
         }
     }

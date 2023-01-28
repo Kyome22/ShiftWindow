@@ -44,12 +44,12 @@ final class WindowModelImpl<UR: UserDefaultsRepository,
         self.shortcutModel = shortcutModel
         super.init()
 
-        self.shortcutModel.showPanelPublisher
+        shortcutModel.showPanelPublisher
             .sink { [weak self] keyEquivalent in
                 self?.showShortcutPanel(keyEquivalent: keyEquivalent)
             }
             .store(in: &cancellables)
-        self.shortcutModel.fadeOutPanelPublisher
+        shortcutModel.fadeOutPanelPublisher
             .sink { [weak self] in
                 self?.shortcutPanel?.fadeOut()
             }
@@ -84,7 +84,7 @@ final class WindowModelImpl<UR: UserDefaultsRepository,
         }
     }
 
-    // NSWindowDelegate
+    // MARK: NSWindowDelegate
     func windowWillClose(_ notification: Notification) {
         guard let window = notification.object as? NSWindow else { return }
         if window === shortcutPanel {

@@ -50,14 +50,12 @@ final class ShortcutSettingsViewModelImpl<UR: UserDefaultsRepository,
     ) {
         self.userDefaultsRepository = userDefaultsRepository as! UR
         self.shortcutModel = shortcutModel as! SCM
-        patterns = userDefaultsRepository.patterns
+        patterns =  userDefaultsRepository.patterns
         showShortcutPanel = userDefaultsRepository.showShortcutPanel
-        shortcutModel.updatePatternsPublisher
+        shortcutModel.patternsPublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                if let self {
-                    self.patterns = self.userDefaultsRepository.patterns
-                }
+            .sink { [weak self] patterns in
+                self?.patterns = patterns
             }
             .store(in: &cancellables)
     }
