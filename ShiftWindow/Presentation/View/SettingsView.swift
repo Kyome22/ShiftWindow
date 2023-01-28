@@ -34,7 +34,7 @@ struct SettingsView<SAM: ShiftWindowAppModel,
                 }
                 .tag(SettingsTabType.general)
             ShortcutSettingsView(viewModel: SVM.init(appModel.userDefaultsRepository,
-                                                     appModel.shortcutManager))
+                                                     appModel.shortcutModel))
             .tabItem {
                 Label("shortcut", systemImage: "command")
             }

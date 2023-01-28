@@ -28,32 +28,32 @@ protocol ShortcutSettingsViewModel: ObservableObject {
     var showShortcutPanel: Bool { get set }
 
     init(_ userDefaultsRepository: UserDefaultsRepository,
-         _ shortcutManager: ShortcutManager)
+         _ shortcutModel: ShortcutModel)
 
     func updateShortcut(id: String, keyCombo: KeyCombination)
     func removeShortcut(id: String)
 }
 
 final class ShortcutSettingsViewModelImpl<UR: UserDefaultsRepository,
-                                          SM: ShortcutManager>: ShortcutSettingsViewModel {
+                                          SM: ShortcutModel>: ShortcutSettingsViewModel {
     @Published var patterns: [ShiftPattern]
     @Published var showShortcutPanel: Bool {
         didSet { userDefaultsRepository.showShortcutPanel = showShortcutPanel }
     }
 
     private let userDefaultsRepository: UR
-    private let shortcutManager: SM
+    private let shortcutModel: SM
     private var cancellables = Set<AnyCancellable>()
 
     init(
         _ userDefaultsRepository: UserDefaultsRepository,
-        _ shortcutManager: ShortcutManager
+        _ shortcutModel: ShortcutModel
     ) {
         self.userDefaultsRepository = userDefaultsRepository as! UR
-        self.shortcutManager = shortcutManager as! SM
+        self.shortcutModel = shortcutModel as! SM
         patterns = userDefaultsRepository.patterns
         showShortcutPanel = userDefaultsRepository.showShortcutPanel
-        shortcutManager.updatePatternsPublisher
+        shortcutModel.updatePatternsPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 if let self {
@@ -64,11 +64,11 @@ final class ShortcutSettingsViewModelImpl<UR: UserDefaultsRepository,
     }
 
     func updateShortcut(id: String, keyCombo: KeyCombination) {
-        shortcutManager.updateShortcut(id: id, keyCombo: keyCombo)
+        shortcutModel.updateShortcut(id: id, keyCombo: keyCombo)
     }
 
     func removeShortcut(id: String) {
-        shortcutManager.removeShortcut(id: id)
+        shortcutModel.removeShortcut(id: id)
     }
 }
 
@@ -79,7 +79,7 @@ extension PreviewMock {
         @Published var showShortcutPanel: Bool = true
 
         init(_ userDefaultsRepository: UserDefaultsRepository,
-             _ shortcutManager: ShortcutManager) {}
+             _ shortcutModel: ShortcutModel) {}
         init() {}
 
         func updateShortcut(id: String, keyCombo: KeyCombination) {}

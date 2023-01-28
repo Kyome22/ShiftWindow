@@ -1,5 +1,5 @@
 //
-//  ShiftManager.swift
+//  ShiftModel.swift
 //  ShiftWindow
 //
 //  Created by Takuto Nakamura on 2021/07/31.
@@ -24,11 +24,11 @@ import ApplicationServices
 
 fileprivate let kAXFullScreen = "AXFullScreen"
 
-protocol ShiftManager {
+protocol ShiftModel {
     func shiftWindow(shiftType: ShiftType)
 }
 
-struct ShiftManagerImpl: ShiftManager {
+struct ShiftModelImpl: ShiftModel {
     func shiftWindow(shiftType: ShiftType) {
         // get frontmoset window
         guard let app = NSWorkspace.shared.runningApplications.first(where: { $0.isActive }),
@@ -178,7 +178,7 @@ struct ShiftManagerImpl: ShiftManager {
 
 // MARK: - Preview Mock
 extension PreviewMock {
-    struct ShiftManagerMock: ShiftManager {
+    struct ShiftModelMock: ShiftModel {
         func shiftWindow(shiftType: ShiftType) {}
     }
 }

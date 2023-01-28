@@ -26,26 +26,26 @@ import SpiceKey
 protocol ShiftWindowAppModel: ObservableObject {
     associatedtype UR: UserDefaultsRepository
     associatedtype LR: LaunchAtLoginRepository
-    associatedtype SM: ShortcutManager
+    associatedtype SM: ShortcutModel
 
     var settingsTab: SettingsTabType { get set }
     var userDefaultsRepository: UR { get }
     var launchAtLoginRepository: LR { get }
-    var shortcutManager: SM { get }
+    var shortcutModel: SM { get }
 }
 
 final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
     typealias UR = UserDefaultsRepositoryImpl
     typealias LR = LaunchAtLoginRepositoryImpl
-    typealias SM = ShortcutManagerImpl
+    typealias SM = ShortcutModelImpl
 
     @Published var settingsTab: SettingsTabType = .general
 
     let userDefaultsRepository: UR
     let launchAtLoginRepository: LR
-    let shortcutManager: SM<UR>
+    let shortcutModel: SM<UR>
     private let menuBarModel: MenuBarModelImpl<UR>
-    private let shiftManager: ShiftManagerImpl
+    private let shiftModel: ShiftModelImpl
 
     private var menuBar: MenuBar<MenuBarModelImpl<UR>>?
     private var shortcutPanel: ShortcutPanel?
@@ -60,9 +60,9 @@ final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
     override init() {
         userDefaultsRepository = UR()
         launchAtLoginRepository = LR()
-        shortcutManager = SM(userDefaultsRepository)
+        shortcutModel = SM(userDefaultsRepository)
         menuBarModel = MenuBarModelImpl(userDefaultsRepository)
-        shiftManager = ShiftManagerImpl()
+        shiftModel = ShiftModelImpl()
         super.init()
 
         NotificationCenter.default.publisher(for: NSApplication.didFinishLaunchingNotification)
@@ -79,18 +79,18 @@ final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
 
     private func applicationDidFinishLaunching() {
         menuBar = MenuBar(menuBarModel: menuBarModel)
-        shortcutManager.shiftWindowPublisher
+        shortcutModel.shiftWindowPublisher
             .sink { [weak self] (shiftType, keyEquivalent) in
                 self?.showShortcutPanel(keyEquivalent: keyEquivalent)
-                self?.shiftManager.shiftWindow(shiftType: shiftType)
+                self?.shiftModel.shiftWindow(shiftType: shiftType)
             }
             .store(in: &cancellables)
-        shortcutManager.fadeOutPanelSubjectPublisher
+        shortcutModel.fadeOutPanelSubjectPublisher
             .sink { [weak self] in
                 self?.shortcutPanel?.fadeOut()
             }
             .store(in: &cancellables)
-        shortcutManager.updatePatternsPublisher
+        shortcutModel.updatePatternsPublisher
             .sink { [weak self] in
                 self?.menuBarModel.updateMenuItemsHandler?()
             }
@@ -98,7 +98,7 @@ final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
 
         menuBarModel.shiftWindowPublisher
             .sink { [weak self] shiftType in
-                self?.shiftManager.shiftWindow(shiftType: shiftType)
+                self?.shiftModel.shiftWindow(shiftType: shiftType)
             }
             .store(in: &cancellables)
         menuBarModel.toggleIconsVisiblePublisher
@@ -117,7 +117,7 @@ final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
             }
             .store(in: &cancellables)
 
-        shortcutManager.initializeShortcuts()
+        shortcutModel.initializeShortcuts()
         checkPermissionAllowed()
     }
 
@@ -188,11 +188,11 @@ extension PreviewMock {
     final class ShiftWindowAppModelMock: ShiftWindowAppModel {
         typealias UR = UserDefaultsRepositoryMock
         typealias LR = LaunchAtLoginRepositoryMock
-        typealias SM = ShortcutManagerMock
+        typealias SM = ShortcutModelMock
 
         var settingsTab: SettingsTabType = .general
         var userDefaultsRepository = UR()
         var launchAtLoginRepository = LR()
-        var shortcutManager = SM()
+        var shortcutModel = SM()
     }
 }

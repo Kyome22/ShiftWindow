@@ -1,5 +1,5 @@
 //
-//  ShortcutManager.swift
+//  ShortcutModel.swift
 //  ShiftWindow
 //
 //  Created by Takuto Nakamura on 2023/01/24.
@@ -23,7 +23,7 @@ import Foundation
 import Combine
 import SpiceKey
 
-protocol ShortcutManager: AnyObject {
+protocol ShortcutModel: AnyObject {
     var shiftWindowPublisher: AnyPublisher<(ShiftType, String), Never> { get }
     var fadeOutPanelSubjectPublisher: AnyPublisher<Void, Never> { get }
     var updatePatternsPublisher: AnyPublisher<Void, Never> { get }
@@ -33,7 +33,7 @@ protocol ShortcutManager: AnyObject {
     func removeShortcut(id: String)
 }
 
-final class ShortcutManagerImpl<UR: UserDefaultsRepository>: ShortcutManager {
+final class ShortcutModelImpl<UR: UserDefaultsRepository>: ShortcutModel {
     private let userDefaultsRepository: UR
 
     private let shiftWindowSubject = PassthroughSubject<(ShiftType, String), Never>()
@@ -92,7 +92,7 @@ final class ShortcutManagerImpl<UR: UserDefaultsRepository>: ShortcutManager {
 
 // MARK: - Preview Mock
 extension PreviewMock {
-    final class ShortcutManagerMock: ShortcutManager {
+    final class ShortcutModelMock: ShortcutModel {
         var shiftWindowPublisher: AnyPublisher<(ShiftType, String), Never> {
             Just((ShiftType.maximize, "")).eraseToAnyPublisher()
         }

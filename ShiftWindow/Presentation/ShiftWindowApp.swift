@@ -24,8 +24,8 @@ import SwiftUI
 @main
 struct ShiftWindowApp: App {
     typealias GVMConcrete = GeneralSettingsViewModelImpl<LaunchAtLoginRepositoryImpl>
-//    typealias SMConcrete = ShortcutManagerImpl<UserDefaultsRepositoryImpl>
-    typealias SVMConcrete = ShortcutSettingsViewModelImpl<UserDefaultsRepositoryImpl, ShortcutManagerImpl<UserDefaultsRepositoryImpl>>
+    typealias SMConcrete = ShortcutModelImpl<UserDefaultsRepositoryImpl>
+    typealias SVMConcrete = ShortcutSettingsViewModelImpl<UserDefaultsRepositoryImpl, SMConcrete>
 
     @StateObject private var appModel = ShiftWindowAppModelImpl()
 
