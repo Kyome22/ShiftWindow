@@ -26,6 +26,7 @@ final class MenuBar<MM: MenuBarModel>: NSObject {
     private let menu = NSMenu()
     private let toggleItem = NSMenuItem()
     private let menuBarModel: MM
+    private var cancellables = Set<AnyCancellable>()
 
     init(menuBarModel: MM) {
         self.menuBarModel = menuBarModel
@@ -62,12 +63,19 @@ final class MenuBar<MM: MenuBarModel>: NSObject {
         statusItem.button?.image = NSImage(named: "StatusIcon")
         statusItem.menu = menu
 
-        menuBarModel.updateMenuItemsHandler = { [weak self] in
-            self?.updateMenuItems()
-        }
-        menuBarModel.currentToggleStateHandler = { [weak self] in
-            return self?.toggleItem.state.isOn ?? false
-        }
+        menuBarModel.updateMenuItemsPublisher
+            .sink { [weak self] in
+                self?.updateMenuItems()
+            }
+            .store(in: &cancellables)
+        menuBarModel.resetIconsVisiblePublisher
+            .sink { [weak self] in
+                guard let self else { return }
+                if self.toggleItem.state.isOn {
+                    self.menuBarModel.toggleIconsVisible(flag: false)
+                }
+            }
+            .store(in: &cancellables)
     }
 
     @objc func shiftWindow(_ sender: ShiftMenuItem) {

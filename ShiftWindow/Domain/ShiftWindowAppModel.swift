@@ -25,43 +25,40 @@ import SpiceKey
 protocol ShiftWindowAppModel: ObservableObject {
     associatedtype UR: UserDefaultsRepository
     associatedtype LR: LaunchAtLoginRepository
-    associatedtype SM: ShortcutModel
+    associatedtype SCM: ShortcutModel
 
     var settingsTab: SettingsTabType { get set }
     var userDefaultsRepository: UR { get }
     var launchAtLoginRepository: LR { get }
-    var shortcutModel: SM { get }
+    var shortcutModel: SCM { get }
 }
 
 final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
     typealias UR = UserDefaultsRepositoryImpl
     typealias LR = LaunchAtLoginRepositoryImpl
-    typealias SM = ShortcutModelImpl
+    typealias SCM = ShortcutModelImpl
+    typealias SCMConcrete = SCM<UR, ShiftModelImpl>
+    typealias WMConcrete = WindowModelImpl<UR, SCMConcrete>
+    typealias MMConcrete = MenuBarModelImpl<UR, ShiftModelImpl, SCMConcrete, WMConcrete>
 
     @Published var settingsTab: SettingsTabType = .general
 
     let userDefaultsRepository: UR
     let launchAtLoginRepository: LR
-    let shortcutModel: SM<UR>
-    private let menuBarModel: MenuBarModelImpl<UR>
     private let shiftModel: ShiftModelImpl
-
-    private var menuBar: MenuBar<MenuBarModelImpl<UR>>?
-    private var shortcutPanel: ShortcutPanel?
+    let shortcutModel: SCMConcrete
+    private let windowModel: WMConcrete
+    private let menuBarModel: MMConcrete
+    private var menuBar: MenuBar<MMConcrete>?
     private var cancellables = Set<AnyCancellable>()
-
-    private var settingsWindow: NSWindow? {
-        return NSApp.windows.first(where: { window in
-            window.frameAutosaveName == "com_apple_SwiftUI_Settings_window"
-        })
-    }
 
     override init() {
         userDefaultsRepository = UR()
         launchAtLoginRepository = LR()
-        shortcutModel = SM(userDefaultsRepository)
-        menuBarModel = MenuBarModelImpl(userDefaultsRepository)
         shiftModel = ShiftModelImpl()
+        shortcutModel = SCM(userDefaultsRepository, shiftModel)
+        windowModel = WindowModelImpl(userDefaultsRepository, shortcutModel)
+        menuBarModel = MenuBarModelImpl(userDefaultsRepository, shiftModel, shortcutModel, windowModel)
         super.init()
 
         NotificationCenter.default.publisher(for: NSApplication.didFinishLaunchingNotification)
@@ -78,52 +75,12 @@ final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
 
     private func applicationDidFinishLaunching() {
         menuBar = MenuBar(menuBarModel: menuBarModel)
-        shortcutModel.shiftWindowPublisher
-            .sink { [weak self] (shiftType, keyEquivalent) in
-                self?.showShortcutPanel(keyEquivalent: keyEquivalent)
-                self?.shiftModel.shiftWindow(shiftType: shiftType)
-            }
-            .store(in: &cancellables)
-        shortcutModel.fadeOutPanelSubjectPublisher
-            .sink { [weak self] in
-                self?.shortcutPanel?.fadeOut()
-            }
-            .store(in: &cancellables)
-        shortcutModel.updatePatternsPublisher
-            .sink { [weak self] in
-                self?.menuBarModel.updateMenuItemsHandler?()
-            }
-            .store(in: &cancellables)
-
-        menuBarModel.shiftWindowPublisher
-            .sink { [weak self] shiftType in
-                self?.shiftModel.shiftWindow(shiftType: shiftType)
-            }
-            .store(in: &cancellables)
-        menuBarModel.toggleIconsVisiblePublisher
-            .sink { [weak self] flag in
-                self?.toggleIconsVisible(flag: flag)
-            }
-            .store(in: &cancellables)
-        menuBarModel.openWindowPublisher
-            .sink { [weak self] windowType in
-                switch windowType {
-                case .preferences:
-                    self?.openPreferences()
-                case .about:
-                    self?.openAbout()
-                }
-            }
-            .store(in: &cancellables)
-
         shortcutModel.initializeShortcuts()
         checkPermissionAllowed()
     }
 
     private func applicationWillTerminate() {
-        if menuBarModel.currentToggleStateHandler?() == true {
-            toggleIconsVisible(flag: false)
-        }
+        menuBarModel.resetIconsVisible()
     }
 
     @discardableResult
@@ -131,54 +88,6 @@ final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
         let key = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as NSString
         let options: NSDictionary = [key: true]
         return AXIsProcessTrustedWithOptions(options)
-    }
-
-    private func toggleIconsVisible(flag: Bool) {
-        let args = flag
-        ? "defaults write com.apple.finder CreateDesktop -bool FALSE; killall Finder"
-        : "defaults delete com.apple.finder CreateDesktop; killall Finder"
-        let shell = Process()
-        shell.launchPath = "/bin/sh"
-        shell.arguments = ["-c", args]
-        shell.launch()
-        shell.waitUntilExit()
-    }
-
-    private func openPreferences() {
-        if #available(macOS 13, *) {
-            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
-        } else {
-            NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
-        }
-        guard let window = settingsWindow else { return }
-        if window.canBecomeMain {
-            window.center()
-            window.makeKeyAndOrderFront(nil)
-            NSApp.activate(ignoringOtherApps: true)
-        }
-    }
-
-    private func openAbout() {
-        NSApp.activate(ignoringOtherApps: true)
-        NSApp.orderFrontStandardAboutPanel(nil)
-    }
-
-    private func showShortcutPanel(keyEquivalent: String) {
-        if userDefaultsRepository.showShortcutPanel {
-            guard shortcutPanel == nil else { return }
-            shortcutPanel = ShortcutPanel(keyEquivalent: keyEquivalent)
-            shortcutPanel?.delegate = self
-            shortcutPanel?.orderFrontRegardless()
-        }
-    }
-}
-
-extension ShiftWindowAppModelImpl: NSWindowDelegate {
-    func windowWillClose(_ notification: Notification) {
-        guard let window = notification.object as? NSWindow else { return }
-        if window === shortcutPanel {
-            shortcutPanel = nil
-        }
     }
 }
 

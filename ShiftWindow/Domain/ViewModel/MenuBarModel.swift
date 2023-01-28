@@ -22,61 +22,81 @@ import AppKit
 import Combine
 
 protocol MenuBarModel: AnyObject {
-    var shiftWindowPublisher: AnyPublisher<ShiftType, Never> { get }
-    var toggleIconsVisiblePublisher: AnyPublisher<Bool, Never> { get }
-    var openWindowPublisher: AnyPublisher<WindowType, Never> { get }
+    var updateMenuItemsPublisher: AnyPublisher<Void, Never> { get }
+    var resetIconsVisiblePublisher: AnyPublisher<Void, Never> { get }
     var patterns: [ShiftPattern] { get }
-    var updateMenuItemsHandler: (() -> Void)? { get set }
-    var currentToggleStateHandler: (() -> Bool)? { get set }
 
     func shiftWindow(shiftType: ShiftType)
     func toggleIconsVisible(flag: Bool)
+    func resetIconsVisible()
     func openPreferences()
     func openAbout()
     func terminateApp()
 }
 
-final class MenuBarModelImpl<UR: UserDefaultsRepository>: NSObject, MenuBarModel {
-    private let userDefaultsRepository: UR
-
-    private let shiftWindowSubject = PassthroughSubject<ShiftType, Never>()
-    var shiftWindowPublisher: AnyPublisher<ShiftType, Never> {
-        return shiftWindowSubject.eraseToAnyPublisher()
+final class MenuBarModelImpl<UR: UserDefaultsRepository,
+                             SM: ShiftModel,
+                             SCM: ShortcutModel,
+                             WM: WindowModel>: NSObject, MenuBarModel {
+    private let updateMenuItemsSubject = PassthroughSubject<Void, Never>()
+    var updateMenuItemsPublisher: AnyPublisher<Void, Never> {
+        return updateMenuItemsSubject.eraseToAnyPublisher()
     }
-    private let toggleIconsVisibleSubject = PassthroughSubject<Bool, Never>()
-    var toggleIconsVisiblePublisher: AnyPublisher<Bool, Never> {
-        return toggleIconsVisibleSubject.eraseToAnyPublisher()
+    private let resetIconsVisibleSubject = PassthroughSubject<Void, Never>()
+    var resetIconsVisiblePublisher: AnyPublisher<Void, Never> {
+        return resetIconsVisibleSubject.eraseToAnyPublisher()
     }
-    private let openWindowSubject = PassthroughSubject<WindowType, Never>()
-    var openWindowPublisher: AnyPublisher<WindowType, Never> {
-        return openWindowSubject.eraseToAnyPublisher()
-    }
-
     var patterns: [ShiftPattern] {
         return userDefaultsRepository.patterns
     }
-    var updateMenuItemsHandler: (() -> Void)?
-    var currentToggleStateHandler: (() -> Bool)?
 
-    init(_ userDefaultsRepository: UR) {
+    private let userDefaultsRepository: UR
+    private let shiftModel: SM
+    private let windowModel: WM
+    private var cancellables = Set<AnyCancellable>()
+
+    init(
+        _ userDefaultsRepository: UR,
+        _ shiftModel: SM,
+        _ shortcutModel: SCM,
+        _ windowModel: WM
+    ) {
         self.userDefaultsRepository = userDefaultsRepository
+        self.shiftModel = shiftModel
+        self.windowModel = windowModel
         super.init()
+        shortcutModel.updatePatternsPublisher
+            .sink { [weak self] in
+                self?.updateMenuItemsSubject.send(())
+            }
+            .store(in: &cancellables)
     }
 
     func shiftWindow(shiftType: ShiftType) {
-        shiftWindowSubject.send(shiftType)
+        shiftModel.shiftWindow(shiftType: shiftType)
     }
 
     func toggleIconsVisible(flag: Bool) {
-        toggleIconsVisibleSubject.send(flag)
+        let args = flag
+        ? "defaults write com.apple.finder CreateDesktop -bool FALSE; killall Finder"
+        : "defaults delete com.apple.finder CreateDesktop; killall Finder"
+        let shell = Process()
+        shell.launchPath = "/bin/sh"
+        shell.arguments = ["-c", args]
+        shell.launch()
+        shell.waitUntilExit()
+    }
+
+    func resetIconsVisible() {
+        resetIconsVisibleSubject.send(())
     }
 
     func openPreferences() {
-        openWindowSubject.send(.preferences)
+        windowModel.openPreferences()
     }
 
     func openAbout() {
-        openWindowSubject.send(.about)
+        windowModel.openAbout()
     }
 
     func terminateApp() {
@@ -87,21 +107,17 @@ final class MenuBarModelImpl<UR: UserDefaultsRepository>: NSObject, MenuBarModel
 // MARK: - Preview Mock
 extension PreviewMock {
     final class MenuBarModelMock: MenuBarModel {
-        var shiftWindowPublisher: AnyPublisher<ShiftType, Never> {
-            Just(ShiftType.maximize).eraseToAnyPublisher()
+        var updateMenuItemsPublisher: AnyPublisher<Void, Never> {
+            Just(()).eraseToAnyPublisher()
         }
-        var toggleIconsVisiblePublisher: AnyPublisher<Bool, Never> {
-            Just(true).eraseToAnyPublisher()
-        }
-        var openWindowPublisher: AnyPublisher<WindowType, Never> {
-            Just(.preferences).eraseToAnyPublisher()
+        var resetIconsVisiblePublisher: AnyPublisher<Void, Never> {
+            Just(()).eraseToAnyPublisher()
         }
         let patterns: [ShiftPattern] = ShiftPattern.defaults
-        var updateMenuItemsHandler: (() -> Void)?
-        var currentToggleStateHandler: (() -> Bool)?
 
         func shiftWindow(shiftType: ShiftType) {}
         func toggleIconsVisible(flag: Bool) {}
+        func resetIconsVisible() {}
         func openPreferences() {}
         func openAbout() {}
         func terminateApp() {}

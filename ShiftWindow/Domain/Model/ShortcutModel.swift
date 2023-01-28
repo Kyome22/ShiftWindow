@@ -23,8 +23,8 @@ import Combine
 import SpiceKey
 
 protocol ShortcutModel: AnyObject {
-    var shiftWindowPublisher: AnyPublisher<(ShiftType, String), Never> { get }
-    var fadeOutPanelSubjectPublisher: AnyPublisher<Void, Never> { get }
+    var showPanelPublisher: AnyPublisher<String, Never> { get }
+    var fadeOutPanelPublisher: AnyPublisher<Void, Never> { get }
     var updatePatternsPublisher: AnyPublisher<Void, Never> { get }
 
     func initializeShortcuts()
@@ -32,15 +32,14 @@ protocol ShortcutModel: AnyObject {
     func removeShortcut(id: String)
 }
 
-final class ShortcutModelImpl<UR: UserDefaultsRepository>: ShortcutModel {
-    private let userDefaultsRepository: UR
-
-    private let shiftWindowSubject = PassthroughSubject<(ShiftType, String), Never>()
-    var shiftWindowPublisher: AnyPublisher<(ShiftType, String), Never> {
-        return shiftWindowSubject.eraseToAnyPublisher()
+final class ShortcutModelImpl<UR: UserDefaultsRepository,
+                              SM: ShiftModel>: ShortcutModel {
+    private let showPanelSubject = PassthroughSubject<String, Never>()
+    var showPanelPublisher: AnyPublisher<String, Never> {
+        return showPanelSubject.eraseToAnyPublisher()
     }
     private let fadeOutPanelSubject = PassthroughSubject<Void, Never>()
-    var fadeOutPanelSubjectPublisher: AnyPublisher<Void, Never> {
+    var fadeOutPanelPublisher: AnyPublisher<Void, Never> {
         return fadeOutPanelSubject.eraseToAnyPublisher()
     }
     private let updatePatternsSubject = PassthroughSubject<Void, Never>()
@@ -48,15 +47,20 @@ final class ShortcutModelImpl<UR: UserDefaultsRepository>: ShortcutModel {
         return updatePatternsSubject.eraseToAnyPublisher()
     }
 
-    init(_ userDefaultsRepository: UR) {
+    private let userDefaultsRepository: UR
+    private let shiftModel: SM
+
+    init(_ userDefaultsRepository: UR, _ shiftModel: SM) {
         self.userDefaultsRepository = userDefaultsRepository
+        self.shiftModel = shiftModel
     }
 
     func initializeShortcuts() {
         userDefaultsRepository.patterns.forEach { pattern in
             guard let keyCombo = pattern.spiceKeyData?.keyCombination else { return }
             let spiceKey = SpiceKey(keyCombo) { [weak self] in
-                self?.shiftWindowSubject.send((pattern.shiftType, keyCombo.string))
+                self?.showPanelSubject.send(keyCombo.string)
+                self?.shiftModel.shiftWindow(shiftType: pattern.shiftType)
             } keyUpHandler: { [weak self] in
                 self?.fadeOutPanelSubject.send(())
             }
@@ -69,7 +73,8 @@ final class ShortcutModelImpl<UR: UserDefaultsRepository>: ShortcutModel {
         let patterns = userDefaultsRepository.patterns
         guard let pattern = patterns.first(where: { $0.shiftType.id == id }) else { return }
         let spiceKey = SpiceKey(keyCombo) { [weak self] in
-            self?.shiftWindowSubject.send((pattern.shiftType, keyCombo.string))
+            self?.showPanelSubject.send(keyCombo.string)
+            self?.shiftModel.shiftWindow(shiftType: pattern.shiftType)
         } keyUpHandler: { [weak self] in
             self?.fadeOutPanelSubject.send(())
         }
@@ -92,10 +97,10 @@ final class ShortcutModelImpl<UR: UserDefaultsRepository>: ShortcutModel {
 // MARK: - Preview Mock
 extension PreviewMock {
     final class ShortcutModelMock: ShortcutModel {
-        var shiftWindowPublisher: AnyPublisher<(ShiftType, String), Never> {
-            Just((ShiftType.maximize, "")).eraseToAnyPublisher()
+        var showPanelPublisher: AnyPublisher<String, Never> {
+            Just("").eraseToAnyPublisher()
         }
-        var fadeOutPanelSubjectPublisher: AnyPublisher<Void, Never> {
+        var fadeOutPanelPublisher: AnyPublisher<Void, Never> {
             Just(()).eraseToAnyPublisher()
         }
         var updatePatternsPublisher: AnyPublisher<Void, Never> {

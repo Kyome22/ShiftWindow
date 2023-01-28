@@ -18,4 +18,85 @@
   limitations under the License.
 */
 
-import Foundation
+import AppKit
+import Combine
+
+protocol WindowModel: AnyObject {
+    func openPreferences()
+    func openAbout()
+}
+
+final class WindowModelImpl<UR: UserDefaultsRepository,
+                            SCM: ShortcutModel>: NSObject, WindowModel, NSWindowDelegate {
+    private let userDefaultsRepository: UR
+    private let shortcutModel: SCM
+    private var shortcutPanel: ShortcutPanel?
+    private var cancellables = Set<AnyCancellable>()
+
+    private var settingsWindow: NSWindow? {
+        return NSApp.windows.first(where: { window in
+            window.frameAutosaveName == "com_apple_SwiftUI_Settings_window"
+        })
+    }
+
+    init(_ userDefaultsRepository: UR, _ shortcutModel: SCM) {
+        self.userDefaultsRepository = userDefaultsRepository
+        self.shortcutModel = shortcutModel
+        super.init()
+
+        self.shortcutModel.showPanelPublisher
+            .sink { [weak self] keyEquivalent in
+                self?.showShortcutPanel(keyEquivalent: keyEquivalent)
+            }
+            .store(in: &cancellables)
+        self.shortcutModel.fadeOutPanelPublisher
+            .sink { [weak self] in
+                self?.shortcutPanel?.fadeOut()
+            }
+            .store(in: &cancellables)
+    }
+
+    func openPreferences() {
+        if #available(macOS 13, *) {
+            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        } else {
+            NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
+        }
+        guard let window = settingsWindow else { return }
+        if window.canBecomeMain {
+            window.center()
+            window.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+        }
+    }
+
+    func openAbout() {
+        NSApp.activate(ignoringOtherApps: true)
+        NSApp.orderFrontStandardAboutPanel(nil)
+    }
+
+    private func showShortcutPanel(keyEquivalent: String) {
+        if userDefaultsRepository.showShortcutPanel {
+            guard shortcutPanel == nil else { return }
+            shortcutPanel = ShortcutPanel(keyEquivalent: keyEquivalent)
+            shortcutPanel?.delegate = self
+            shortcutPanel?.orderFrontRegardless()
+        }
+    }
+
+    // NSWindowDelegate
+    func windowWillClose(_ notification: Notification) {
+        guard let window = notification.object as? NSWindow else { return }
+        if window === shortcutPanel {
+            shortcutPanel = nil
+        }
+    }
+}
+
+// MARK: - Preview Mock
+extension PreviewMock {
+    final class WindowModelMock: WindowModel {
+        func openPreferences() {}
+        func openAbout() {}
+    }
+}
