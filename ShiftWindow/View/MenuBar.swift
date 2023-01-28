@@ -22,7 +22,7 @@
 import AppKit
 import Combine
 
-final class MenuBar<MM: MenuBarModel>: NSObject, NSMenuDelegate {
+final class MenuBar<MM: MenuBarModel>: NSObject {
     private let statusItem = NSStatusItem.default
     private let menu = NSMenu()
     private let toggleItem = NSMenuItem()
@@ -32,7 +32,6 @@ final class MenuBar<MM: MenuBarModel>: NSObject, NSMenuDelegate {
         self.menuBarModel = menuBarModel
         super.init()
 
-        menu.delegate = self
         menuBarModel.patterns.forEach { pattern in
             let item = ShiftMenuItem(pattern: pattern,
                                      action: #selector(shiftWindow(_:)),

@@ -20,8 +20,6 @@
 //
 
 import AppKit
-import Foundation
-import ServiceManagement
 
 protocol GeneralSettingsViewModel: ObservableObject {
     var launchAtLogin: Bool { get set }
