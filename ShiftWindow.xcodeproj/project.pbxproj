@@ -17,7 +17,6 @@
 		1CC6C10C297F69EF00D89250 /* ShiftWindowAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6C10B297F69EF00D89250 /* ShiftWindowAppModel.swift */; };
 		1CC6C10E297F6B8000D89250 /* SettingsTabType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6C10D297F6B8000D89250 /* SettingsTabType.swift */; };
 		1CC6C110297F6C9200D89250 /* MenuBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6C10F297F6C9200D89250 /* MenuBarModel.swift */; };
-		1CC6C112297F7F5500D89250 /* WindowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6C111297F7F5500D89250 /* WindowType.swift */; };
 		1CC6C114297F807700D89250 /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6C113297F807700D89250 /* MenuBar.swift */; };
 		1CC6C1162980072700D89250 /* ShortcutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6C1152980072700D89250 /* ShortcutModel.swift */; };
 		1CC6C11829800F7600D89250 /* LaunchAtLoginRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6C11729800F7600D89250 /* LaunchAtLoginRepository.swift */; };
@@ -62,7 +61,6 @@
 		1CC6C10B297F69EF00D89250 /* ShiftWindowAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftWindowAppModel.swift; sourceTree = "<group>"; };
 		1CC6C10D297F6B8000D89250 /* SettingsTabType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabType.swift; sourceTree = "<group>"; };
 		1CC6C10F297F6C9200D89250 /* MenuBarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarModel.swift; sourceTree = "<group>"; };
-		1CC6C111297F7F5500D89250 /* WindowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowType.swift; sourceTree = "<group>"; };
 		1CC6C113297F807700D89250 /* MenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		1CC6C1152980072700D89250 /* ShortcutModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutModel.swift; sourceTree = "<group>"; };
 		1CC6C11729800F7600D89250 /* LaunchAtLoginRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginRepository.swift; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 			children = (
 				1CF137F126B5612C00E2147E /* ShiftType.swift */,
 				1CF1380326B5947800E2147E /* ShiftPattern.swift */,
-				1CC6C111297F7F5500D89250 /* WindowType.swift */,
 				1CC6C10D297F6B8000D89250 /* SettingsTabType.swift */,
 			);
 			path = Entity;
@@ -313,7 +310,6 @@
 				1CC6C11A29801AAA00D89250 /* View+Extensions.swift in Sources */,
 				1C80700E2880684900A12D56 /* ShortcutView.swift in Sources */,
 				1CC6C14B2985065500D89250 /* WindowModel.swift in Sources */,
-				1CC6C112297F7F5500D89250 /* WindowType.swift in Sources */,
 				1CC92CFF2869ED8200D46424 /* AppKit+Extensions.swift in Sources */,
 				1CF137F426B561DD00E2147E /* ShiftMenuItem.swift in Sources */,
 				1CC6C10E297F6B8000D89250 /* SettingsTabType.swift in Sources */,
