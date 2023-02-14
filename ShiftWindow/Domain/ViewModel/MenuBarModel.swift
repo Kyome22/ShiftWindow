@@ -36,10 +36,7 @@ protocol MenuBarModel: AnyObject {
 final class MenuBarModelImpl<SM: ShiftModel,
                              SCM: ShortcutModel,
                              WM: WindowModel>: NSObject, MenuBarModel {
-    private let updateMenuItemsSubject = CurrentValueSubject<[ShiftPattern], Never>([])
-    var updateMenuItemsPublisher: AnyPublisher<[ShiftPattern], Never> {
-        return updateMenuItemsSubject.eraseToAnyPublisher()
-    }
+    var updateMenuItemsPublisher: AnyPublisher<[ShiftPattern], Never>
     private let resetIconsVisibleSubject = PassthroughSubject<Void, Never>()
     var resetIconsVisiblePublisher: AnyPublisher<Void, Never> {
         return resetIconsVisibleSubject.eraseToAnyPublisher()
@@ -47,7 +44,6 @@ final class MenuBarModelImpl<SM: ShiftModel,
 
     private let shiftModel: SM
     private let windowModel: WM
-    private var cancellables = Set<AnyCancellable>()
 
     init(
         _ shiftModel: SM,
@@ -56,12 +52,8 @@ final class MenuBarModelImpl<SM: ShiftModel,
     ) {
         self.shiftModel = shiftModel
         self.windowModel = windowModel
+        self.updateMenuItemsPublisher = shortcutModel.patternsPublisher
         super.init()
-        shortcutModel.patternsPublisher
-            .sink { [weak self] patterns in
-                self?.updateMenuItemsSubject.send(patterns)
-            }
-            .store(in: &cancellables)
     }
 
     func shiftWindow(shiftType: ShiftType) {
