@@ -534,7 +534,7 @@
 			repositoryURL = "https://github.com/Kyome22/SpiceKey.git";
 			requirement = {
 				kind = exactVersion;
-				version = 4.5.0;
+				version = 5.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

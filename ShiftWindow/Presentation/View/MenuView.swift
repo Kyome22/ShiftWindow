@@ -30,15 +30,30 @@ struct MenuView<MVM: MenuViewModel>: View {
     var body: some View {
         VStack {
             ForEach(viewModel.patterns) { pattern in
-                Button {
-                    viewModel.shiftWindow(shiftType: pattern.shiftType)
-                } label: {
-                    Label {
-                        Text(pattern.titleKey)
-                    } icon: {
-                        Image(pattern.imageResource)
+                if let keyEquivalent = pattern.keyEquivalent,
+                   let eventModifiers = pattern.eventModifiers {
+                    Button {
+                        viewModel.shiftWindow(shiftType: pattern.shiftType)
+                    } label: {
+                        Label {
+                            Text(pattern.titleKey)
+                        } icon: {
+                            Image(pattern.imageResource)
+                        }
+                        .labelStyle(.titleAndIcon)
                     }
-                    .labelStyle(.titleAndIcon)
+                    .keyboardShortcut(keyEquivalent, modifiers: eventModifiers)
+                } else {
+                    Button {
+                        viewModel.shiftWindow(shiftType: pattern.shiftType)
+                    } label: {
+                        Label {
+                            Text(pattern.titleKey)
+                        } icon: {
+                            Image(pattern.imageResource)
+                        }
+                        .labelStyle(.titleAndIcon)
+                    }
                 }
                 switch pattern.shiftType {
                 case .rightHalf, .rightThird, .maximize:

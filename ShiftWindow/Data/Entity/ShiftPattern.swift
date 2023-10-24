@@ -18,7 +18,6 @@
   limitations under the License.
 */
 
-import AppKit
 import SwiftUI
 import SpiceKey
 
@@ -43,11 +42,11 @@ struct ShiftPattern: Codable, Identifiable {
     var imageResource: ImageResource {
         return shiftType.imageResource
     }
-    var keyString: String? {
-        return spiceKeyData?.key?.string
-    }    
-    var modifierMask: NSEvent.ModifierFlags? {
-        return spiceKeyData?.modifierFlags?.flags
+    var keyEquivalent: KeyEquivalent? {
+        return spiceKeyData?.key?.keyEquivalent
+    }
+    var eventModifiers: EventModifiers? {
+        return spiceKeyData?.modifierFlags?.eventModifiers
     }
     var keyCombination: KeyCombination? {
         return spiceKeyData?.keyCombination
