@@ -68,7 +68,9 @@ final class MenuViewModelImpl<SM: ShiftModel,
 
         NotificationCenter.default.publisher(for: NSApplication.willTerminateNotification)
             .sink { [weak self] _ in
-                self?.toggleIconsVisible(false)
+                if let self, hideIcons {
+                    toggleIconsVisible(false)
+                }
             }
             .store(in: &cancellables)
     }

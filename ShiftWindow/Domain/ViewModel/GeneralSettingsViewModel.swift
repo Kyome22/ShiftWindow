@@ -25,7 +25,6 @@ protocol GeneralSettingsViewModel: ObservableObject {
 
     init(_ launchAtLoginRepository: LaunchAtLoginRepository)
 
-    func openLoginItems()
     func openSystemPreferences()
 }
 
@@ -44,11 +43,6 @@ final class GeneralSettingsViewModelImpl<LR: LaunchAtLoginRepository>: GeneralSe
         launchAtLogin = launchAtLoginRepository.current
     }
 
-    func openLoginItems() {
-        let path = "x-apple.systempreferences::com.apple.preference"
-        NSWorkspace.shared.open(URL(string: path)!)
-    }
-
     func openSystemPreferences() {
         let path = "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
         NSWorkspace.shared.open(URL(string: path)!)
@@ -63,7 +57,6 @@ extension PreviewMock {
         init(_ launchAtLoginRepository: LaunchAtLoginRepository) {}
         init() {}
 
-        func openLoginItems() {}
         func openSystemPreferences() {}
     }
 }

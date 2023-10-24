@@ -22,7 +22,6 @@ import SwiftUI
 
 struct GeneralSettingsView<GVM: GeneralSettingsViewModel>: View {
     @StateObject private var viewModel: GVM
-    @Environment(\.displayScale) var displayScale: CGFloat
 
     init(viewModel: @autoclosure @escaping () -> GVM) {
         _viewModel = StateObject(wrappedValue: viewModel())
@@ -30,26 +29,11 @@ struct GeneralSettingsView<GVM: GeneralSettingsViewModel>: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(displayScale.description)
-            if macOS13OrLater {
-                HStack(alignment: .center, spacing: 8) {
-                    Text("launchAtLogin:")
-                    Toggle(isOn: $viewModel.launchAtLogin) {
-                        Text("enable")
-                    }
-                }
-            } else {
+            HStack(alignment: .center, spacing: 8) {
                 Text("launchAtLogin:")
-                Text("registerloginItems")
-                    .frame(width: 300, alignment: .leading)
-                    .padding(.horizontal, 8)
-                Button {
-                    viewModel.openLoginItems()
-                } label: {
-                    Text("openSystemPreferences")
-                        .frame(width: 250)
+                Toggle(isOn: $viewModel.launchAtLogin) {
+                    Text("enable")
                 }
-                .frame(maxWidth: .infinity, alignment: .center)
             }
             Divider()
             Text("permission:")
