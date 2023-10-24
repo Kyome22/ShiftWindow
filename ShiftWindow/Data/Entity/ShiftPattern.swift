@@ -22,7 +22,7 @@ import AppKit
 import SwiftUI
 import SpiceKey
 
-struct ShiftPattern: Codable {
+struct ShiftPattern: Codable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case shiftType
         case spiceKeyData
@@ -31,6 +31,9 @@ struct ShiftPattern: Codable {
     let shiftType: ShiftType
     var spiceKeyData: SpiceKeyData?
 
+    var id: ShiftType {
+        return shiftType
+    }
     var titleKey: LocalizedStringKey {
         return shiftType.titleKey
     }

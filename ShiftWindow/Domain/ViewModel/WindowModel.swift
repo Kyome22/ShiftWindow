@@ -22,7 +22,7 @@ import AppKit
 import Combine
 
 protocol WindowModel: AnyObject {
-    func openPreferences()
+    func openSettings()
     func openAbout()
 }
 
@@ -56,12 +56,8 @@ final class WindowModelImpl<UR: UserDefaultsRepository,
             .store(in: &cancellables)
     }
 
-    func openPreferences() {
-        if #available(macOS 13, *) {
-            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
-        } else {
-            NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
-        }
+    func openSettings() {
+        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
         guard let window = settingsWindow else { return }
         if window.canBecomeMain {
             window.center()
@@ -96,7 +92,7 @@ final class WindowModelImpl<UR: UserDefaultsRepository,
 // MARK: - Preview Mock
 extension PreviewMock {
     final class WindowModelMock: WindowModel {
-        func openPreferences() {}
+        func openSettings() {}
         func openAbout() {}
     }
 }

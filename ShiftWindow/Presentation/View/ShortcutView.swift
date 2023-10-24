@@ -34,8 +34,6 @@ struct ShortcutView: View {
     }
 }
 
-struct ShortcutView_Previews: PreviewProvider {
-    static var previews: some View {
-        ShortcutView(keyEquivalent: "⌘→")
-    }
+#Preview {
+    ShortcutView(keyEquivalent: "⌘→")
 }

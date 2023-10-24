@@ -148,24 +148,6 @@
         }
       }
     },
-    "preferences" : {
-      "comment" : "Menu",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preferences…"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "環境設定…"
-          }
-        }
-      }
-    },
     "registerloginItems" : {
       "localizations" : {
         "en" : {
@@ -178,6 +160,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ログイン時に自動でTweetShotを起動するように「ユーザとグループ」システム環境設定の「ログイン項目」パネルで設定できます。"
+          }
+        }
+      }
+    },
+    "settings" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定"
           }
         }
       }
@@ -348,6 +346,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "上側 1/2 に寄せる"
+          }
+        }
+      }
+    },
+    "shiftWindow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ShiftWindow"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ShiftWindow"
           }
         }
       }

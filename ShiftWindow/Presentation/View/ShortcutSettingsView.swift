@@ -24,8 +24,8 @@ import SpiceKey
 struct ShortcutSettingsView<SVM: ShortcutSettingsViewModel>: View {
     @StateObject private var viewModel: SVM
 
-    init(viewModel: SVM) {
-        _viewModel = StateObject(wrappedValue: viewModel)
+    init(viewModel: @autoclosure @escaping () -> SVM) {
+        _viewModel = StateObject(wrappedValue: viewModel())
     }
 
     var body: some View {
@@ -64,11 +64,9 @@ struct ShortcutSettingsView<SVM: ShortcutSettingsViewModel>: View {
     }
 }
 
-struct ShortcutSettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ForEach(["en_US", "ja_JP"], id: \.self) { id in
-            ShortcutSettingsView(viewModel: PreviewMock.ShortcutSettingsViewModelMock())
-                .environment(\.locale, .init(identifier: id))
-        }
+#Preview {
+    ForEach(["en_US", "ja_JP"], id: \.self) { id in
+        ShortcutSettingsView(viewModel: PreviewMock.ShortcutSettingsViewModelMock())
+            .environment(\.locale, .init(identifier: id))
     }
 }

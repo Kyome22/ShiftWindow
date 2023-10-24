@@ -21,7 +21,7 @@
 import AppKit
 import SwiftUI
 
-enum ShiftType: Int, Codable, CaseIterable {
+enum ShiftType: Int, Codable, Identifiable, CaseIterable {
     case topHalf
     case bottomHalf
     case leftHalf

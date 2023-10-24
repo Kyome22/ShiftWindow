@@ -45,11 +45,9 @@ struct SettingsView<SAM: ShiftWindowAppModel,
     }
 }
 
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView<PreviewMock.ShiftWindowAppModelMock,
-                     PreviewMock.GeneralSettingsViewModelMock,
-                     PreviewMock.ShortcutSettingsViewModelMock>()
-            .environmentObject(PreviewMock.ShiftWindowAppModelMock())
-    }
+#Preview {
+    SettingsView<PreviewMock.ShiftWindowAppModelMock,
+                 PreviewMock.GeneralSettingsViewModelMock,
+                 PreviewMock.ShortcutSettingsViewModelMock>()
+        .environmentObject(PreviewMock.ShiftWindowAppModelMock())
 }

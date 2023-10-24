@@ -24,4 +24,7 @@ extension String {
     var localized: String {
         return NSLocalizedString(self, comment: self)
     }
+
+    static let createDesktopTrue = "defaults delete com.apple.finder CreateDesktop; killall Finder"
+    static let createDesktopFalse = "defaults write com.apple.finder CreateDesktop -bool FALSE; killall Finder"
 }

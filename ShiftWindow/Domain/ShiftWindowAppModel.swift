@@ -25,40 +25,40 @@ import SpiceKey
 protocol ShiftWindowAppModel: ObservableObject {
     associatedtype UR: UserDefaultsRepository
     associatedtype LR: LaunchAtLoginRepository
+    associatedtype SM: ShiftModel
     associatedtype SCM: ShortcutModel
+    associatedtype WM: WindowModel
 
     var settingsTab: SettingsTabType { get set }
     var userDefaultsRepository: UR { get }
     var launchAtLoginRepository: LR { get }
+    var shiftModel: SM { get }
     var shortcutModel: SCM { get }
+    var windowModel: WM { get }
 }
 
 final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
     typealias UR = UserDefaultsRepositoryImpl
     typealias LR = LaunchAtLoginRepositoryImpl
-    typealias SCM = ShortcutModelImpl
-    typealias SCMConcrete = SCM<UR, ShiftModelImpl>
-    typealias WMConcrete = WindowModelImpl<UR, SCMConcrete>
-    typealias MMConcrete = MenuBarModelImpl<ShiftModelImpl, SCMConcrete, WMConcrete>
+    typealias SM = ShiftModelImpl
+    typealias SCM = ShortcutModelImpl<UR, SM>
+    typealias WM = WindowModelImpl<UR, SCM>
 
     @Published var settingsTab: SettingsTabType = .general
 
     let userDefaultsRepository: UR
     let launchAtLoginRepository: LR
-    private let shiftModel: ShiftModelImpl
-    let shortcutModel: SCMConcrete
-    private let windowModel: WMConcrete
-    private let menuBarModel: MMConcrete
-    private var menuBar: MenuBar<MMConcrete>?
+    let shiftModel: SM
+    let shortcutModel: SCM
+    let windowModel: WM
     private var cancellables = Set<AnyCancellable>()
 
     override init() {
         userDefaultsRepository = UR()
         launchAtLoginRepository = LR()
-        shiftModel = ShiftModelImpl()
+        shiftModel = SM()
         shortcutModel = SCM(userDefaultsRepository, shiftModel)
-        windowModel = WindowModelImpl(userDefaultsRepository, shortcutModel)
-        menuBarModel = MenuBarModelImpl(shiftModel, shortcutModel, windowModel)
+        windowModel = WM(userDefaultsRepository, shortcutModel)
         super.init()
 
         NotificationCenter.default.publisher(for: NSApplication.didFinishLaunchingNotification)
@@ -66,21 +66,11 @@ final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
                 self?.applicationDidFinishLaunching()
             }
             .store(in: &cancellables)
-        NotificationCenter.default.publisher(for: NSApplication.willTerminateNotification)
-            .sink { [weak self] _ in
-                self?.applicationWillTerminate()
-            }
-            .store(in: &cancellables)
     }
 
     private func applicationDidFinishLaunching() {
-        menuBar = MenuBar(menuBarModel: menuBarModel)
         shortcutModel.initializeShortcuts()
         checkPermissionAllowed()
-    }
-
-    private func applicationWillTerminate() {
-        menuBarModel.resetIconsVisible()
     }
 
     @discardableResult
@@ -96,11 +86,15 @@ extension PreviewMock {
     final class ShiftWindowAppModelMock: ShiftWindowAppModel {
         typealias UR = UserDefaultsRepositoryMock
         typealias LR = LaunchAtLoginRepositoryMock
-        typealias SM = ShortcutModelMock
+        typealias SM = ShiftModelMock
+        typealias SCM = ShortcutModelMock
+        typealias WM = WindowModelMock
 
         var settingsTab: SettingsTabType = .general
         let userDefaultsRepository = UR()
         let launchAtLoginRepository = LR()
-        let shortcutModel = SM()
+        let shiftModel = SM()
+        let shortcutModel = SCM()
+        let windowModel = WM()
     }
 }
