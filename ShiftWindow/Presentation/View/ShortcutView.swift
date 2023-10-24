@@ -28,7 +28,7 @@ struct ShortcutView: View {
             .font(.system(size: 100, weight: .bold, design: .default))
             .foregroundColor(Color.secondary)
             .padding(.horizontal, 20)
-            .background(Color("PanelBackground"))
+            .background(Color(.panelBackground))
             .cornerRadius(12)
             .fixedSize()
     }

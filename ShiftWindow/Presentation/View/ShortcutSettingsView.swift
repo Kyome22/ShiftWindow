@@ -32,7 +32,7 @@ struct ShortcutSettingsView<SVM: ShortcutSettingsViewModel>: View {
         VStack(alignment: .leading, spacing: 8) {
             ForEach(viewModel.patterns, id: \.shiftType.id) { pattern in
                 HStack(alignment: .center, spacing: 8) {
-                    Image(pattern.imageTitle)
+                    Image(pattern.imageResource)
                     wrapText(maxKey: "widthAnchor", key: pattern.titleKey)
                     SKTextField(id: pattern.shiftType.id,
                                 initialKeyCombination: pattern.keyCombination)

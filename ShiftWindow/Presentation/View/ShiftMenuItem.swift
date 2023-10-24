@@ -27,7 +27,7 @@ final class ShiftMenuItem: NSMenuItem {
         self.pattern = pattern
         super.init(title: pattern.title, action: action, keyEquivalent: "")
         self.target = target
-        self.image = pattern.image
+        self.image = NSImage(resource: pattern.imageResource)
         if let keyString = pattern.keyString,
            let modifierMask = pattern.modifierMask {
             self.keyEquivalent = keyString

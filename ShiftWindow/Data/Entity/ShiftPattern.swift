@@ -37,11 +37,8 @@ struct ShiftPattern: Codable {
     var title: String {
         return shiftType.id.localized
     }
-    var imageTitle: String {
-        return shiftType.imageTitle
-    }
-    var image: NSImage {
-        return shiftType.image
+    var imageResource: ImageResource {
+        return shiftType.imageResource
     }
     var keyString: String? {
         return spiceKeyData?.key?.string

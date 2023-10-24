@@ -59,7 +59,7 @@ final class MenuBar<MM: MenuBarModel>: NSObject {
                      action: #selector(terminateApp(_:)),
                      target: self)
 
-        statusItem.button?.image = NSImage(named: "StatusIcon")
+        statusItem.button?.image = NSImage(resource: .statusIcon)
         statusItem.menu = menu
 
         menuBarModel.updateMenuItemsPublisher
