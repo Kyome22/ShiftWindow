@@ -42,8 +42,10 @@ struct ShiftWindowApp: App {
             MenuView(viewModel: MVM.init(appModel.shiftModel,
                                          appModel.shortcutModel,
                                          appModel.windowModel))
+            .environment(\.displayScale, 2.0)
         } label: {
             Image(.statusIcon)
+                .environment(\.displayScale, 2.0)
         }
     }
 }
