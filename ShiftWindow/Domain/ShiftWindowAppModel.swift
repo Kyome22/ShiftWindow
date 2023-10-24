@@ -99,8 +99,8 @@ extension PreviewMock {
         typealias SM = ShortcutModelMock
 
         var settingsTab: SettingsTabType = .general
-        var userDefaultsRepository = UR()
-        var launchAtLoginRepository = LR()
-        var shortcutModel = SM()
+        let userDefaultsRepository = UR()
+        let launchAtLoginRepository = LR()
+        let shortcutModel = SM()
     }
 }
