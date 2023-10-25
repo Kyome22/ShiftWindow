@@ -20,50 +20,9 @@
 
 import AppKit
 
-extension NSStatusItem {
-    static var `default`: NSStatusItem {
-        return NSStatusBar.system.statusItem(withLength: Self.variableLength)
-    }
-}
-
-extension NSMenu {
-    func addItem(title: String, action: Selector, target: AnyObject) {
-        self.addItem(NSMenuItem(title: title, action: action, target: target))
-    }
-
-    func addSeparator() {
-        self.addItem(NSMenuItem.separator())
-    }
-}
-
-extension NSMenuItem {
-    convenience init(title: String, action: Selector, target: AnyObject) {
-        self.init(title: title, action: action, keyEquivalent: "")
-        self.target = target
-    }
-
-    func setValues(title: String, action: Selector, target: AnyObject) {
-        self.title = title
-        self.action = action
-        self.target = target
-    }
-}
-
 extension NSScreen {
     var displayID: CGDirectDisplayID {
         let key = NSDeviceDescriptionKey("NSScreenNumber")
         return self.deviceDescription[key] as! CGDirectDisplayID
-    }
-}
-
-extension Bool {
-    var state: NSControl.StateValue {
-        return self ? .on : .off
-    }
-}
-
-extension NSControl.StateValue {
-    var isOn: Bool {
-        return self == .on
     }
 }
