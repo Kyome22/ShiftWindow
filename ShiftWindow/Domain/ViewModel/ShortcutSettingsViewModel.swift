@@ -29,8 +29,8 @@ protocol ShortcutSettingsViewModel: ObservableObject {
     init(_ userDefaultsRepository: UserDefaultsRepository,
          _ shortcutModel: ShortcutModel)
 
-    func updateShortcut(id: String, keyCombo: KeyCombination)
-    func removeShortcut(id: String)
+    func updateShortcut(id: String?, keyCombo: KeyCombination)
+    func removeShortcut(id: String?)
 }
 
 final class ShortcutSettingsViewModelImpl: ShortcutSettingsViewModel {
@@ -59,12 +59,16 @@ final class ShortcutSettingsViewModelImpl: ShortcutSettingsViewModel {
             .store(in: &cancellables)
     }
 
-    func updateShortcut(id: String, keyCombo: KeyCombination) {
-        shortcutModel.updateShortcut(id: id, keyCombo: keyCombo)
+    func updateShortcut(id: String?, keyCombo: KeyCombination) {
+        if let id {
+            shortcutModel.updateShortcut(id: id, keyCombo: keyCombo)
+        }
     }
 
-    func removeShortcut(id: String) {
-        shortcutModel.removeShortcut(id: id)
+    func removeShortcut(id: String?) {
+        if let id {
+            shortcutModel.removeShortcut(id: id)
+        }
     }
 }
 
@@ -78,7 +82,7 @@ extension PreviewMock {
              _ shortcutModel: ShortcutModel) {}
         init() {}
 
-        func updateShortcut(id: String, keyCombo: KeyCombination) {}
-        func removeShortcut(id: String) {}
+        func updateShortcut(id: String?, keyCombo: KeyCombination) {}
+        func removeShortcut(id: String?) {}
     }
 }

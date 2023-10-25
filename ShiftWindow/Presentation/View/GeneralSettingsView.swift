@@ -24,28 +24,25 @@ struct GeneralSettingsView<GVM: GeneralSettingsViewModel>: View {
     @StateObject var viewModel: GVM
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .center, spacing: 8) {
-                Text("launchAtLogin:")
+        VStack(alignment: .leading) {
+            LabeledContent("launchAtLogin:") {
                 Toggle(isOn: $viewModel.launchAtLogin) {
                     Text("enable")
                 }
             }
             Divider()
-            Text("permission:")
-            Text("explain1")
-                .frame(width: 300, alignment: .leading)
-                .padding(.horizontal, 8)
-            Text("explain2")
-                .frame(width: 300, alignment: .leading)
-                .padding(.horizontal, 8)
-            Button {
-                viewModel.openSystemPreferences()
-            } label: {
-                Text("openSystemPreferences")
-                    .frame(width: 250)
+            Form {
+                LabeledContent("permission:") {
+                    Text("permissionExplain")
+                        .frame(width: 300, alignment: .leading)
+                }
+                Button {
+                    viewModel.openSystemPreferences()
+                } label: {
+                    Text("openSystemPreferences")
+                        .frame(maxWidth: .infinity)
+                }
             }
-            .frame(maxWidth: .infinity, alignment: .center)
         }
         .fixedSize()
     }

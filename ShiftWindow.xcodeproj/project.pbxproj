@@ -21,7 +21,6 @@
 		1CC6C10E297F6B8000D89250 /* SettingsTabType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6C10D297F6B8000D89250 /* SettingsTabType.swift */; };
 		1CC6C1162980072700D89250 /* ShortcutModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6C1152980072700D89250 /* ShortcutModel.swift */; };
 		1CC6C11829800F7600D89250 /* LaunchAtLoginRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6C11729800F7600D89250 /* LaunchAtLoginRepository.swift */; };
-		1CC6C11A29801AAA00D89250 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6C11929801AAA00D89250 /* View+Extensions.swift */; };
 		1CC6C14B2985065500D89250 /* WindowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC6C14A2985065500D89250 /* WindowModel.swift */; };
 		1CC92CF82869E51C00D46424 /* ShiftWindowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC92CF72869E51C00D46424 /* ShiftWindowApp.swift */; };
 		1CC92CFB2869ED3700D46424 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC92CFA2869ED3700D46424 /* String+Extensions.swift */; };
@@ -64,7 +63,6 @@
 		1CC6C10D297F6B8000D89250 /* SettingsTabType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabType.swift; sourceTree = "<group>"; };
 		1CC6C1152980072700D89250 /* ShortcutModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutModel.swift; sourceTree = "<group>"; };
 		1CC6C11729800F7600D89250 /* LaunchAtLoginRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginRepository.swift; sourceTree = "<group>"; };
-		1CC6C11929801AAA00D89250 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		1CC6C14A2985065500D89250 /* WindowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowModel.swift; sourceTree = "<group>"; };
 		1CC92CF72869E51C00D46424 /* ShiftWindowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftWindowApp.swift; sourceTree = "<group>"; };
 		1CC92CFA2869ED3700D46424 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
@@ -189,7 +187,6 @@
 				1CC92CFA2869ED3700D46424 /* String+Extensions.swift */,
 				1CC92CFE2869ED8200D46424 /* AppKit+Extensions.swift */,
 				1CC92CFC2869ED5A00D46424 /* CoreGraphics+Extensions.swift */,
-				1CC6C11929801AAA00D89250 /* View+Extensions.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -303,7 +300,6 @@
 				1CC6C10C297F69EF00D89250 /* ShiftWindowAppModel.swift in Sources */,
 				1CAB3F1A2AE7F26C00BE23F0 /* MenuView.swift in Sources */,
 				1CC92CFB2869ED3700D46424 /* String+Extensions.swift in Sources */,
-				1CC6C11A29801AAA00D89250 /* View+Extensions.swift in Sources */,
 				1C80700E2880684900A12D56 /* ShortcutView.swift in Sources */,
 				1CC6C14B2985065500D89250 /* WindowModel.swift in Sources */,
 				1CC92CFF2869ED8200D46424 /* AppKit+Extensions.swift in Sources */,

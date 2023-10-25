@@ -34,38 +34,6 @@
         }
       }
     },
-    "explain1" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ShiftWindow requires permission to control parts of your computer via the so called Accessibility API."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ShiftWindowは、コンピュータを制御する目的でアクセシビリティAPIを使用するため許可を必要とします。"
-          }
-        }
-      }
-    },
-    "explain2" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "To use this app, the permission must be granted in System Preferences -> Security & Privacy -> Accessibility."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このアプリを使用するには、システム環境設定 -> セキュリティとプライバシー -> アクセシビリティにて権限を付与する必要があります。"
-          }
-        }
-      }
-    },
     "general" : {
       "comment" : "General Settings",
       "localizations" : {
@@ -144,6 +112,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "アクセス権限:"
+          }
+        }
+      }
+    },
+    "permissionExplain" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ShiftWindow requires permission to control parts of your computer via the so called Accessibility API.\n\nTo use this app, the permission must be granted in System Preferences -> Security & Privacy -> Accessibility."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ShiftWindowは、コンピュータを制御する目的でアクセシビリティAPIを使用するため許可を必要とします。\n\nこのアプリを使用するには、システム環境設定 -> セキュリティとプライバシー -> アクセシビリティにて権限を付与する必要があります。"
           }
         }
       }
@@ -397,22 +381,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ShiftWindowを終了"
-          }
-        }
-      }
-    },
-    "widthAnchor" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Shift Bottom 1/2"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "左側 2/3 に寄せる"
           }
         }
       }

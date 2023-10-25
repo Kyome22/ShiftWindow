@@ -25,22 +25,28 @@ struct ShortcutSettingsView<SVM: ShortcutSettingsViewModel>: View {
     @StateObject var viewModel: SVM
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading) {
             ForEach(viewModel.patterns, id: \.shiftType.id) { pattern in
-                HStack(alignment: .center, spacing: 8) {
-                    Image(pattern.imageResource)
-                    wrapText(maxKey: "widthAnchor", key: pattern.titleKey)
-                    SKTextField(id: pattern.shiftType.id,
-                                initialKeyCombination: pattern.keyCombination)
-                    .onRegistered { id, keyCombination in
-                        if let id {
+                LabeledContent {
+                    HStack {
+                        Spacer()
+                        SKTextField(
+                            id: pattern.shiftType.id,
+                            initialKeyCombination: pattern.keyCombination
+                        )
+                        .onRegistered { id, keyCombination in
                             viewModel.updateShortcut(id: id, keyCombo: keyCombination)
                         }
-                    }
-                    .onDeleted { id in
-                        if let id {
+                        .onDeleted { id in
                             viewModel.removeShortcut(id: id)
                         }
+                        .frame(width: 100)
+                    }
+                } label: {
+                    Label {
+                        Text(pattern.titleKey)
+                    } icon: {
+                        Image(pattern.imageResource)
                     }
                 }
                 if pattern.shiftType == .rightHalf || pattern.shiftType == .rightThird {
@@ -48,14 +54,12 @@ struct ShortcutSettingsView<SVM: ShortcutSettingsViewModel>: View {
                 }
             }
             Divider()
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Text("showShortcutPanel:")
+            LabeledContent("showShortcutPanel:") {
                 Toggle(isOn: $viewModel.showShortcutPanel) {
                     Text("enable")
                 }
             }
         }
-        .frame(width: 240)
         .fixedSize()
     }
 }
