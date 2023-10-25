@@ -21,11 +21,7 @@
 import SwiftUI
 
 struct GeneralSettingsView<GVM: GeneralSettingsViewModel>: View {
-    @StateObject private var viewModel: GVM
-
-    init(viewModel: @autoclosure @escaping () -> GVM) {
-        _viewModel = StateObject(wrappedValue: viewModel())
-    }
+    @StateObject var viewModel: GVM
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {

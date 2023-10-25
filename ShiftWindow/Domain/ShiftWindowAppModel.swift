@@ -28,6 +28,9 @@ protocol ShiftWindowAppModel: ObservableObject {
     associatedtype SM: ShiftModel
     associatedtype SCM: ShortcutModel
     associatedtype WM: WindowModel
+    associatedtype MVM: MenuViewModel
+    associatedtype GVM: GeneralSettingsViewModel
+    associatedtype SVM: ShortcutSettingsViewModel
 
     var settingsTab: SettingsTabType { get set }
     var userDefaultsRepository: UR { get }
@@ -41,8 +44,11 @@ final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
     typealias UR = UserDefaultsRepositoryImpl
     typealias LR = LaunchAtLoginRepositoryImpl
     typealias SM = ShiftModelImpl
-    typealias SCM = ShortcutModelImpl<UR, SM>
-    typealias WM = WindowModelImpl<UR, SCM>
+    typealias SCM = ShortcutModelImpl
+    typealias WM = WindowModelImpl
+    typealias MVM = MenuViewModelImpl
+    typealias GVM = GeneralSettingsViewModelImpl
+    typealias SVM = ShortcutSettingsViewModelImpl
 
     @Published var settingsTab: SettingsTabType = .general
 
@@ -89,8 +95,11 @@ extension PreviewMock {
         typealias SM = ShiftModelMock
         typealias SCM = ShortcutModelMock
         typealias WM = WindowModelMock
+        typealias MVM = MenuViewModelMock
+        typealias GVM = GeneralSettingsViewModelMock
+        typealias SVM = ShortcutSettingsViewModelMock
 
-        var settingsTab: SettingsTabType = .general
+        @Published var settingsTab: SettingsTabType = .general
         let userDefaultsRepository = UR()
         let launchAtLoginRepository = LR()
         let shiftModel = SM()

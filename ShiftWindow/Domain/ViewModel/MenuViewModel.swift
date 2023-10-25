@@ -36,14 +36,12 @@ protocol MenuViewModel: ObservableObject {
     func terminateApp()
 }
 
-final class MenuViewModelImpl<SM: ShiftModel,
-                              SCM: ShortcutModel,
-                              WM: WindowModel>: MenuViewModel {
+final class MenuViewModelImpl: MenuViewModel {
     @Published var patterns = [ShiftPattern]()
     @Published var hideIcons: Bool = false
 
-    private let shiftModel: SM
-    private let windowModel: WM
+    private let shiftModel: ShiftModel
+    private let windowModel: WindowModel
     private var cancellables = Set<AnyCancellable>()
 
     init(
@@ -51,8 +49,8 @@ final class MenuViewModelImpl<SM: ShiftModel,
         _ shortcutModel: ShortcutModel,
         _ windowModel: WindowModel
     ) {
-        self.shiftModel = shiftModel as! SM
-        self.windowModel = windowModel as! WM
+        self.shiftModel = shiftModel
+        self.windowModel = windowModel
         shortcutModel.patternsPublisher
             .sink { [weak self] patterns in
                 self?.patterns = patterns

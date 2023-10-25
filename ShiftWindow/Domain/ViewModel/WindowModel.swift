@@ -22,14 +22,16 @@ import AppKit
 import Combine
 
 protocol WindowModel: AnyObject {
+    init(_ userDefaultsRepository: UserDefaultsRepository,
+         _ shortcutModel: ShortcutModel)
+
     func openSettings()
     func openAbout()
 }
 
-final class WindowModelImpl<UR: UserDefaultsRepository,
-                            SCM: ShortcutModel>: NSObject, WindowModel, NSWindowDelegate {
-    private let userDefaultsRepository: UR
-    private let shortcutModel: SCM
+final class WindowModelImpl: NSObject, WindowModel, NSWindowDelegate {
+    private let userDefaultsRepository: UserDefaultsRepository
+    private let shortcutModel: ShortcutModel
     private var shortcutPanel: ShortcutPanel?
     private var cancellables = Set<AnyCancellable>()
 
@@ -39,7 +41,10 @@ final class WindowModelImpl<UR: UserDefaultsRepository,
         })
     }
 
-    init(_ userDefaultsRepository: UR, _ shortcutModel: SCM) {
+    init(
+        _ userDefaultsRepository: UserDefaultsRepository,
+        _ shortcutModel: ShortcutModel
+    ) {
         self.userDefaultsRepository = userDefaultsRepository
         self.shortcutModel = shortcutModel
         super.init()
@@ -92,6 +97,10 @@ final class WindowModelImpl<UR: UserDefaultsRepository,
 // MARK: - Preview Mock
 extension PreviewMock {
     final class WindowModelMock: WindowModel {
+        init(_ userDefaultsRepository: UserDefaultsRepository, 
+             _ shortcutModel: ShortcutModel) {}
+        init() {}
+
         func openSettings() {}
         func openAbout() {}
     }

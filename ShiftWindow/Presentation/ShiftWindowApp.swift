@@ -22,26 +22,18 @@ import SwiftUI
 
 @main
 struct ShiftWindowApp: App {
-    typealias UR = UserDefaultsRepositoryImpl
-    typealias LR = LaunchAtLoginRepositoryImpl
-    typealias SM = ShiftModelImpl
-    typealias SCM = ShortcutModelImpl<UR, SM>
-    typealias WM = WindowModelImpl<UR, SCM>
-    typealias MVM = MenuViewModelImpl<SM, SCM, WM>
-    typealias GVM = GeneralSettingsViewModelImpl<LR>
-    typealias SVM = ShortcutSettingsViewModelImpl<UR, SCM>
-
-    @StateObject private var appModel = ShiftWindowAppModelImpl()
+    typealias SAM = ShiftWindowAppModelImpl
+    @StateObject private var appModel = SAM()
 
     var body: some Scene {
         Settings {
-            SettingsView<ShiftWindowAppModelImpl, GVM, SVM>()
+            SettingsView<SAM>()
                 .environmentObject(appModel)
         }
         MenuBarExtra {
-            MenuView(viewModel: MVM.init(appModel.shiftModel,
-                                         appModel.shortcutModel,
-                                         appModel.windowModel))
+            MenuView(viewModel: SAM.MVM(appModel.shiftModel,
+                                        appModel.shortcutModel,
+                                        appModel.windowModel))
             .environment(\.displayScale, 2.0)
         } label: {
             Image(.statusIcon)

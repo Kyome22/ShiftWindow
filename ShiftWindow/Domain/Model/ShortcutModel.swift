@@ -27,13 +27,15 @@ protocol ShortcutModel: AnyObject {
     var fadeOutPanelPublisher: AnyPublisher<Void, Never> { get }
     var patternsPublisher: AnyPublisher<[ShiftPattern], Never> { get }
 
+    init(_ userDefaultsRepository: UserDefaultsRepository,
+         _ shiftModel: ShiftModel)
+
     func initializeShortcuts()
     func updateShortcut(id: String, keyCombo: KeyCombination)
     func removeShortcut(id: String)
 }
 
-final class ShortcutModelImpl<UR: UserDefaultsRepository,
-                              SM: ShiftModel>: ShortcutModel {
+final class ShortcutModelImpl: ShortcutModel {
     private let showPanelSubject = PassthroughSubject<String, Never>()
     var showPanelPublisher: AnyPublisher<String, Never> {
         return showPanelSubject.eraseToAnyPublisher()
@@ -47,10 +49,13 @@ final class ShortcutModelImpl<UR: UserDefaultsRepository,
         return patternsSubject.eraseToAnyPublisher()
     }
 
-    private let userDefaultsRepository: UR
-    private let shiftModel: SM
+    private let userDefaultsRepository: UserDefaultsRepository
+    private let shiftModel: ShiftModel
 
-    init(_ userDefaultsRepository: UR, _ shiftModel: SM) {
+    init(
+        _ userDefaultsRepository: UserDefaultsRepository,
+        _ shiftModel: ShiftModel
+    ) {
         self.userDefaultsRepository = userDefaultsRepository
         self.shiftModel = shiftModel
         self.patternsSubject.value = userDefaultsRepository.patterns
@@ -111,6 +116,10 @@ extension PreviewMock {
         var patternsPublisher: AnyPublisher<[ShiftPattern], Never> {
             Just([]).eraseToAnyPublisher()
         }
+
+        init(_ userDefaultsRepository: UserDefaultsRepository,
+             _ shiftModel: ShiftModel) {}
+        init() {}
 
         func initializeShortcuts() {}
         func updateShortcut(id: String, keyCombo: KeyCombination) {}

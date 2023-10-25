@@ -21,11 +21,7 @@
 import SwiftUI
 
 struct MenuView<MVM: MenuViewModel>: View {
-    @StateObject private var viewModel: MVM
-
-    init(viewModel: @autoclosure @escaping () -> MVM) {
-        _viewModel = StateObject(wrappedValue: viewModel())
-    }
+    @StateObject var viewModel: MVM
 
     var body: some View {
         VStack {

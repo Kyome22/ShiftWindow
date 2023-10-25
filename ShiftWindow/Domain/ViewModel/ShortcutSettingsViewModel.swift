@@ -33,23 +33,22 @@ protocol ShortcutSettingsViewModel: ObservableObject {
     func removeShortcut(id: String)
 }
 
-final class ShortcutSettingsViewModelImpl<UR: UserDefaultsRepository,
-                                          SCM: ShortcutModel>: ShortcutSettingsViewModel {
+final class ShortcutSettingsViewModelImpl: ShortcutSettingsViewModel {
     @Published var patterns: [ShiftPattern]
     @Published var showShortcutPanel: Bool {
         didSet { userDefaultsRepository.showShortcutPanel = showShortcutPanel }
     }
 
-    private let userDefaultsRepository: UR
-    private let shortcutModel: SCM
+    private let userDefaultsRepository: UserDefaultsRepository
+    private let shortcutModel: ShortcutModel
     private var cancellables = Set<AnyCancellable>()
 
     init(
         _ userDefaultsRepository: UserDefaultsRepository,
         _ shortcutModel: ShortcutModel
     ) {
-        self.userDefaultsRepository = userDefaultsRepository as! UR
-        self.shortcutModel = shortcutModel as! SCM
+        self.userDefaultsRepository = userDefaultsRepository
+        self.shortcutModel = shortcutModel
         patterns =  userDefaultsRepository.patterns
         showShortcutPanel = userDefaultsRepository.showShortcutPanel
         shortcutModel.patternsPublisher

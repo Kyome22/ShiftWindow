@@ -28,7 +28,7 @@ protocol GeneralSettingsViewModel: ObservableObject {
     func openSystemPreferences()
 }
 
-final class GeneralSettingsViewModelImpl<LR: LaunchAtLoginRepository>: GeneralSettingsViewModel {
+final class GeneralSettingsViewModelImpl: GeneralSettingsViewModel {
     @Published var launchAtLogin: Bool {
         didSet {
             launchAtLoginRepository.switchRegistration(launchAtLogin) { [weak self] in
@@ -36,10 +36,10 @@ final class GeneralSettingsViewModelImpl<LR: LaunchAtLoginRepository>: GeneralSe
             }
         }
     }
-    private let launchAtLoginRepository: LR
+    private let launchAtLoginRepository: LaunchAtLoginRepository
 
     init(_ launchAtLoginRepository: LaunchAtLoginRepository) {
-        self.launchAtLoginRepository = launchAtLoginRepository as! LR
+        self.launchAtLoginRepository = launchAtLoginRepository
         launchAtLogin = launchAtLoginRepository.current
     }
 

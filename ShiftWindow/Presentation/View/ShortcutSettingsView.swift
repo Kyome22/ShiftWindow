@@ -22,11 +22,7 @@ import SwiftUI
 import SpiceKey
 
 struct ShortcutSettingsView<SVM: ShortcutSettingsViewModel>: View {
-    @StateObject private var viewModel: SVM
-
-    init(viewModel: @autoclosure @escaping () -> SVM) {
-        _viewModel = StateObject(wrappedValue: viewModel())
-    }
+    @StateObject var viewModel: SVM
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {

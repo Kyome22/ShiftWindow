@@ -36,9 +36,6 @@ struct ShiftPattern: Codable, Identifiable {
     var titleKey: LocalizedStringKey {
         return shiftType.titleKey
     }
-    var title: String {
-        return shiftType.id.localized
-    }
     var imageResource: ImageResource {
         return shiftType.imageResource
     }

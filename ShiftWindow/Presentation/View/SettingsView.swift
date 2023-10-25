@@ -20,20 +20,18 @@
 
 import SwiftUI
 
-struct SettingsView<SAM: ShiftWindowAppModel,
-                    GVM: GeneralSettingsViewModel,
-                    SVM: ShortcutSettingsViewModel>: View {
+struct SettingsView<SAM: ShiftWindowAppModel>: View {
     @EnvironmentObject private var appModel: SAM
 
     var body: some View {
         TabView(selection: $appModel.settingsTab) {
-            GeneralSettingsView(viewModel: GVM.init(appModel.launchAtLoginRepository))
+            GeneralSettingsView(viewModel: SAM.GVM(appModel.launchAtLoginRepository))
                 .tabItem {
                     Label("general", systemImage: "gear")
                 }
                 .tag(SettingsTabType.general)
-            ShortcutSettingsView(viewModel: SVM.init(appModel.userDefaultsRepository,
-                                                     appModel.shortcutModel))
+            ShortcutSettingsView(viewModel: SAM.SVM(appModel.userDefaultsRepository,
+                                                    appModel.shortcutModel))
             .tabItem {
                 Label("shortcut", systemImage: "command")
             }
@@ -46,8 +44,6 @@ struct SettingsView<SAM: ShiftWindowAppModel,
 }
 
 #Preview {
-    SettingsView<PreviewMock.ShiftWindowAppModelMock,
-                 PreviewMock.GeneralSettingsViewModelMock,
-                 PreviewMock.ShortcutSettingsViewModelMock>()
+    SettingsView<PreviewMock.ShiftWindowAppModelMock>()
         .environmentObject(PreviewMock.ShiftWindowAppModelMock())
 }
