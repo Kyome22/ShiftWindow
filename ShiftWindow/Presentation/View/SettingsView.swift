@@ -25,13 +25,15 @@ struct SettingsView<SAM: ShiftWindowAppModel>: View {
 
     var body: some View {
         TabView(selection: $appModel.settingsTab) {
-            GeneralSettingsView(viewModel: SAM.GVM(appModel.launchAtLoginRepository))
+            GeneralSettingsView(viewModel: SAM.GVM())
                 .tabItem {
                     Label("general", systemImage: "gear")
                 }
                 .tag(SettingsTabType.general)
-            ShortcutSettingsView(viewModel: SAM.SVM(appModel.userDefaultsRepository,
-                                                    appModel.shortcutModel))
+            ShortcutSettingsView(
+                viewModel: SAM.SVM(appModel.userDefaultsRepository,
+                                   appModel.shortcutModel)
+            )
             .tabItem {
                 Label("shortcut", systemImage: "command")
             }

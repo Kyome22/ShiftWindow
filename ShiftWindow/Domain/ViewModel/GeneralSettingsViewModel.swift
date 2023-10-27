@@ -23,12 +23,12 @@ import AppKit
 protocol GeneralSettingsViewModel: ObservableObject {
     var launchAtLogin: Bool { get set }
 
-    init(_ launchAtLoginRepository: LaunchAtLoginRepository)
+    init()
 
     func openSystemPreferences()
 }
 
-final class GeneralSettingsViewModelImpl: GeneralSettingsViewModel {
+final class GeneralSettingsViewModelImpl<LR: LaunchAtLoginRepository>: GeneralSettingsViewModel {
     @Published var launchAtLogin: Bool {
         didSet {
             launchAtLoginRepository.switchRegistration(launchAtLogin) { [weak self] in
@@ -36,10 +36,10 @@ final class GeneralSettingsViewModelImpl: GeneralSettingsViewModel {
             }
         }
     }
-    private let launchAtLoginRepository: LaunchAtLoginRepository
+    private let launchAtLoginRepository: LR
 
-    init(_ launchAtLoginRepository: LaunchAtLoginRepository) {
-        self.launchAtLoginRepository = launchAtLoginRepository
+    init() {
+        self.launchAtLoginRepository = LR()
         launchAtLogin = launchAtLoginRepository.current
     }
 
@@ -54,7 +54,6 @@ extension PreviewMock {
     final class GeneralSettingsViewModelMock: GeneralSettingsViewModel {
         @Published var launchAtLogin: Bool = false
 
-        init(_ launchAtLoginRepository: LaunchAtLoginRepository) {}
         init() {}
 
         func openSystemPreferences() {}

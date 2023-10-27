@@ -24,7 +24,6 @@ import SpiceKey
 
 protocol ShiftWindowAppModel: ObservableObject {
     associatedtype UR: UserDefaultsRepository
-    associatedtype LR: LaunchAtLoginRepository
     associatedtype SM: ShiftModel
     associatedtype SCM: ShortcutModel
     associatedtype WM: WindowModel
@@ -34,7 +33,6 @@ protocol ShiftWindowAppModel: ObservableObject {
 
     var settingsTab: SettingsTabType { get set }
     var userDefaultsRepository: UR { get }
-    var launchAtLoginRepository: LR { get }
     var shiftModel: SM { get }
     var shortcutModel: SCM { get }
     var windowModel: WM { get }
@@ -42,18 +40,16 @@ protocol ShiftWindowAppModel: ObservableObject {
 
 final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
     typealias UR = UserDefaultsRepositoryImpl
-    typealias LR = LaunchAtLoginRepositoryImpl
     typealias SM = ShiftModelImpl
     typealias SCM = ShortcutModelImpl
     typealias WM = WindowModelImpl
     typealias MVM = MenuViewModelImpl
-    typealias GVM = GeneralSettingsViewModelImpl
+    typealias GVM = GeneralSettingsViewModelImpl<LaunchAtLoginRepositoryImpl>
     typealias SVM = ShortcutSettingsViewModelImpl
 
     @Published var settingsTab: SettingsTabType = .general
 
     let userDefaultsRepository: UR
-    let launchAtLoginRepository: LR
     let shiftModel: SM
     let shortcutModel: SCM
     let windowModel: WM
@@ -61,7 +57,6 @@ final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
 
     override init() {
         userDefaultsRepository = UR()
-        launchAtLoginRepository = LR()
         shiftModel = SM()
         shortcutModel = SCM(userDefaultsRepository, shiftModel)
         windowModel = WM(userDefaultsRepository, shortcutModel)
@@ -91,7 +86,6 @@ final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
 extension PreviewMock {
     final class ShiftWindowAppModelMock: ShiftWindowAppModel {
         typealias UR = UserDefaultsRepositoryMock
-        typealias LR = LaunchAtLoginRepositoryMock
         typealias SM = ShiftModelMock
         typealias SCM = ShortcutModelMock
         typealias WM = WindowModelMock
@@ -101,7 +95,6 @@ extension PreviewMock {
 
         @Published var settingsTab: SettingsTabType = .general
         let userDefaultsRepository = UR()
-        let launchAtLoginRepository = LR()
         let shiftModel = SM()
         let shortcutModel = SCM()
         let windowModel = WM()
