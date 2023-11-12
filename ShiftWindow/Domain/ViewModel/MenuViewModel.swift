@@ -57,6 +57,7 @@ final class MenuViewModelImpl: MenuViewModel {
             }
             .store(in: &cancellables)
 
+        hideIcons = checkIconsVisible()
         _hideIcons.projectedValue
             .dropFirst()
             .sink { [weak self] value in
@@ -66,9 +67,7 @@ final class MenuViewModelImpl: MenuViewModel {
 
         NotificationCenter.default.publisher(for: NSApplication.willTerminateNotification)
             .sink { [weak self] _ in
-                if let self, hideIcons {
-                    toggleIconsVisible(false)
-                }
+                self?.toggleIconsVisible(false)
             }
             .store(in: &cancellables)
     }
@@ -77,13 +76,41 @@ final class MenuViewModelImpl: MenuViewModel {
         shiftModel.shiftWindow(shiftType: shiftType)
     }
 
-    private func toggleIconsVisible(_ hideIcons: Bool) {
-        let args: String = hideIcons ? .createDesktopFalse : .createDesktopTrue
+    private func checkIconsVisible() -> Bool {
         let shell = Process()
+        let pipe = Pipe()
         shell.launchPath = "/bin/sh"
-        shell.arguments = ["-c", args]
-        shell.launch()
-        shell.waitUntilExit()
+        shell.arguments = ["-c", .createDesktopRead]
+        shell.standardOutput = pipe
+        do {
+            try shell.run()
+            shell.waitUntilExit()
+            if shell.terminationStatus == 0,
+               let data = try pipe.fileHandleForReading.readToEnd(),
+               let str = String(data: data, encoding: .utf8),
+               str.trimmingCharacters(in: .newlines) == "0" {
+                return true
+            }
+        } catch {
+            logput(error.localizedDescription)
+        }
+        return false
+    }
+
+    private func toggleIconsVisible(_ hideIcons: Bool) {
+        // It needs to be other than the main thread in order for reflecting Toggle check mark.
+        Task {
+            let args: String = hideIcons ? .createDesktopWriteFalse : .createDesktopDelete
+            let shell = Process()
+            shell.launchPath = "/bin/sh"
+            shell.arguments = ["-c", args]
+            do {
+                try shell.run()
+                shell.waitUntilExit()
+            } catch {
+                logput(error.localizedDescription)
+            }
+        }
     }
 
     func openSettings() {
@@ -111,8 +138,6 @@ extension PreviewMock {
         init() {}
 
         func shiftWindow(shiftType: ShiftType) {}
-        func toggleIconsVisible() {}
-        func resetIconsVisible() {}
         func openSettings() {}
         func openAbout() {}
         func terminateApp() {}

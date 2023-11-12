@@ -21,6 +21,7 @@
 import Foundation
 
 extension String {
-    static let createDesktopTrue = "defaults delete com.apple.finder CreateDesktop; killall Finder"
-    static let createDesktopFalse = "defaults write com.apple.finder CreateDesktop -bool FALSE; killall Finder"
+    static let createDesktopRead = "defaults read com.apple.finder CreateDesktop"
+    static let createDesktopDelete = "defaults delete com.apple.finder CreateDesktop; killall Finder"
+    static let createDesktopWriteFalse = "defaults write com.apple.finder CreateDesktop -bool FALSE; killall Finder"
 }
