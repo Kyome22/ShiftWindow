@@ -82,7 +82,6 @@ struct MenuView<MVM: MenuViewModel>: View {
     }
 }
 
-
 #Preview {
     MenuView(viewModel: PreviewMock.MenuViewModelMock())
 }

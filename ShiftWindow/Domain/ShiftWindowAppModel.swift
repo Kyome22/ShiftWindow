@@ -25,7 +25,7 @@ import SpiceKey
 protocol ShiftWindowAppModel: ObservableObject {
     associatedtype UR: UserDefaultsRepository
     associatedtype SM: ShiftModel
-    associatedtype SCM: ShortcutModel
+    associatedtype ScM: ShortcutModel
     associatedtype WM: WindowModel
     associatedtype MVM: MenuViewModel
     associatedtype GVM: GeneralSettingsViewModel
@@ -34,14 +34,14 @@ protocol ShiftWindowAppModel: ObservableObject {
     var settingsTab: SettingsTabType { get set }
     var userDefaultsRepository: UR { get }
     var shiftModel: SM { get }
-    var shortcutModel: SCM { get }
+    var shortcutModel: ScM { get }
     var windowModel: WM { get }
 }
 
-final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
+final class ShiftWindowAppModelImpl: ShiftWindowAppModel {
     typealias UR = UserDefaultsRepositoryImpl
     typealias SM = ShiftModelImpl
-    typealias SCM = ShortcutModelImpl
+    typealias ScM = ShortcutModelImpl
     typealias WM = WindowModelImpl
     typealias MVM = MenuViewModelImpl
     typealias GVM = GeneralSettingsViewModelImpl<LaunchAtLoginRepositoryImpl>
@@ -51,16 +51,15 @@ final class ShiftWindowAppModelImpl: NSObject, ShiftWindowAppModel {
 
     let userDefaultsRepository: UR
     let shiftModel: SM
-    let shortcutModel: SCM
+    let shortcutModel: ScM
     let windowModel: WM
     private var cancellables = Set<AnyCancellable>()
 
-    override init() {
+    init() {
         userDefaultsRepository = UR()
         shiftModel = SM()
-        shortcutModel = SCM(userDefaultsRepository, shiftModel)
+        shortcutModel = ScM(userDefaultsRepository, shiftModel)
         windowModel = WM(userDefaultsRepository, shortcutModel)
-        super.init()
 
         NotificationCenter.default.publisher(for: NSApplication.didFinishLaunchingNotification)
             .sink { [weak self] _ in
@@ -87,7 +86,7 @@ extension PreviewMock {
     final class ShiftWindowAppModelMock: ShiftWindowAppModel {
         typealias UR = UserDefaultsRepositoryMock
         typealias SM = ShiftModelMock
-        typealias SCM = ShortcutModelMock
+        typealias ScM = ShortcutModelMock
         typealias WM = WindowModelMock
         typealias MVM = MenuViewModelMock
         typealias GVM = GeneralSettingsViewModelMock
@@ -96,7 +95,7 @@ extension PreviewMock {
         @Published var settingsTab: SettingsTabType = .general
         let userDefaultsRepository = UR()
         let shiftModel = SM()
-        let shortcutModel = SCM()
+        let shortcutModel = ScM()
         let windowModel = WM()
     }
 }
