@@ -35,16 +35,16 @@ enum ShiftType: Int, Codable, Identifiable, CaseIterable {
     
     var id: String {
         switch self {
-        case .topHalf:        return "shiftTopHalf"
-        case .bottomHalf:     return "shiftBottomHalf"
-        case .leftHalf:       return "shiftLeftHalf"
-        case .rightHalf:      return "shiftRighthalf"
-        case .leftThird:      return "shiftLeftThird"
-        case .leftTwoThirds:  return "shiftLeftTwoThirds"
-        case .middleThird:    return "shiftMiddleThird"
-        case .rightTwoThirds: return "shiftRightThirds"
-        case .rightThird:     return "shiftRightThird"
-        case .maximize:       return "shiftMaximize"
+        case .topHalf:        "shiftTopHalf"
+        case .bottomHalf:     "shiftBottomHalf"
+        case .leftHalf:       "shiftLeftHalf"
+        case .rightHalf:      "shiftRighthalf"
+        case .leftThird:      "shiftLeftThird"
+        case .leftTwoThirds:  "shiftLeftTwoThirds"
+        case .middleThird:    "shiftMiddleThird"
+        case .rightTwoThirds: "shiftRightThirds"
+        case .rightThird:     "shiftRightThird"
+        case .maximize:       "shiftMaximize"
         }
     }
     
@@ -54,16 +54,16 @@ enum ShiftType: Int, Codable, Identifiable, CaseIterable {
 
     var imageResource: ImageResource {
         switch self {
-        case .topHalf:        return .windowTopHalf
-        case .bottomHalf:     return .windowBottomHalf
-        case .leftHalf:       return .windowLeftHalf
-        case .rightHalf:      return .windowRightHalf
-        case .leftThird:      return .windowLeftThird
-        case .leftTwoThirds:  return .windowLeftTwoThirds
-        case .middleThird:    return .windowMiddleThird
-        case .rightTwoThirds: return .windowRightTwoThirds
-        case .rightThird:     return .windowRightThird
-        case .maximize:       return .windowMaximize
+        case .topHalf:        .windowTopHalf
+        case .bottomHalf:     .windowBottomHalf
+        case .leftHalf:       .windowLeftHalf
+        case .rightHalf:      .windowRightHalf
+        case .leftThird:      .windowLeftThird
+        case .leftTwoThirds:  .windowLeftTwoThirds
+        case .middleThird:    .windowMiddleThird
+        case .rightTwoThirds: .windowRightTwoThirds
+        case .rightThird:     .windowRightThird
+        case .maximize:       .windowMaximize
         }
     }
 }

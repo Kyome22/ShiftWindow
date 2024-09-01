@@ -31,7 +31,7 @@ protocol LaunchAtLoginRepository: AnyObject {
 
 final class LaunchAtLoginRepositoryImpl: LaunchAtLoginRepository {
     var current: Bool {
-        return SMAppService.mainApp.status == .enabled
+        SMAppService.mainApp.status == .enabled
     }
 
     func switchRegistration(_ newValue: Bool, failureHandler: @escaping () -> Void) {
