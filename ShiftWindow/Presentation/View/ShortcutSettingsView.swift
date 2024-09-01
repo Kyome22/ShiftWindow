@@ -44,7 +44,7 @@ struct ShortcutSettingsView<SVM: ShortcutSettingsViewModel>: View {
                     }
                 } label: {
                     Label {
-                        Text(pattern.titleKey)
+                        Text(pattern.label)
                     } icon: {
                         Image(pattern.imageResource)
                     }

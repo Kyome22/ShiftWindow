@@ -18,39 +18,29 @@
  limitations under the License.
 */
 
-import Foundation
-import Combine
+import AsyncAlgorithms
+@preconcurrency import Combine
 import SpiceKey
 
-protocol ShortcutModel: AnyObject {
-    var showPanelPublisher: AnyPublisher<String, Never> { get }
-    var fadeOutPanelPublisher: AnyPublisher<Void, Never> { get }
-    var patternsPublisher: AnyPublisher<[ShiftPattern], Never> { get }
+protocol ShortcutModel: AnyObject, Sendable {
+    var showPanelChannel: AsyncChannel<String> { get }
+    var fadeOutPanelChannel: AsyncChannel<Void> { get }
 
     init(_ userDefaultsRepository: UserDefaultsRepository,
          _ shiftModel: ShiftModel)
 
+    func patternsStream() -> AsyncStream<[ShiftPattern]>
     func initializeShortcuts()
     func updateShortcut(id: String, keyCombo: KeyCombination)
     func removeShortcut(id: String)
 }
 
 final class ShortcutModelImpl: ShortcutModel {
-    private let showPanelSubject = PassthroughSubject<String, Never>()
-    var showPanelPublisher: AnyPublisher<String, Never> {
-        return showPanelSubject.eraseToAnyPublisher()
-    }
-    private let fadeOutPanelSubject = PassthroughSubject<Void, Never>()
-    var fadeOutPanelPublisher: AnyPublisher<Void, Never> {
-        return fadeOutPanelSubject.eraseToAnyPublisher()
-    }
-    private let patternsSubject = CurrentValueSubject<[ShiftPattern], Never>([])
-    var patternsPublisher: AnyPublisher<[ShiftPattern], Never> {
-        return patternsSubject.eraseToAnyPublisher()
-    }
-
-    private let userDefaultsRepository: UserDefaultsRepository
-    private let shiftModel: ShiftModel
+    let showPanelChannel = AsyncChannel<String>()
+    let fadeOutPanelChannel = AsyncChannel<Void>()
+    private let patternsSubject: CurrentValueSubject<[ShiftPattern], Never>
+    private let userDefaultsRepository: any UserDefaultsRepository
+    private let shiftModel: any ShiftModel
 
     init(
         _ userDefaultsRepository: UserDefaultsRepository,
@@ -58,17 +48,32 @@ final class ShortcutModelImpl: ShortcutModel {
     ) {
         self.userDefaultsRepository = userDefaultsRepository
         self.shiftModel = shiftModel
-        self.patternsSubject.value = userDefaultsRepository.patterns
+        self.patternsSubject = .init(userDefaultsRepository.patterns)
+    }
+
+    func patternsStream() -> AsyncStream<[ShiftPattern]> {
+        AsyncStream { continuation in
+            let cancellable = patternsSubject.sink { value in
+                continuation.yield(value)
+            }
+            continuation.onTermination = { _ in
+                cancellable.cancel()
+            }
+        }
     }
 
     func initializeShortcuts() {
         patternsSubject.value.forEach { pattern in
             guard let keyCombo = pattern.spiceKeyData?.keyCombination else { return }
             let spiceKey = SpiceKey(keyCombo) { [weak self] in
-                self?.showPanelSubject.send(keyCombo.string)
-                self?.shiftModel.shiftWindow(shiftType: pattern.shiftType)
+                guard let self else { return }
+                await self.showPanelChannel.send(keyCombo.string)
+                await MainActor.run {
+                    self.shiftModel.shiftWindow(shiftType: pattern.shiftType)
+                }
             } keyUpHandler: { [weak self] in
-                self?.fadeOutPanelSubject.send(())
+                guard let self else { return }
+                await self.fadeOutPanelChannel.send(())
             }
             spiceKey.register()
             pattern.spiceKeyData?.spiceKey = spiceKey
@@ -76,23 +81,29 @@ final class ShortcutModelImpl: ShortcutModel {
     }
 
     private func getIndex(id: String) -> Int? {
-        return patternsSubject.value.firstIndex(where: { $0.shiftType.id == id })
+        patternsSubject.value.firstIndex(where: { $0.shiftType.id == id })
     }
 
     func updateShortcut(id: String, keyCombo: KeyCombination) {
         guard let index = getIndex(id: id) else { return }
         let pattern = patternsSubject.value[index]
         let spiceKey = SpiceKey(keyCombo) { [weak self] in
-            self?.showPanelSubject.send(keyCombo.string)
-            self?.shiftModel.shiftWindow(shiftType: pattern.shiftType)
+            guard let self else { return }
+            Task {
+                await self.showPanelChannel.send(keyCombo.string)
+                await MainActor.run {
+                    self.shiftModel.shiftWindow(shiftType: pattern.shiftType)
+                }
+            }
         } keyUpHandler: { [weak self] in
-            self?.fadeOutPanelSubject.send(())
+            guard let self else { return }
+            Task {
+                await self.fadeOutPanelChannel.send(())
+            }
         }
         spiceKey.register()
-        patternsSubject.value[index].spiceKeyData = SpiceKeyData(id,
-                                                                 keyCombo.key,
-                                                                 keyCombo.modifierFlags,
-                                                                 spiceKey)
+        let spiceKeyData = SpiceKeyData(id, keyCombo.key, keyCombo.modifierFlags, spiceKey)
+        patternsSubject.value[index].spiceKeyData = spiceKeyData
         userDefaultsRepository.patterns = patternsSubject.value
     }
 
@@ -107,20 +118,14 @@ final class ShortcutModelImpl: ShortcutModel {
 // MARK: - Preview Mock
 extension PreviewMock {
     final class ShortcutModelMock: ShortcutModel {
-        var showPanelPublisher: AnyPublisher<String, Never> {
-            Just("").eraseToAnyPublisher()
-        }
-        var fadeOutPanelPublisher: AnyPublisher<Void, Never> {
-            Just(()).eraseToAnyPublisher()
-        }
-        var patternsPublisher: AnyPublisher<[ShiftPattern], Never> {
-            Just([]).eraseToAnyPublisher()
-        }
+        let showPanelChannel = AsyncChannel<String>()
+        let fadeOutPanelChannel = AsyncChannel<Void>()
 
         init(_ userDefaultsRepository: UserDefaultsRepository,
              _ shiftModel: ShiftModel) {}
         init() {}
 
+        func patternsStream() -> AsyncStream<[ShiftPattern]> { AsyncStream(unfolding: { nil }) }
         func initializeShortcuts() {}
         func updateShortcut(id: String, keyCombo: KeyCombination) {}
         func removeShortcut(id: String) {}

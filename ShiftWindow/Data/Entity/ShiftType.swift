@@ -33,8 +33,10 @@ enum ShiftType: Int, Codable, Identifiable, CaseIterable {
     case rightThird
     case maximize
     
-    var id: String {
-        switch self {
+    var id: String { String(describing: self) }
+
+    var label: String {
+        let localizationValue: String.LocalizationValue = switch self {
         case .topHalf:        "shiftTopHalf"
         case .bottomHalf:     "shiftBottomHalf"
         case .leftHalf:       "shiftLeftHalf"
@@ -46,10 +48,7 @@ enum ShiftType: Int, Codable, Identifiable, CaseIterable {
         case .rightThird:     "shiftRightThird"
         case .maximize:       "shiftMaximize"
         }
-    }
-    
-    var titleKey: LocalizedStringKey {
-        return LocalizedStringKey(id)
+        return String(localized: localizationValue)
     }
 
     var imageResource: ImageResource {

@@ -23,7 +23,7 @@ import ApplicationServices
 
 fileprivate let kAXFullScreen = "AXFullScreen"
 
-protocol ShiftModel {
+@MainActor protocol ShiftModel: Sendable {
     func shiftWindow(shiftType: ShiftType)
 }
 

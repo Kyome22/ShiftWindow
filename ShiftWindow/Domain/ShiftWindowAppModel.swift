@@ -19,10 +19,11 @@
 */
 
 import AppKit
+@preconcurrency import ApplicationServices
 import Combine
 import SpiceKey
 
-protocol ShiftWindowAppModel: ObservableObject {
+@MainActor protocol ShiftWindowAppModel: ObservableObject {
     associatedtype UR: UserDefaultsRepository
     associatedtype SM: ShiftModel
     associatedtype ScM: ShortcutModel
@@ -43,7 +44,8 @@ final class ShiftWindowAppModelImpl: ShiftWindowAppModel {
     typealias SM = ShiftModelImpl
     typealias ScM = ShortcutModelImpl
     typealias WM = WindowModelImpl
-    typealias MVM = MenuViewModelImpl
+    typealias EM = ExecuteModelImpl
+    typealias MVM = MenuViewModelImpl<ExecuteModelImpl>
     typealias GVM = GeneralSettingsViewModelImpl<LaunchAtLoginRepositoryImpl>
     typealias SVM = ShortcutSettingsViewModelImpl
 
@@ -61,22 +63,27 @@ final class ShiftWindowAppModelImpl: ShiftWindowAppModel {
         shortcutModel = ScM(userDefaultsRepository, shiftModel)
         windowModel = WM(userDefaultsRepository, shortcutModel)
 
-        NotificationCenter.default.publisher(for: NSApplication.didFinishLaunchingNotification)
+        NotificationCenter.default
+            .publisher(for: NSApplication.didFinishLaunchingNotification)
             .sink { [weak self] _ in
-                self?.applicationDidFinishLaunching()
+                self?.shortcutModel.initializeShortcuts()
+                self?.checkPermissionAllowed()
+            }
+            .store(in: &cancellables)
+
+        NotificationCenter.default
+            .publisher(for: NSApplication.willTerminateNotification)
+            .sink { _ in
+                if EM.checkIconsVisible() {
+                    EM.toggleIconsVisible(false)
+                }
             }
             .store(in: &cancellables)
     }
 
-    private func applicationDidFinishLaunching() {
-        shortcutModel.initializeShortcuts()
-        checkPermissionAllowed()
-    }
-
     @discardableResult
-    private func checkPermissionAllowed() -> Bool {
-        let key = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as NSString
-        let options: NSDictionary = [key: true]
+    private  func checkPermissionAllowed() -> Bool {
+        let options = [kAXTrustedCheckOptionPrompt.takeRetainedValue(): true] as CFDictionary
         return AXIsProcessTrustedWithOptions(options)
     }
 }
@@ -93,6 +100,7 @@ extension PreviewMock {
         typealias SVM = ShortcutSettingsViewModelMock
 
         @Published var settingsTab: SettingsTabType = .general
+
         let userDefaultsRepository = UR()
         let shiftModel = SM()
         let shortcutModel = ScM()

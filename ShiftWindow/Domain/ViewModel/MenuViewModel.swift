@@ -20,9 +20,8 @@
 
 import AppKit
 import SwiftUI
-import Combine
 
-protocol MenuViewModel: ObservableObject {
+@MainActor protocol MenuViewModel: ObservableObject {
     var patterns: [ShiftPattern] { get set }
     var hideIcons: Bool { get set }
 
@@ -31,18 +30,22 @@ protocol MenuViewModel: ObservableObject {
          _ windowModel: WindowModel)
 
     func shiftWindow(shiftType: ShiftType)
-    func openSettings()
+    func activateApp()
     func openAbout()
     func terminateApp()
 }
 
-final class MenuViewModelImpl: MenuViewModel {
+final class MenuViewModelImpl<EM: ExecuteModel>: MenuViewModel {
     @Published var patterns = [ShiftPattern]()
-    @Published var hideIcons: Bool = false
+    @Published var hideIcons: Bool {
+        didSet {
+            EM.toggleIconsVisible(hideIcons)
+        }
+    }
 
     private let shiftModel: ShiftModel
     private let windowModel: WindowModel
-    private var cancellables = Set<AnyCancellable>()
+    private var task: Task<Void, Never>?
 
     init(
         _ shiftModel: ShiftModel,
@@ -51,70 +54,25 @@ final class MenuViewModelImpl: MenuViewModel {
     ) {
         self.shiftModel = shiftModel
         self.windowModel = windowModel
-        shortcutModel.patternsPublisher
-            .sink { [weak self] patterns in
-                self?.patterns = patterns
-            }
-            .store(in: &cancellables)
+        self.hideIcons = EM.checkIconsVisible()
 
-        hideIcons = checkIconsVisible()
-        _hideIcons.projectedValue
-            .dropFirst()
-            .sink { [weak self] value in
-                self?.toggleIconsVisible(value)
+        task = Task {
+            for await patterns in shortcutModel.patternsStream() {
+                self.patterns = patterns
             }
-            .store(in: &cancellables)
+        }
+    }
 
-        NotificationCenter.default.publisher(for: NSApplication.willTerminateNotification)
-            .sink { [weak self] _ in
-                self?.toggleIconsVisible(false)
-            }
-            .store(in: &cancellables)
+    deinit {
+        task?.cancel()
     }
 
     func shiftWindow(shiftType: ShiftType) {
         shiftModel.shiftWindow(shiftType: shiftType)
     }
 
-    private func checkIconsVisible() -> Bool {
-        let shell = Process()
-        let pipe = Pipe()
-        shell.launchPath = "/bin/sh"
-        shell.arguments = ["-c", .createDesktopRead]
-        shell.standardOutput = pipe
-        do {
-            try shell.run()
-            shell.waitUntilExit()
-            if shell.terminationStatus == 0,
-               let data = try pipe.fileHandleForReading.readToEnd(),
-               let str = String(data: data, encoding: .utf8),
-               str.trimmingCharacters(in: .newlines) == "0" {
-                return true
-            }
-        } catch {
-            logput(error.localizedDescription)
-        }
-        return false
-    }
-
-    private func toggleIconsVisible(_ hideIcons: Bool) {
-        // It needs to be other than the main thread in order for reflecting Toggle check mark.
-        Task {
-            let args: String = hideIcons ? .createDesktopWriteFalse : .createDesktopDelete
-            let shell = Process()
-            shell.launchPath = "/bin/sh"
-            shell.arguments = ["-c", args]
-            do {
-                try shell.run()
-                shell.waitUntilExit()
-            } catch {
-                logput(error.localizedDescription)
-            }
-        }
-    }
-
-    func openSettings() {
-        windowModel.openSettings()
+    func activateApp() {
+        NSApp.activate(ignoringOtherApps: true)
     }
 
     func openAbout() {
@@ -138,7 +96,7 @@ extension PreviewMock {
         init() {}
 
         func shiftWindow(shiftType: ShiftType) {}
-        func openSettings() {}
+        func activateApp() {}
         func openAbout() {}
         func terminateApp() {}
     }

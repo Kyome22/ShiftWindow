@@ -305,22 +305,6 @@
         }
       }
     },
-    "shiftWindow" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ShiftWindow"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ShiftWindow"
-          }
-        }
-      }
-    },
     "shortcut" : {
       "localizations" : {
         "en" : {

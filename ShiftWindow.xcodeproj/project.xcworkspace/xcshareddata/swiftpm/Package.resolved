@@ -1,13 +1,31 @@
 {
-  "originHash" : "3e417c196ca5eb18a6cf27f545860d94d16f8fdf34b64a6ff26ea46723ffd6be",
+  "originHash" : "b08d6c283a39eb80f291660b88d4e3229f19c2d3813f94543888428d8261e9ee",
   "pins" : [
     {
       "identity" : "spicekey",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Kyome22/SpiceKey.git",
       "state" : {
-        "revision" : "246e9bdee634e6113c17e47e9184c8f61279718f",
-        "version" : "5.3.0"
+        "revision" : "2de004fd950f9e399e10591e20aeae83fcc6d22d",
+        "version" : "5.4.1"
+      }
+    },
+    {
+      "identity" : "swift-async-algorithms",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-async-algorithms.git",
+      "state" : {
+        "revision" : "6ae9a051f76b81cc668305ceed5b0e0a7fd93d20",
+        "version" : "1.0.1"
+      }
+    },
+    {
+      "identity" : "swift-collections",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-collections.git",
+      "state" : {
+        "revision" : "9bf03ff58ce34478e66aaee630e491823326fd06",
+        "version" : "1.1.3"
       }
     }
   ],

@@ -12,6 +12,9 @@
 		1C1461D626BC1629006442F5 /* ShortcutPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1461D526BC1629006442F5 /* ShortcutPanel.swift */; };
 		1C80700E2880684900A12D56 /* ShortcutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C80700D2880684900A12D56 /* ShortcutView.swift */; };
 		1C8070102880713000A12D56 /* ShortcutSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C80700F2880713000A12D56 /* ShortcutSettingsViewModel.swift */; };
+		1CA357832C84488C00E853EC /* PreActionButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA357822C84488C00E853EC /* PreActionButtonStyle.swift */; };
+		1CA357862C844CF600E853EC /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 1CA357852C844CF600E853EC /* AsyncAlgorithms */; };
+		1CA3578A2C84B60800E853EC /* ExecuteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA357892C84B60800E853EC /* ExecuteModel.swift */; };
 		1CAB3F162AE7E7CC00BE23F0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 1CAB3F152AE7E7CC00BE23F0 /* Localizable.xcstrings */; };
 		1CAB3F182AE7EE7F00BE23F0 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAB3F172AE7EE7F00BE23F0 /* MenuViewModel.swift */; };
 		1CAB3F1A2AE7F26C00BE23F0 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAB3F192AE7F26C00BE23F0 /* MenuView.swift */; };
@@ -54,6 +57,8 @@
 		1C1461D526BC1629006442F5 /* ShortcutPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutPanel.swift; sourceTree = "<group>"; };
 		1C80700D2880684900A12D56 /* ShortcutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutView.swift; sourceTree = "<group>"; };
 		1C80700F2880713000A12D56 /* ShortcutSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutSettingsViewModel.swift; sourceTree = "<group>"; };
+		1CA357822C84488C00E853EC /* PreActionButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreActionButtonStyle.swift; sourceTree = "<group>"; };
+		1CA357892C84B60800E853EC /* ExecuteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecuteModel.swift; sourceTree = "<group>"; };
 		1CAB3F152AE7E7CC00BE23F0 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		1CAB3F172AE7EE7F00BE23F0 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		1CAB3F192AE7F26C00BE23F0 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
@@ -83,6 +88,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C0D29ED26AEFC6900DD0690 /* SpiceKey in Frameworks */,
+				1CA357862C844CF600E853EC /* AsyncAlgorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,6 +153,7 @@
 				1CC92D092869EFBC00D46424 /* ShortcutSettingsView.swift */,
 				1C1461D526BC1629006442F5 /* ShortcutPanel.swift */,
 				1C80700D2880684900A12D56 /* ShortcutView.swift */,
+				1CA357822C84488C00E853EC /* PreActionButtonStyle.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -156,6 +163,7 @@
 			children = (
 				1CF137F726B565CC00E2147E /* ShiftModel.swift */,
 				1CC6C1152980072700D89250 /* ShortcutModel.swift */,
+				1CA357892C84B60800E853EC /* ExecuteModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -229,6 +237,7 @@
 			name = ShiftWindow;
 			packageProductDependencies = (
 				1C0D29EC26AEFC6900DD0690 /* SpiceKey */,
+				1CA357852C844CF600E853EC /* AsyncAlgorithms */,
 			);
 			productName = ShiftWindow;
 			productReference = 1C0D29D626AEFBDA00DD0690 /* ShiftWindow.app */;
@@ -261,6 +270,7 @@
 			mainGroup = 1C0D29CD26AEFBDA00DD0690;
 			packageReferences = (
 				1C0D29EB26AEFC6900DD0690 /* XCRemoteSwiftPackageReference "SpiceKey" */,
+				1CA357842C844CF600E853EC /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 			);
 			productRefGroup = 1C0D29D726AEFBDA00DD0690 /* Products */;
 			projectDirPath = "";
@@ -303,11 +313,13 @@
 				1C80700E2880684900A12D56 /* ShortcutView.swift in Sources */,
 				1CC6C14B2985065500D89250 /* WindowModel.swift in Sources */,
 				1CC92CFF2869ED8200D46424 /* AppKit+Extensions.swift in Sources */,
+				1CA357832C84488C00E853EC /* PreActionButtonStyle.swift in Sources */,
 				1CC6C10E297F6B8000D89250 /* SettingsTabType.swift in Sources */,
 				1CF1380426B5947800E2147E /* ShiftPattern.swift in Sources */,
 				1CC6C10A297F64EE00D89250 /* Utils.swift in Sources */,
 				1CC92CFD2869ED5A00D46424 /* CoreGraphics+Extensions.swift in Sources */,
 				1C1461D626BC1629006442F5 /* ShortcutPanel.swift in Sources */,
+				1CA3578A2C84B60800E853EC /* ExecuteModel.swift in Sources */,
 				1CAB3F182AE7EE7F00BE23F0 /* MenuViewModel.swift in Sources */,
 				1CC92D062869EF3D00D46424 /* SettingsView.swift in Sources */,
 				1C8070102880713000A12D56 /* ShortcutSettingsViewModel.swift in Sources */,
@@ -536,7 +548,15 @@
 			repositoryURL = "https://github.com/Kyome22/SpiceKey.git";
 			requirement = {
 				kind = exactVersion;
-				version = 5.3.0;
+				version = 5.4.1;
+			};
+		};
+		1CA357842C844CF600E853EC /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-async-algorithms.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.0.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -546,6 +566,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1C0D29EB26AEFC6900DD0690 /* XCRemoteSwiftPackageReference "SpiceKey" */;
 			productName = SpiceKey;
+		};
+		1CA357852C844CF600E853EC /* AsyncAlgorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1CA357842C844CF600E853EC /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;
+			productName = AsyncAlgorithms;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

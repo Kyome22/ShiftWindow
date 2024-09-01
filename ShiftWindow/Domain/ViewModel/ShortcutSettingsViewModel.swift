@@ -19,10 +19,9 @@
 */
 
 import Foundation
-import Combine
 import SpiceKey
 
-protocol ShortcutSettingsViewModel: ObservableObject {
+@MainActor protocol ShortcutSettingsViewModel: ObservableObject {
     var patterns: [ShiftPattern] { get set }
     var showShortcutPanel: Bool { get set }
 
@@ -41,7 +40,7 @@ final class ShortcutSettingsViewModelImpl: ShortcutSettingsViewModel {
 
     private let userDefaultsRepository: UserDefaultsRepository
     private let shortcutModel: ShortcutModel
-    private var cancellables = Set<AnyCancellable>()
+    private var task: Task<Void, Never>?
 
     init(
         _ userDefaultsRepository: UserDefaultsRepository,
@@ -51,24 +50,22 @@ final class ShortcutSettingsViewModelImpl: ShortcutSettingsViewModel {
         self.shortcutModel = shortcutModel
         patterns =  userDefaultsRepository.patterns
         showShortcutPanel = userDefaultsRepository.showShortcutPanel
-        shortcutModel.patternsPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] patterns in
-                self?.patterns = patterns
+
+        task = Task {
+            for await patterns in shortcutModel.patternsStream() {
+                self.patterns = patterns
             }
-            .store(in: &cancellables)
+        }
     }
 
     func updateShortcut(id: String?, keyCombo: KeyCombination) {
-        if let id {
-            shortcutModel.updateShortcut(id: id, keyCombo: keyCombo)
-        }
+        guard let id else { return }
+        shortcutModel.updateShortcut(id: id, keyCombo: keyCombo)
     }
 
     func removeShortcut(id: String?) {
-        if let id {
-            shortcutModel.removeShortcut(id: id)
-        }
+        guard let id else { return }
+        shortcutModel.removeShortcut(id: id)
     }
 }
 
