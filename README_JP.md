@@ -23,7 +23,7 @@
 
 ## Installation
 
-ShiftWindow は macOS 13.0 以降で動作します。
+ShiftWindow は macOS 14.0 以降で動作します。
 
 1. `installer.dmg`を[releases](https://github.com/Kyome22/ShiftWindow/releases)ページからダウンロードします。
 2. `installer.dmg`をダブルクリックして解凍された`ShiftWindow Installer`を開きます。
