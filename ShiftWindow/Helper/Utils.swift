@@ -35,4 +35,4 @@ func logput(
 }
 
 let NOT_IMPLEMENTED = "not implemented"
-struct PreviewMock {}
+enum PreviewMock {}

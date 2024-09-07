@@ -19,13 +19,11 @@
 */
 
 import AppKit
-import Combine
 
-protocol WindowModel: AnyObject {
+@MainActor protocol WindowModel: AnyObject, Sendable {
     init(_ userDefaultsRepository: UserDefaultsRepository,
          _ shortcutModel: ShortcutModel)
 
-    func openSettings()
     func openAbout()
 }
 
@@ -33,15 +31,9 @@ final class WindowModelImpl: NSObject, WindowModel, NSWindowDelegate {
     private let userDefaultsRepository: UserDefaultsRepository
     private let shortcutModel: ShortcutModel
     private var shortcutPanel: ShortcutPanel?
-    private var cancellables = Set<AnyCancellable>()
+    private var task: Task<Void, Never>?
 
-    private var settingsWindow: NSWindow? {
-        return NSApp.windows.first(where: { window in
-            window.frameAutosaveName == "com_apple_SwiftUI_Settings_window"
-        })
-    }
-
-    init(
+    nonisolated init(
         _ userDefaultsRepository: UserDefaultsRepository,
         _ shortcutModel: ShortcutModel
     ) {
@@ -49,26 +41,24 @@ final class WindowModelImpl: NSObject, WindowModel, NSWindowDelegate {
         self.shortcutModel = shortcutModel
         super.init()
 
-        shortcutModel.showPanelPublisher
-            .sink { [weak self] keyEquivalent in
-                self?.showShortcutPanel(keyEquivalent: keyEquivalent)
+        task = Task {
+            await withTaskGroup(of: Void.self) { group in
+                group.addTask { @MainActor in
+                    for await keyEquivalent in shortcutModel.showPanelChannel {
+                        self.showShortcutPanel(keyEquivalent: keyEquivalent)
+                    }
+                }
+                group.addTask { @MainActor in
+                    for await _ in shortcutModel.fadeOutPanelChannel {
+                        self.shortcutPanel?.fadeOut()
+                    }
+                }
             }
-            .store(in: &cancellables)
-        shortcutModel.fadeOutPanelPublisher
-            .sink { [weak self] in
-                self?.shortcutPanel?.fadeOut()
-            }
-            .store(in: &cancellables)
+        }
     }
 
-    func openSettings() {
-        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
-        guard let window = settingsWindow else { return }
-        if window.canBecomeMain {
-            window.center()
-            window.makeKeyAndOrderFront(nil)
-            NSApp.activate(ignoringOtherApps: true)
-        }
+    deinit {
+        task?.cancel()
     }
 
     func openAbout() {
@@ -97,11 +87,10 @@ final class WindowModelImpl: NSObject, WindowModel, NSWindowDelegate {
 // MARK: - Preview Mock
 extension PreviewMock {
     final class WindowModelMock: WindowModel {
-        init(_ userDefaultsRepository: UserDefaultsRepository, 
+        nonisolated init(_ userDefaultsRepository: UserDefaultsRepository,
              _ shortcutModel: ShortcutModel) {}
-        init() {}
+        nonisolated init() {}
 
-        func openSettings() {}
         func openAbout() {}
     }
 }

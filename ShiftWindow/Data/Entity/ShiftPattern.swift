@@ -21,7 +21,7 @@
 import SwiftUI
 import SpiceKey
 
-struct ShiftPattern: Codable, Identifiable {
+struct ShiftPattern: Codable, Identifiable, Sendable {
     enum CodingKeys: String, CodingKey {
         case shiftType
         case spiceKeyData
@@ -31,26 +31,26 @@ struct ShiftPattern: Codable, Identifiable {
     var spiceKeyData: SpiceKeyData?
 
     var id: ShiftType {
-        return shiftType
+        shiftType
     }
-    var titleKey: LocalizedStringKey {
-        return shiftType.titleKey
+    var label: String {
+        shiftType.label
     }
     var imageResource: ImageResource {
-        return shiftType.imageResource
+        shiftType.imageResource
     }
     var keyEquivalent: KeyEquivalent? {
-        return spiceKeyData?.key?.keyEquivalent
+        spiceKeyData?.key?.keyEquivalent
     }
     var eventModifiers: EventModifiers? {
-        return spiceKeyData?.modifierFlags?.eventModifiers
+        spiceKeyData?.modifierFlags?.eventModifiers
     }
     var keyCombination: KeyCombination? {
-        return spiceKeyData?.keyCombination
+        spiceKeyData?.keyCombination
     }
     var description: String {
         let str = spiceKeyData?.keyCombination?.string ?? "nil"
-        return "type: \(titleKey), spiceKeyData: \(str)"
+        return "type: \(label), spiceKeyData: \(str)"
     }
     
     init(shiftType: ShiftType) {

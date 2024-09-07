@@ -19,83 +19,92 @@
 */
 
 import AppKit
+@preconcurrency import ApplicationServices
 import Combine
+import Observation
 import SpiceKey
 
-protocol ShiftWindowAppModel: ObservableObject {
+protocol ShiftWindowAppModel: AnyObject, Observable {
     associatedtype UR: UserDefaultsRepository
     associatedtype SM: ShiftModel
     associatedtype ScM: ShortcutModel
     associatedtype WM: WindowModel
+    associatedtype SVM: SettingsViewModel
     associatedtype MVM: MenuViewModel
-    associatedtype GVM: GeneralSettingsViewModel
-    associatedtype SVM: ShortcutSettingsViewModel
+    associatedtype GSVM: GeneralSettingsViewModel
+    associatedtype SSVM: ShortcutSettingsViewModel
 
     var settingsTab: SettingsTabType { get set }
     var userDefaultsRepository: UR { get }
     var shiftModel: SM { get }
     var shortcutModel: ScM { get }
     var windowModel: WM { get }
+
+    init()
+
+    func didFinishLaunching()
+    func willTerminate()
 }
 
-final class ShiftWindowAppModelImpl: ShiftWindowAppModel {
+
+@Observable final class ShiftWindowAppModelImpl: ShiftWindowAppModel {
     typealias UR = UserDefaultsRepositoryImpl
     typealias SM = ShiftModelImpl
     typealias ScM = ShortcutModelImpl
     typealias WM = WindowModelImpl
-    typealias MVM = MenuViewModelImpl
-    typealias GVM = GeneralSettingsViewModelImpl<LaunchAtLoginRepositoryImpl>
-    typealias SVM = ShortcutSettingsViewModelImpl
+    typealias EM = ExecuteModelImpl
+    typealias SVM = SettingsViewModelImpl<GSVM, SSVM>
+    typealias MVM = MenuViewModelImpl<EM>
+    typealias GSVM = GeneralSettingsViewModelImpl<LaunchAtLoginRepositoryImpl>
+    typealias SSVM = ShortcutSettingsViewModelImpl
 
-    @Published var settingsTab: SettingsTabType = .general
+    var settingsTab: SettingsTabType = .general
 
     let userDefaultsRepository: UR
     let shiftModel: SM
     let shortcutModel: ScM
     let windowModel: WM
-    private var cancellables = Set<AnyCancellable>()
 
     init() {
         userDefaultsRepository = UR()
         shiftModel = SM()
         shortcutModel = ScM(userDefaultsRepository, shiftModel)
         windowModel = WM(userDefaultsRepository, shortcutModel)
-
-        NotificationCenter.default.publisher(for: NSApplication.didFinishLaunchingNotification)
-            .sink { [weak self] _ in
-                self?.applicationDidFinishLaunching()
-            }
-            .store(in: &cancellables)
     }
 
-    private func applicationDidFinishLaunching() {
+    func didFinishLaunching() {
         shortcutModel.initializeShortcuts()
-        checkPermissionAllowed()
+
+        let options = [kAXTrustedCheckOptionPrompt.takeRetainedValue(): true] as CFDictionary
+        _ = AXIsProcessTrustedWithOptions(options)
     }
 
-    @discardableResult
-    private func checkPermissionAllowed() -> Bool {
-        let key = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as NSString
-        let options: NSDictionary = [key: true]
-        return AXIsProcessTrustedWithOptions(options)
+    func willTerminate() {
+        if EM.checkIconsVisible() {
+            EM.toggleIconsVisible(false)
+        }
     }
 }
 
 // MARK: - Preview Mock
 extension PreviewMock {
-    final class ShiftWindowAppModelMock: ShiftWindowAppModel {
+    @Observable final class ShiftWindowAppModelMock: ShiftWindowAppModel {
         typealias UR = UserDefaultsRepositoryMock
         typealias SM = ShiftModelMock
         typealias ScM = ShortcutModelMock
         typealias WM = WindowModelMock
+        typealias SVM = SettingsViewModelMock
         typealias MVM = MenuViewModelMock
-        typealias GVM = GeneralSettingsViewModelMock
-        typealias SVM = ShortcutSettingsViewModelMock
+        typealias GSVM = GeneralSettingsViewModelMock
+        typealias SSVM = ShortcutSettingsViewModelMock
 
-        @Published var settingsTab: SettingsTabType = .general
+        var settingsTab: SettingsTabType = .general
         let userDefaultsRepository = UR()
         let shiftModel = SM()
         let shortcutModel = ScM()
         let windowModel = WM()
+
+        func didFinishLaunching() {}
+        func willTerminate() {}
     }
 }

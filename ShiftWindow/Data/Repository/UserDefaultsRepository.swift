@@ -22,7 +22,7 @@ import Foundation
 
 fileprivate let RESET_USER_DEFAULTS = false
 
-protocol UserDefaultsRepository: AnyObject {
+protocol UserDefaultsRepository: AnyObject, Sendable {
     var showShortcutPanel: Bool { get set }
     var patterns: [ShiftPattern] { get set }
 }
@@ -73,7 +73,15 @@ final class UserDefaultsRepositoryImpl: UserDefaultsRepository {
 // MARK: - Preview Mock
 extension PreviewMock {
     final class UserDefaultsRepositoryMock: UserDefaultsRepository {
-        var showShortcutPanel: Bool = false
-        var patterns: [ShiftPattern] = ShiftPattern.defaults
+        var showShortcutPanel: Bool {
+            get { false }
+            set {}
+        }
+        var patterns: [ShiftPattern] {
+            get { ShiftPattern.defaults }
+            set {}
+        }
     }
 }
+
+extension UserDefaults: @unchecked Sendable {}

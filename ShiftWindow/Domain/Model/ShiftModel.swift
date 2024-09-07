@@ -23,7 +23,7 @@ import ApplicationServices
 
 fileprivate let kAXFullScreen = "AXFullScreen"
 
-protocol ShiftModel {
+@MainActor protocol ShiftModel: Sendable {
     func shiftWindow(shiftType: ShiftType)
 }
 
@@ -113,40 +113,36 @@ struct ShiftModelImpl: ShiftModel {
     private func getAttributeNames(element: AXUIElement) -> [String]? {
         var ref: CFArray? = nil
         let error = AXUIElementCopyAttributeNames(element, &ref)
-        if error == .success {
-            return ref! as [AnyObject] as? [String]
-        }
-        return nil
+        guard error == .success else { return nil }
+        return ref! as [AnyObject] as? [String]
     }
 
     // MARK: Get Window Attributes
     private func copyAttributeValue(_ element: AXUIElement, attribute: String) -> CFTypeRef? {
         var ref: CFTypeRef? = nil
         let error = AXUIElementCopyAttributeValue(element, attribute as CFString, &ref)
-        if error == .success {
-            return ref
-        }
-        return .none
+        guard error == .success else { return .none }
+        return ref
     }
 
     private func getFocusedWindow(pid: pid_t) -> AXUIElement? {
         let element = AXUIElementCreateApplication(pid)
-        if let window = self.copyAttributeValue(element, attribute: kAXFocusedWindowAttribute) {
-            return (window as! AXUIElement)
+        guard let window = self.copyAttributeValue(element, attribute: kAXFocusedWindowAttribute) else {
+            return nil
         }
-        return nil
+        return (window as! AXUIElement)
     }
 
     private func getRole(element: AXUIElement) -> String? {
-        return self.copyAttributeValue(element, attribute: kAXRoleAttribute) as? String
+        copyAttributeValue(element, attribute: kAXRoleAttribute) as? String
     }
 
     private func getSubRole(element: AXUIElement) -> String? {
-        return self.copyAttributeValue(element, attribute: kAXSubroleAttribute) as? String
+        copyAttributeValue(element, attribute: kAXSubroleAttribute) as? String
     }
 
     private func isFullscreen(element: AXUIElement) -> Bool {
-        let result = self.copyAttributeValue(element, attribute: kAXFullScreen) as? NSNumber
+        let result = copyAttributeValue(element, attribute: kAXFullScreen) as? NSNumber
         return result?.boolValue ?? false
     }
 
@@ -159,19 +155,19 @@ struct ShiftModelImpl: ShiftModel {
     @discardableResult
     private func setPosition(element: AXUIElement, position: CGPoint) -> Bool {
         var position = position
-        if let value = AXValueCreate(AXValueType.cgPoint, &position) {
-            return self.setAttributeValue(element, attribute: kAXPositionAttribute, value: value)
+        guard let value = AXValueCreate(AXValueType.cgPoint, &position) else {
+            return false
         }
-        return false
+        return setAttributeValue(element, attribute: kAXPositionAttribute, value: value)
     }
 
     @discardableResult
     private func setSize(element: AXUIElement, size: CGSize) -> Bool {
         var size = size
-        if let value = AXValueCreate(AXValueType.cgSize, &size) {
-            return self.setAttributeValue(element, attribute: kAXSizeAttribute, value: value)
+        guard let value = AXValueCreate(AXValueType.cgSize, &size) else {
+            return false
         }
-        return false
+        return setAttributeValue(element, attribute: kAXSizeAttribute, value: value)
     }
 }
 

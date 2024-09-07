@@ -18,11 +18,11 @@
  limitations under the License.
 */
 
-import SwiftUI
 import SpiceKey
+import SwiftUI
 
 struct ShortcutSettingsView<SVM: ShortcutSettingsViewModel>: View {
-    @StateObject var viewModel: SVM
+    @State var viewModel: SVM
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -44,7 +44,7 @@ struct ShortcutSettingsView<SVM: ShortcutSettingsViewModel>: View {
                     }
                 } label: {
                     Label {
-                        Text(pattern.titleKey)
+                        Text(pattern.label)
                     } icon: {
                         Image(pattern.imageResource)
                     }

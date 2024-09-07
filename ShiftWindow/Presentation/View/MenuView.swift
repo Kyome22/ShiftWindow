@@ -21,7 +21,7 @@
 import SwiftUI
 
 struct MenuView<MVM: MenuViewModel>: View {
-    @StateObject var viewModel: MVM
+    @State var viewModel: MVM
 
     var body: some View {
         VStack {
@@ -32,7 +32,7 @@ struct MenuView<MVM: MenuViewModel>: View {
                         viewModel.shiftWindow(shiftType: pattern.shiftType)
                     } label: {
                         Label {
-                            Text(pattern.titleKey)
+                            Text(pattern.label)
                         } icon: {
                             Image(pattern.imageResource)
                         }
@@ -44,7 +44,7 @@ struct MenuView<MVM: MenuViewModel>: View {
                         viewModel.shiftWindow(shiftType: pattern.shiftType)
                     } label: {
                         Label {
-                            Text(pattern.titleKey)
+                            Text(pattern.label)
                         } icon: {
                             Image(pattern.imageResource)
                         }
@@ -62,14 +62,11 @@ struct MenuView<MVM: MenuViewModel>: View {
                 Text("hideDesktopIcons")
             }
             Divider()
-            if #available(macOS 14.0, *) {
-                SettingsLink {
-                    Text("settings")
-                }
-            } else {
-                Button("settings") {
-                    viewModel.openSettings()
-                }
+            SettingsLink {
+                Text("settings")
+            }
+            .preActionButtonStyle {
+                viewModel.activateApp()
             }
             Divider()
             Button("aboutApp") {

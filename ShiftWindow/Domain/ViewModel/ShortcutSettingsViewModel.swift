@@ -19,10 +19,10 @@
 */
 
 import Foundation
-import Combine
+import Observation
 import SpiceKey
 
-protocol ShortcutSettingsViewModel: ObservableObject {
+@MainActor protocol ShortcutSettingsViewModel: Observable, Sendable {
     var patterns: [ShiftPattern] { get set }
     var showShortcutPanel: Bool { get set }
 
@@ -33,15 +33,15 @@ protocol ShortcutSettingsViewModel: ObservableObject {
     func removeShortcut(id: String?)
 }
 
-final class ShortcutSettingsViewModelImpl: ShortcutSettingsViewModel {
-    @Published var patterns: [ShiftPattern]
-    @Published var showShortcutPanel: Bool {
+@Observable final class ShortcutSettingsViewModelImpl: ShortcutSettingsViewModel {
+    var patterns: [ShiftPattern]
+    var showShortcutPanel: Bool {
         didSet { userDefaultsRepository.showShortcutPanel = showShortcutPanel }
     }
 
     private let userDefaultsRepository: UserDefaultsRepository
     private let shortcutModel: ShortcutModel
-    private var cancellables = Set<AnyCancellable>()
+    private var task: Task<Void, Never>?
 
     init(
         _ userDefaultsRepository: UserDefaultsRepository,
@@ -51,32 +51,35 @@ final class ShortcutSettingsViewModelImpl: ShortcutSettingsViewModel {
         self.shortcutModel = shortcutModel
         patterns =  userDefaultsRepository.patterns
         showShortcutPanel = userDefaultsRepository.showShortcutPanel
-        shortcutModel.patternsPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] patterns in
-                self?.patterns = patterns
+
+        task = Task {
+            for await patterns in shortcutModel.patternsStream() {
+                self.patterns = patterns
             }
-            .store(in: &cancellables)
+        }
+    }
+
+    deinit {
+        // TODO: isolated deinitを待つ
+        // task?.cancel()
     }
 
     func updateShortcut(id: String?, keyCombo: KeyCombination) {
-        if let id {
-            shortcutModel.updateShortcut(id: id, keyCombo: keyCombo)
-        }
+        guard let id else { return }
+        shortcutModel.updateShortcut(id: id, keyCombo: keyCombo)
     }
 
     func removeShortcut(id: String?) {
-        if let id {
-            shortcutModel.removeShortcut(id: id)
-        }
+        guard let id else { return }
+        shortcutModel.removeShortcut(id: id)
     }
 }
 
 // MARK: - Preview Mock
 extension PreviewMock {
-    final class ShortcutSettingsViewModelMock: ShortcutSettingsViewModel {
-        @Published var patterns: [ShiftPattern] = ShiftPattern.defaults
-        @Published var showShortcutPanel: Bool = true
+    @Observable final class ShortcutSettingsViewModelMock: ShortcutSettingsViewModel {
+        var patterns: [ShiftPattern] = ShiftPattern.defaults
+        var showShortcutPanel: Bool = true
 
         init(_ userDefaultsRepository: UserDefaultsRepository,
              _ shortcutModel: ShortcutModel) {}

@@ -23,18 +23,33 @@ import SwiftUI
 @main
 struct ShiftWindowApp: App {
     typealias SAM = ShiftWindowAppModelImpl
-    @StateObject private var appModel = SAM()
+    @State private var appModel = SAM()
 
     var body: some Scene {
         Settings {
-            SettingsView<SAM>()
-                .environmentObject(appModel)
+            SettingsView(
+                viewModel: SAM.SVM(
+                    appModel.userDefaultsRepository,
+                    appModel.shortcutModel
+                )
+            )
+            .environment(\.settingsTab, $appModel.settingsTab)
         }
         MenuBarExtra {
-            MenuView(viewModel: SAM.MVM(appModel.shiftModel,
-                                        appModel.shortcutModel,
-                                        appModel.windowModel))
+            MenuView(
+                viewModel: SAM.MVM(
+                    appModel.shiftModel,
+                    appModel.shortcutModel,
+                    appModel.windowModel
+                )
+            )
             .environment(\.displayScale, 2.0)
+            .onAppear {
+                appModel.didFinishLaunching()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: NSApplication.willTerminateNotification)) { _ in
+                appModel.willTerminate()
+            }
         } label: {
             Image(.statusIcon)
                 .environment(\.displayScale, 2.0)

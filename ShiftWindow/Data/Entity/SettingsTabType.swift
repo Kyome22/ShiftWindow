@@ -18,7 +18,20 @@
  limitations under the License.
 */
 
+import SwiftUI
+
 enum SettingsTabType {
     case general
     case shortcuts
+}
+
+struct SettingsTabTypeKey: EnvironmentKey {
+    static let defaultValue: Binding<SettingsTabType> = .constant(.general)
+}
+
+extension EnvironmentValues {
+    var settingsTab: Binding<SettingsTabType> {
+        get { self[SettingsTabTypeKey.self] }
+        set { self[SettingsTabTypeKey.self] = newValue }
+    }
 }

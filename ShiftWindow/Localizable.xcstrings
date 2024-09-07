@@ -2,7 +2,6 @@
   "sourceLanguage" : "en",
   "strings" : {
     "aboutApp" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -35,7 +34,6 @@
       }
     },
     "general" : {
-      "comment" : "General Settings",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -52,7 +50,6 @@
       }
     },
     "hideDesktopIcons" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -149,7 +146,6 @@
       }
     },
     "shiftBottomHalf" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -166,7 +162,6 @@
       }
     },
     "shiftLeftHalf" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -183,7 +178,6 @@
       }
     },
     "shiftLeftThird" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -200,7 +194,6 @@
       }
     },
     "shiftLeftTwoThirds" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -217,7 +210,6 @@
       }
     },
     "shiftMaximize" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -234,7 +226,6 @@
       }
     },
     "shiftMiddleThird" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -251,7 +242,6 @@
       }
     },
     "shiftRighthalf" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -268,7 +258,6 @@
       }
     },
     "shiftRightThird" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -285,7 +274,6 @@
       }
     },
     "shiftRightThirds" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -302,7 +290,6 @@
       }
     },
     "shiftTopHalf" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -318,25 +305,7 @@
         }
       }
     },
-    "shiftWindow" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ShiftWindow"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ShiftWindow"
-          }
-        }
-      }
-    },
     "shortcut" : {
-      "comment" : "Shortcut Settings",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -369,7 +338,6 @@
       }
     },
     "terminateApp" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
