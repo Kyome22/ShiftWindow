@@ -15,6 +15,7 @@
 		1CA357832C84488C00E853EC /* PreActionButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA357822C84488C00E853EC /* PreActionButtonStyle.swift */; };
 		1CA357862C844CF600E853EC /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 1CA357852C844CF600E853EC /* AsyncAlgorithms */; };
 		1CA3578A2C84B60800E853EC /* ExecuteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA357892C84B60800E853EC /* ExecuteModel.swift */; };
+		1CA3578C2C8C244A00E853EC /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA3578B2C8C244A00E853EC /* SettingsViewModel.swift */; };
 		1CAB3F162AE7E7CC00BE23F0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 1CAB3F152AE7E7CC00BE23F0 /* Localizable.xcstrings */; };
 		1CAB3F182AE7EE7F00BE23F0 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAB3F172AE7EE7F00BE23F0 /* MenuViewModel.swift */; };
 		1CAB3F1A2AE7F26C00BE23F0 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAB3F192AE7F26C00BE23F0 /* MenuView.swift */; };
@@ -59,6 +60,7 @@
 		1C80700F2880713000A12D56 /* ShortcutSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutSettingsViewModel.swift; sourceTree = "<group>"; };
 		1CA357822C84488C00E853EC /* PreActionButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreActionButtonStyle.swift; sourceTree = "<group>"; };
 		1CA357892C84B60800E853EC /* ExecuteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecuteModel.swift; sourceTree = "<group>"; };
+		1CA3578B2C8C244A00E853EC /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		1CAB3F152AE7E7CC00BE23F0 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		1CAB3F172AE7EE7F00BE23F0 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		1CAB3F192AE7F26C00BE23F0 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
@@ -172,9 +174,10 @@
 			isa = PBXGroup;
 			children = (
 				1CC6C14A2985065500D89250 /* WindowModel.swift */,
-				1CAB3F172AE7EE7F00BE23F0 /* MenuViewModel.swift */,
+				1CA3578B2C8C244A00E853EC /* SettingsViewModel.swift */,
 				1CC92D012869EED200D46424 /* GeneralSettingsViewModel.swift */,
 				1C80700F2880713000A12D56 /* ShortcutSettingsViewModel.swift */,
+				1CAB3F172AE7EE7F00BE23F0 /* MenuViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				1CC6C10A297F64EE00D89250 /* Utils.swift in Sources */,
 				1CC92CFD2869ED5A00D46424 /* CoreGraphics+Extensions.swift in Sources */,
 				1C1461D626BC1629006442F5 /* ShortcutPanel.swift in Sources */,
+				1CA3578C2C8C244A00E853EC /* SettingsViewModel.swift in Sources */,
 				1CA3578A2C84B60800E853EC /* ExecuteModel.swift in Sources */,
 				1CAB3F182AE7EE7F00BE23F0 /* MenuViewModel.swift in Sources */,
 				1CC92D062869EF3D00D46424 /* SettingsView.swift in Sources */,

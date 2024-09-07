@@ -19,9 +19,10 @@
 */
 
 import Foundation
+import Observation
 import SpiceKey
 
-@MainActor protocol ShortcutSettingsViewModel: ObservableObject {
+@MainActor protocol ShortcutSettingsViewModel: Observable, Sendable {
     var patterns: [ShiftPattern] { get set }
     var showShortcutPanel: Bool { get set }
 
@@ -32,9 +33,9 @@ import SpiceKey
     func removeShortcut(id: String?)
 }
 
-final class ShortcutSettingsViewModelImpl: ShortcutSettingsViewModel {
-    @Published var patterns: [ShiftPattern]
-    @Published var showShortcutPanel: Bool {
+@Observable final class ShortcutSettingsViewModelImpl: ShortcutSettingsViewModel {
+    var patterns: [ShiftPattern]
+    var showShortcutPanel: Bool {
         didSet { userDefaultsRepository.showShortcutPanel = showShortcutPanel }
     }
 
@@ -58,6 +59,11 @@ final class ShortcutSettingsViewModelImpl: ShortcutSettingsViewModel {
         }
     }
 
+    deinit {
+        // TODO: isolated deinitを待つ
+        // task?.cancel()
+    }
+
     func updateShortcut(id: String?, keyCombo: KeyCombination) {
         guard let id else { return }
         shortcutModel.updateShortcut(id: id, keyCombo: keyCombo)
@@ -71,9 +77,9 @@ final class ShortcutSettingsViewModelImpl: ShortcutSettingsViewModel {
 
 // MARK: - Preview Mock
 extension PreviewMock {
-    final class ShortcutSettingsViewModelMock: ShortcutSettingsViewModel {
-        @Published var patterns: [ShiftPattern] = ShiftPattern.defaults
-        @Published var showShortcutPanel: Bool = true
+    @Observable final class ShortcutSettingsViewModelMock: ShortcutSettingsViewModel {
+        var patterns: [ShiftPattern] = ShiftPattern.defaults
+        var showShortcutPanel: Bool = true
 
         init(_ userDefaultsRepository: UserDefaultsRepository,
              _ shortcutModel: ShortcutModel) {}

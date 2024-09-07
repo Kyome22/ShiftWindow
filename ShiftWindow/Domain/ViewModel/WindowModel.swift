@@ -87,9 +87,9 @@ final class WindowModelImpl: NSObject, WindowModel, NSWindowDelegate {
 // MARK: - Preview Mock
 extension PreviewMock {
     final class WindowModelMock: WindowModel {
-        init(_ userDefaultsRepository: UserDefaultsRepository, 
+        nonisolated init(_ userDefaultsRepository: UserDefaultsRepository,
              _ shortcutModel: ShortcutModel) {}
-        init() {}
+        nonisolated init() {}
 
         func openAbout() {}
     }

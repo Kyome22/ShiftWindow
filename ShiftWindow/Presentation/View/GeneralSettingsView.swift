@@ -21,7 +21,7 @@
 import SwiftUI
 
 struct GeneralSettingsView<GVM: GeneralSettingsViewModel>: View {
-    @StateObject var viewModel: GVM
+    @State var viewModel: GVM
 
     var body: some View {
         VStack(alignment: .leading) {

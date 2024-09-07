@@ -19,9 +19,10 @@
 */
 
 import AppKit
+import Observation
 import SwiftUI
 
-@MainActor protocol MenuViewModel: ObservableObject {
+@MainActor protocol MenuViewModel: Observable, Sendable {
     var patterns: [ShiftPattern] { get set }
     var hideIcons: Bool { get set }
 
@@ -35,12 +36,10 @@ import SwiftUI
     func terminateApp()
 }
 
-final class MenuViewModelImpl<EM: ExecuteModel>: MenuViewModel {
-    @Published var patterns = [ShiftPattern]()
-    @Published var hideIcons: Bool {
-        didSet {
-            EM.toggleIconsVisible(hideIcons)
-        }
+@Observable final class MenuViewModelImpl<EM: ExecuteModel>: MenuViewModel {
+    var patterns = [ShiftPattern]()
+    var hideIcons: Bool {
+        didSet { EM.toggleIconsVisible(hideIcons) }
     }
 
     private let shiftModel: ShiftModel
@@ -64,7 +63,8 @@ final class MenuViewModelImpl<EM: ExecuteModel>: MenuViewModel {
     }
 
     deinit {
-        task?.cancel()
+        // TODO: isolated deinitを待つ
+        // task?.cancel()
     }
 
     func shiftWindow(shiftType: ShiftType) {
@@ -86,9 +86,9 @@ final class MenuViewModelImpl<EM: ExecuteModel>: MenuViewModel {
 
 // MARK: - Preview Mock
 extension PreviewMock {
-    final class MenuViewModelMock: MenuViewModel {
-        @Published var patterns = [ShiftPattern]()
-        @Published var hideIcons: Bool = false
+    @Observable final class MenuViewModelMock: MenuViewModel {
+        var patterns = [ShiftPattern]()
+        var hideIcons: Bool = false
 
         init(_ shiftModel: ShiftModel,
              _ shortcutModel: ShortcutModel,

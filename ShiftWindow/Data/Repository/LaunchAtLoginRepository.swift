@@ -21,20 +21,24 @@
 import Foundation
 import ServiceManagement
 
+enum LaunchAtLoginError: Error {
+    case switchFailed(Bool)
+}
+
 protocol LaunchAtLoginRepository: AnyObject {
-    var current: Bool { get }
+    var currentStatus: Bool { get }
 
     init()
 
-    func switchRegistration(_ newValue: Bool, failureHandler: @escaping () -> Void)
+    func switchStatus(_ newValue: Bool) -> Result<Void, LaunchAtLoginError>
 }
 
 final class LaunchAtLoginRepositoryImpl: LaunchAtLoginRepository {
-    var current: Bool {
+    var currentStatus: Bool {
         SMAppService.mainApp.status == .enabled
     }
 
-    func switchRegistration(_ newValue: Bool, failureHandler: @escaping () -> Void) {
+    func switchStatus(_ newValue: Bool) -> Result<Void, LaunchAtLoginError> {
         do {
             if newValue {
                 try SMAppService.mainApp.register()
@@ -44,8 +48,11 @@ final class LaunchAtLoginRepositoryImpl: LaunchAtLoginRepository {
         } catch {
             logput(error.localizedDescription)
         }
-        if current != newValue {
-            failureHandler()
+        let value = currentStatus
+        return if value != newValue {
+            .failure(.switchFailed(value))
+        } else {
+            .success(())
         }
     }
 }
@@ -53,7 +60,9 @@ final class LaunchAtLoginRepositoryImpl: LaunchAtLoginRepository {
 // MARK: - Preview Mock
 extension PreviewMock {
     final class LaunchAtLoginRepositoryMock: LaunchAtLoginRepository {
-        var current: Bool = false
-        func switchRegistration(_ newValue: Bool, failureHandler: @escaping () -> Void) {}
+        let currentStatus: Bool = false
+        func switchStatus(_ newValue: Bool) -> Result<Void, LaunchAtLoginError> {
+            .success(())
+        }
     }
 }

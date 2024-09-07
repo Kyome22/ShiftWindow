@@ -19,8 +19,9 @@
 */
 
 import AppKit
+import Observation
 
-protocol GeneralSettingsViewModel: ObservableObject {
+protocol GeneralSettingsViewModel: Observable {
     var launchAtLogin: Bool { get set }
 
     init()
@@ -28,31 +29,36 @@ protocol GeneralSettingsViewModel: ObservableObject {
     func openSystemPreferences()
 }
 
-final class GeneralSettingsViewModelImpl<LR: LaunchAtLoginRepository>: GeneralSettingsViewModel {
-    @Published var launchAtLogin: Bool {
-        didSet {
-            launchAtLoginRepository.switchRegistration(launchAtLogin) { [weak self] in
-                self?.launchAtLogin = oldValue
-            }
-        }
+@Observable final class GeneralSettingsViewModelImpl<LR: LaunchAtLoginRepository>: GeneralSettingsViewModel {
+    var launchAtLogin: Bool {
+        didSet { launchAtLoginSwitched() }
     }
     private let launchAtLoginRepository: LR
 
     init() {
         self.launchAtLoginRepository = LR()
-        launchAtLogin = launchAtLoginRepository.current
+        launchAtLogin = launchAtLoginRepository.currentStatus
     }
 
     func openSystemPreferences() {
         let path = "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
         NSWorkspace.shared.open(URL(string: path)!)
     }
+
+    private func launchAtLoginSwitched() {
+        switch launchAtLoginRepository.switchStatus(launchAtLogin) {
+        case .success:
+            break
+        case let .failure(.switchFailed(value)):
+            launchAtLogin = value
+        }
+    }
 }
 
 // MARK: - Preview Mock
 extension PreviewMock {
-    final class GeneralSettingsViewModelMock: GeneralSettingsViewModel {
-        @Published var launchAtLogin: Bool = false
+    @Observable final class GeneralSettingsViewModelMock: GeneralSettingsViewModel {
+        var launchAtLogin: Bool = false
 
         init() {}
 

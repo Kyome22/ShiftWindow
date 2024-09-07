@@ -21,7 +21,7 @@
 import SwiftUI
 
 struct MenuView<MVM: MenuViewModel>: View {
-    @StateObject var viewModel: MVM
+    @State var viewModel: MVM
 
     var body: some View {
         VStack {
