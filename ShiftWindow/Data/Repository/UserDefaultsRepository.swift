@@ -84,4 +84,4 @@ extension PreviewMock {
     }
 }
 
-extension UserDefaults: @unchecked Sendable {}
+extension UserDefaults: @retroactive @unchecked Sendable {}

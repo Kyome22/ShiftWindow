@@ -43,14 +43,14 @@ final class WindowModelImpl: NSObject, WindowModel, NSWindowDelegate {
 
         task = Task {
             await withTaskGroup(of: Void.self) { group in
-                group.addTask { @MainActor in
+                group.addTask {
                     for await keyEquivalent in shortcutModel.showPanelChannel {
-                        self.showShortcutPanel(keyEquivalent: keyEquivalent)
+                        await self.showShortcutPanel(keyEquivalent: keyEquivalent)
                     }
                 }
-                group.addTask { @MainActor in
+                group.addTask {
                     for await _ in shortcutModel.fadeOutPanelChannel {
-                        self.shortcutPanel?.fadeOut()
+                        await self.shortcutPanel?.fadeOut()
                     }
                 }
             }
