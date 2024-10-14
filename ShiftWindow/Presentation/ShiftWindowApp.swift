@@ -26,15 +26,6 @@ struct ShiftWindowApp: App {
     @State private var appModel = SAM()
 
     var body: some Scene {
-        Settings {
-            SettingsView(
-                viewModel: SAM.SVM(
-                    appModel.userDefaultsRepository,
-                    appModel.shortcutModel
-                )
-            )
-            .environment(\.settingsTab, $appModel.settingsTab)
-        }
         MenuBarExtra {
             MenuView(
                 viewModel: SAM.MVM(
@@ -53,6 +44,15 @@ struct ShiftWindowApp: App {
         } label: {
             Image(.statusIcon)
                 .environment(\.displayScale, 2.0)
+        }
+        Settings {
+            SettingsView(
+                viewModel: SAM.SVM(
+                    appModel.userDefaultsRepository,
+                    appModel.shortcutModel
+                )
+            )
+            .environment(\.settingsTab, $appModel.settingsTab)
         }
     }
 }
