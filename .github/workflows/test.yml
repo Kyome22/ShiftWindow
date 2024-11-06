@@ -33,5 +33,5 @@ jobs:
         if: success() || failure()
         uses: kishikawakatsumi/xcresulttool@v1
         with:
-          path: TestResults/result_bundle.xcresult
+          path: ShiftWindowPackages/TestResults/result_bundle.xcresult
           show-passed-tests: false
