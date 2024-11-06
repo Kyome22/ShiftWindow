@@ -1,0 +1,37 @@
+name: Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+    paths-ignore:
+      - "**/README.md"
+
+jobs:
+  unit-test:
+    name: Unit Test
+    runs-on: macos-14
+    env:
+      DEVELOPER_DIR: "/Applications/Xcode_16.app/Contents/Developer"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Run Test
+        working-directory: ShiftWindowPackages
+        run: |
+          xcodebuild -scheme ShiftWindowPackages-Package test \
+            -destination "platform=macOS,arch=arm64" \
+            -resultBundlePath TestResults/result_bundle |\
+            xcpretty -c && exit ${PIPESTATUS[0]}
+
+      - name: Archive test results
+        if: success() || failure()
+        uses: kishikawakatsumi/xcresulttool@v1
+        with:
+          path: TestResults/result_bundle.xcresult
+          show-passed-tests: false
