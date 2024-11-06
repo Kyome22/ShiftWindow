@@ -52,7 +52,10 @@ let package = Package(
         ),
         .testTarget(
             name: "DomainTests",
-            dependencies: ["Domain"],
+            dependencies: [
+                "DataLayer",
+                "Domain",
+            ],
             swiftSettings: swiftSettings
         ),
         .target(

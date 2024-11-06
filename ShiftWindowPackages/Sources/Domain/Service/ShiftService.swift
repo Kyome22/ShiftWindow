@@ -23,17 +23,20 @@ import DataLayer
 import Foundation
 
 public actor ShiftService {
+    private let cgDirectDisplayClient: CGDirectDisplayClient
     private let hiServicesClient: HIServicesClient
     private let nsAppClient: NSAppClient
     private let nsScreenClient: NSScreenClient
     private let nsWorkspaceClient: NSWorkspaceClient
 
     public init(
+        _ cgDirectDisplayClient: CGDirectDisplayClient,
         _ hiServicesClient: HIServicesClient,
         _ nsAppClient: NSAppClient,
         _ nsScreenClient: NSScreenClient,
         _ nsWorkspaceClient: NSWorkspaceClient
     ) {
+        self.cgDirectDisplayClient = cgDirectDisplayClient
         self.hiServicesClient = hiServicesClient
         self.nsAppClient = nsAppClient
         self.nsScreenClient = nsScreenClient
@@ -61,7 +64,7 @@ public actor ShiftService {
 
     func getValidFrame() async -> CGRect? {
         guard let screen = nsScreenClient.mainScreen() else { return nil }
-        let bounds = CGDisplayBounds(screen.displayID)
+        let bounds = cgDirectDisplayClient.bounds(screen.displayID)
         let visibleFrame = screen.visibleFrame
         let menuBarHeight = await MainActor.run {
             nsAppClient.mainMenu()?.menuBarHeight
@@ -125,6 +128,7 @@ public actor ShiftService {
     }
 
     // MARK: Get Attribute Names of an AXUIElement
+    #if DEBUG
     func getAttributeNames(element: AXUIElement) -> [String]? {
         var ref: CFArray? = nil
         guard hiServicesClient.copyAttributeNames(element, &ref) == .success, let ref else {
@@ -132,6 +136,7 @@ public actor ShiftService {
         }
         return ref as [AnyObject] as? [String]
     }
+    #endif
 
     // MARK: Get Window Attributes
     func copyAttributeValue(_ element: AXUIElement, attribute: String) -> CFTypeRef? {

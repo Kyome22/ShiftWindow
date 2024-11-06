@@ -34,6 +34,7 @@ public final class AppDependency: Sendable {
     public let shortcutService: ShortcutService
 
     public nonisolated init(
+        cgDirectDisplayClient: CGDirectDisplayClient = .liveValue,
         executeClient: ExecuteClient = .liveValue,
         hiServicesClient: HIServicesClient = .liveValue,
         loggingSystemClient: LoggingSystemClient = .liveValue,
@@ -51,13 +52,18 @@ public final class AppDependency: Sendable {
         userDefaultsRepository = .init(userDefaultsClient, reset: needsResetUserDefaults)
         launchAtLoginRepository = .init(smAppServiceClient)
         logService = .init(loggingSystemClient)
-        shiftService = .init(hiServicesClient, nsAppClient, nsScreenClient, nsWorkspaceClient)
+        shiftService = .init(cgDirectDisplayClient,
+                             hiServicesClient,
+                             nsAppClient,
+                             nsScreenClient,
+                             nsWorkspaceClient)
         shortcutService = .init(userDefaultsRepository, shiftService)
     }
 }
 
 struct AppDependencyKey: EnvironmentKey {
     static let defaultValue = AppDependency(
+        cgDirectDisplayClient: .testValue,
         executeClient: .testValue,
         hiServicesClient: .testValue,
         loggingSystemClient: .testValue,
