@@ -25,7 +25,7 @@ import SwiftUI
 
 @main
 struct ShiftWindowApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @PanelState(.shortcutPanel) private var isPresented = false
 
     var body: some Scene {
