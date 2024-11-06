@@ -24,14 +24,8 @@ jobs:
       - name: Run Test
         working-directory: ShiftWindowPackages
         run: |
-          xcodebuild -scheme ShiftWindowPackages-Package test \
+          xcodebuild test \
+            -scheme ShiftWindowPackages-Package \
             -destination "platform=macOS,arch=arm64" \
-            -resultBundlePath TestResults/result_bundle |\
+            -resultBundlePath TestResults |\
             xcpretty -c && exit ${PIPESTATUS[0]}
-
-      - name: Archive test results
-        if: success() || failure()
-        uses: kishikawakatsumi/xcresulttool@v1
-        with:
-          path: ShiftWindowPackages/TestResults/result_bundle.xcresult
-          show-passed-tests: false
