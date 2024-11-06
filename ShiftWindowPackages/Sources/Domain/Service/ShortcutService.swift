@@ -58,7 +58,7 @@ public actor ShortcutService {
                     PanelSceneMessenger.request(
                         panelAction: .open,
                         with: .shortcutPanel,
-                        userInfo: [String.keyEquivalent: keyCombo.string]
+                        userInfo: [.keyEquivalent: keyCombo.string]
                     )
                 }
                 await shiftService.shiftWindow(shiftType: pattern.shiftType)
@@ -83,7 +83,7 @@ public actor ShortcutService {
                 PanelSceneMessenger.request(
                     panelAction: .open,
                     with: .shortcutPanel,
-                    userInfo: [String.keyEquivalent: keyCombo.string]
+                    userInfo: [.keyEquivalent: keyCombo.string]
                 )
             }
             await shiftService.shiftWindow(shiftType: pattern.shiftType)
