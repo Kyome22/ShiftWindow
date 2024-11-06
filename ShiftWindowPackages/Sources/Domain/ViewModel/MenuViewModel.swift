@@ -27,6 +27,7 @@ import Observation
     private let nsAppClient: NSAppClient
     private let logService: LogService
     private let shiftService: ShiftService
+    private let updateService: UpdateService
 
     @ObservationIgnored private var task: Task<Void, Never>?
 
@@ -34,22 +35,38 @@ import Observation
     public var hideIcons: Bool {
         didSet { toggleIconsVisible(hideIcons) }
     }
+    public var canChecksForUpdates: Bool = false
 
     public init(
         _ executeClient: ExecuteClient,
         _ nsAppClient: NSAppClient,
         _ logService: LogService,
         _ shiftService: ShiftService,
-        _ shortcutService: ShortcutService
+        _ shortcutService: ShortcutService,
+        _ updateService: UpdateService
     ) {
         self.executeClient = executeClient
         self.nsAppClient = nsAppClient
         self.logService = logService
         self.shiftService = shiftService
+        self.updateService = updateService
         hideIcons = (try? executeClient.checkIconsVisible()) ?? false
         task = Task {
-            for await patterns in await shortcutService.patternsStream() {
-                self.patterns = patterns
+            await withTaskGroup(of: Void.self) { group in
+                group.addTask {
+                    for await patterns in await shortcutService.patternsStream() {
+                        await MainActor.run {
+                            self.patterns = patterns
+                        }
+                    }
+                }
+                group.addTask {
+                    for await value in await updateService.canChecksForUpdatesStream() {
+                        await MainActor.run {
+                            self.canChecksForUpdates = value
+                        }
+                    }
+                }
             }
         }
     }
@@ -66,6 +83,12 @@ import Observation
 
     public func activateApp() {
         nsAppClient.activate(true)
+    }
+
+    public func checkForUpdates() {
+        Task {
+            await updateService.checkForUpdates()
+        }
     }
 
     public func openAbout() {

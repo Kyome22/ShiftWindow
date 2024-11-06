@@ -27,10 +27,11 @@ struct GeneralSettingsView: View {
 
     init(
         nsWorkspaceClient: NSWorkspaceClient,
+        checkForUpdatesRepository: CheckForUpdatesRepository,
         launchAtLoginRepository: LaunchAtLoginRepository,
         logService: LogService
     ) {
-        viewModel = .init(nsWorkspaceClient, launchAtLoginRepository, logService)
+        viewModel = .init(nsWorkspaceClient, checkForUpdatesRepository, launchAtLoginRepository, logService)
     }
 
     var body: some View {
@@ -41,6 +42,13 @@ struct GeneralSettingsView: View {
                 }
             } label: {
                 Text("launchAtLogin", bundle: .module)
+            }
+            LabeledContent {
+                Toggle(isOn: $viewModel.checkForUpdatesIsEnabled) {
+                    Text("AutomaticallyCheckForUpdates", bundle: .module)
+                }
+            } label: {
+                Text("softwareUpdate", bundle: .module)
             }
             Divider()
             Form {
@@ -68,6 +76,7 @@ struct GeneralSettingsView: View {
 #Preview {
     GeneralSettingsView(
         nsWorkspaceClient: .testValue,
+        checkForUpdatesRepository: .init(.testValue),
         launchAtLoginRepository: .init(.testValue),
         logService: .init(.testValue)
     )

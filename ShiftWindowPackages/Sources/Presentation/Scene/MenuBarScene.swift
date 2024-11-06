@@ -33,7 +33,8 @@ public struct MenuBarScene: Scene {
                 nsAppClient: appDependency.nsAppClient,
                 logService: appDependency.logService,
                 shiftService: appDependency.shiftService,
-                shortcutService: appDependency.shortcutService
+                shortcutService: appDependency.shortcutService,
+                updateService: appDependency.updateService
             )
             .environment(\.displayScale, 2.0)
         } label: {
