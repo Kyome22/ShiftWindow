@@ -81,7 +81,7 @@ struct ShortcutSettingsView: View {
 
 #Preview {
     let userDefaultsRepository = UserDefaultsRepository(.testValue, reset: false)
-    let shiftService = ShiftService(.testValue, .testValue, .testValue, .testValue)
+    let shiftService = ShiftService(.testValue, .testValue, .testValue, .testValue, .testValue)
     ShortcutSettingsView(
         userDefaultsRepository: userDefaultsRepository,
         logService: .init(.testValue),

@@ -32,8 +32,9 @@ public struct ShortcutPanelScene: Scene {
 
     public var body: some Scene {
         PanelScene(isPresented: $isPresented, type: ShortcutPanel.self) { userInfo in
-            let keyEquivalent = (userInfo?[String.keyEquivalent] as? String) ?? ""
-            ShortcutView(keyEquivalent: keyEquivalent)
+            if let keyEquivalent = userInfo?[.keyEquivalent] as? String {
+                ShortcutView(keyEquivalent: keyEquivalent)
+            }
         }
     }
 }

@@ -81,7 +81,7 @@ struct MenuView: View {
 }
 
 #Preview {
-    let shiftService = ShiftService(.testValue, .testValue, .testValue, .testValue)
+    let shiftService = ShiftService(.testValue, .testValue, .testValue, .testValue, .testValue)
     MenuView(
         executeClient: .testValue,
         nsAppClient: .testValue,

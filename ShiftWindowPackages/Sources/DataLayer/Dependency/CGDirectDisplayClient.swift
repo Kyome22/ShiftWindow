@@ -1,6 +1,6 @@
 /*
- String+Extension.swift
- Domain
+ CGDirectDisplayClient.swift
+ DataLayer
 
  Created by Takuto Nakamura on 2024/11/06.
  Copyright 2022 Takuto Nakamura (Kyome22)
@@ -18,13 +18,16 @@
  limitations under the License.
 */
 
-import Foundation
+import CoreGraphics
 
-extension String {
-    public static let shortcutPanel = "shortcutPanel"
-    public static let kAXFullScreen = "AXFullScreen"
-}
+public struct CGDirectDisplayClient: DependencyClient {
+    public var bounds: @Sendable (CGDirectDisplayID) -> CGRect
 
-extension AnyHashable {
-    public static let keyEquivalent = "keyEquivalent"
+    public static let liveValue = Self(
+        bounds: { CGDisplayBounds($0) }
+    )
+
+    public static let testValue = Self(
+        bounds: { _ in CGRect.zero }
+    )
 }
