@@ -54,9 +54,9 @@ import Observation
         task = Task {
             await withTaskGroup(of: Void.self) { group in
                 group.addTask {
-                    for await patterns in await shortcutService.patternsStream() {
+                    for await value in await shortcutService.patternsStream() {
                         await MainActor.run {
-                            self.patterns = patterns
+                            self.patterns = value
                         }
                     }
                 }

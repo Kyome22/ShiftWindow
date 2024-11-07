@@ -36,22 +36,22 @@ struct GeneralSettingsView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            LabeledContent {
-                Toggle(isOn: $viewModel.launchAtLoginIsEnabled) {
-                    Text("enable", bundle: .module)
-                }
-            } label: {
-                Text("launchAtLogin", bundle: .module)
-            }
-            LabeledContent {
-                Toggle(isOn: $viewModel.checkForUpdatesIsEnabled) {
-                    Text("AutomaticallyCheckForUpdates", bundle: .module)
-                }
-            } label: {
-                Text("softwareUpdate", bundle: .module)
-            }
-            Divider()
             Form {
+                LabeledContent {
+                    Toggle(isOn: $viewModel.launchAtLoginIsEnabled) {
+                        Text("AutomaticallyLaunchAtLogin", bundle: .module)
+                    }
+                } label: {
+                    Text("launch", bundle: .module)
+                }
+                LabeledContent {
+                    Toggle(isOn: $viewModel.checkForUpdatesIsEnabled) {
+                        Text("AutomaticallyCheckForUpdates", bundle: .module)
+                    }
+                } label: {
+                    Text("update", bundle: .module)
+                }
+                Divider()
                 LabeledContent {
                     Text("permissionExplain", bundle: .module)
                         .frame(width: 300, alignment: .leading)

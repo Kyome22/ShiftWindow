@@ -33,6 +33,22 @@
         }
       }
     },
+    "AutomaticallyLaunchAtLogin" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatically launch at login"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログイン時に自動的に起動"
+          }
+        }
+      }
+    },
     "checkForUpdates" : {
       "localizations" : {
         "en" : {
@@ -97,18 +113,18 @@
         }
       }
     },
-    "launchAtLogin" : {
+    "launch" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Launch at Login:"
+            "value" : "Launch:"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ログイン時に起動:"
+            "value" : "起動:"
           }
         }
       }
@@ -369,22 +385,6 @@
         }
       }
     },
-    "softwareUpdate" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Software Update:"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ソフトウェアアップデート:"
-          }
-        }
-      }
-    },
     "terminateApp" : {
       "localizations" : {
         "en" : {
@@ -397,6 +397,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ShiftWindowを終了"
+          }
+        }
+      }
+    },
+    "update" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update:"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アップデート:"
           }
         }
       }
