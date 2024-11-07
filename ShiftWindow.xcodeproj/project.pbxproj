@@ -29,6 +29,7 @@
 		1C0D29D626AEFBDA00DD0690 /* ShiftWindow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShiftWindow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C0D29DD26AEFBDC00DD0690 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1C0D29E326AEFBDC00DD0690 /* ShiftWindow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShiftWindow.entitlements; sourceTree = "<group>"; };
+		1C90D5CA2CDCABD800C1DD2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1CC92CF72869E51C00D46424 /* ShiftWindowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftWindowApp.swift; sourceTree = "<group>"; };
 		1CEF19DB2CD3CDC60069E419 /* ShiftWindowPackages */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ShiftWindowPackages; sourceTree = "<group>"; };
 		1CEF19E32CD523DE0069E419 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
@@ -67,6 +68,7 @@
 		1C0D29D826AEFBDA00DD0690 /* ShiftWindow */ = {
 			isa = PBXGroup;
 			children = (
+				1C90D5CA2CDCABD800C1DD2A /* Info.plist */,
 				1C0D29E326AEFBDC00DD0690 /* ShiftWindow.entitlements */,
 				1C0D29DD26AEFBDC00DD0690 /* Assets.xcassets */,
 				1CEF19E32CD523DE0069E419 /* InfoPlist.xcstrings */,
@@ -309,11 +311,12 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2.9.0;
+				CURRENT_PROJECT_VERSION = 3.0.0;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = VJ5N2X84K8;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShiftWindow/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2021-2024 Takuto Nakamura";
@@ -321,7 +324,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 2.9;
+				MARKETING_VERSION = 3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyome.ShiftWindow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -338,11 +341,12 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2.9.0;
+				CURRENT_PROJECT_VERSION = 3.0.0;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = VJ5N2X84K8;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ShiftWindow/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2021-2024 Takuto Nakamura";
@@ -350,7 +354,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 2.9;
+				MARKETING_VERSION = 3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyome.ShiftWindow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
