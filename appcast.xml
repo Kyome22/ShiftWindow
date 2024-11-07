@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>ShiftWindow</title>
+        <item>
+            <title>3.0</title>
+            <pubDate>Thu, 07 Nov 2024 20:44:39 +0900</pubDate>
+            <sparkle:version>3.0.0</sparkle:version>
+            <sparkle:shortVersionString>3.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/Kyome22/ShiftWindow/releases/download/3.0.0/Installer.dmg" length="1767713" type="application/octet-stream" sparkle:edSignature="U9g1z9S6KdXEmImu101nHHs1T5no0tDj1aDMb/6N96st+za56imUljwRnc2imesll+0iBPhh8gkIqA4uQ+ABCw=="/>
+        </item>
+    </channel>
+</rss>
