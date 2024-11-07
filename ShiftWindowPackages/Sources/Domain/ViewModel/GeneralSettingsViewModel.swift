@@ -24,6 +24,7 @@ import Observation
 
 @MainActor @Observable public final class GeneralSettingsViewModel {
     private let nsWorkspaceClient: NSWorkspaceClient
+    private let checkForUpdatesRepository: CheckForUpdatesRepository
     private let launchAtLoginRepository: LaunchAtLoginRepository
     private let logService: LogService
 
@@ -31,15 +32,22 @@ import Observation
         didSet { launchAtLoginSwitched(launchAtLoginIsEnabled) }
     }
 
+    public var checkForUpdatesIsEnabled: Bool {
+        didSet { checkForUpdatesRepository.switchStatus(checkForUpdatesIsEnabled) }
+    }
+
     public init(
         _ nsWorkspaceClient: NSWorkspaceClient,
+        _ checkForUpdatesRepository: CheckForUpdatesRepository,
         _ launchAtLoginRepository: LaunchAtLoginRepository,
         _ logService: LogService
     ) {
         self.nsWorkspaceClient = nsWorkspaceClient
+        self.checkForUpdatesRepository = checkForUpdatesRepository
         self.launchAtLoginRepository = launchAtLoginRepository
         self.logService = logService
         launchAtLoginIsEnabled = launchAtLoginRepository.isEnabled
+        checkForUpdatesIsEnabled = checkForUpdatesRepository.isEnabled
     }
 
     public func onAppear(screenName: String) {

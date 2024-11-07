@@ -32,6 +32,7 @@ public struct SettingsView: View {
         TabView(selection: $settingsTabType) {
             GeneralSettingsView(
                 nsWorkspaceClient: appDependency.nsWorkspaceClient,
+                checkForUpdatesRepository: appDependency.checkForUpdatesRepository,
                 launchAtLoginRepository: appDependency.launchAtLoginRepository,
                 logService: appDependency.logService
             )

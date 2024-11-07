@@ -30,12 +30,14 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-log.git", exact: "1.6.1"),
         .package(url: "https://github.com/Kyome22/PanelSceneKit.git", exact: "1.2.0"),
         .package(url: "https://github.com/Kyome22/SpiceKey.git", exact: "5.4.1"),
+        .package(url: "https://github.com/sparkle-project/Sparkle.git", exact: "2.6.4"),
     ],
     targets: [
         .target(
             name: "DataLayer",
             dependencies: [
                 .product(name: "Logging", package: "swift-log"),
+                .product(name: "Sparkle", package: "Sparkle"),
                 .product(name: "SpiceKey", package: "SpiceKey"),
             ],
             swiftSettings: swiftSettings

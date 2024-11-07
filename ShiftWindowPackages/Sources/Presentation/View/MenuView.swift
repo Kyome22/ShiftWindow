@@ -31,9 +31,10 @@ struct MenuView: View {
         nsAppClient: NSAppClient,
         logService: LogService,
         shiftService: ShiftService,
-        shortcutService: ShortcutService
+        shortcutService: ShortcutService,
+        updateService: UpdateService
     ) {
-        viewModel = .init(executeClient, nsAppClient, logService, shiftService, shortcutService)
+        viewModel = .init(executeClient, nsAppClient, logService, shiftService, shortcutService, updateService)
     }
 
     var body: some View {
@@ -67,6 +68,11 @@ struct MenuView: View {
             }
             Divider()
             Button {
+                viewModel.checkForUpdates()
+            } label: {
+                Text("checkForUpdates", bundle: .module)
+            }
+            Button {
                 viewModel.openAbout()
             } label: {
                 Text("aboutApp", bundle: .module)
@@ -87,6 +93,7 @@ struct MenuView: View {
         nsAppClient: .testValue,
         logService: .init(.testValue),
         shiftService: shiftService,
-        shortcutService: .init(.init(.testValue, reset: false), shiftService)
+        shortcutService: .init(.init(.testValue, reset: false), shiftService),
+        updateService: .init(.testValue)
     )
 }

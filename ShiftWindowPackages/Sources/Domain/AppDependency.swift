@@ -27,11 +27,13 @@ public final class AppDependency: Sendable {
     public let hiServicesClient: HIServicesClient
     public let nsAppClient: NSAppClient
     public let nsWorkspaceClient: NSWorkspaceClient
+    public let checkForUpdatesRepository: CheckForUpdatesRepository
     public let userDefaultsRepository: UserDefaultsRepository
     public let launchAtLoginRepository: LaunchAtLoginRepository
     public let logService: LogService
     public let shiftService: ShiftService
     public let shortcutService: ShortcutService
+    public let updateService: UpdateService
 
     public nonisolated init(
         cgDirectDisplayClient: CGDirectDisplayClient = .liveValue,
@@ -42,6 +44,7 @@ public final class AppDependency: Sendable {
         nsScreenClient: NSScreenClient = .liveValue,
         nsWorkspaceClient: NSWorkspaceClient = .liveValue,
         smAppServiceClient: SMAppServiceClient = .liveValue,
+        spuUpdaterClient: SPUUpdaterClient = .liveValue,
         userDefaultsClient: UserDefaultsClient = .liveValue,
         needsResetUserDefaults: Bool = false
     ) {
@@ -49,6 +52,7 @@ public final class AppDependency: Sendable {
         self.hiServicesClient = hiServicesClient
         self.nsAppClient = nsAppClient
         self.nsWorkspaceClient = nsWorkspaceClient
+        checkForUpdatesRepository = .init(spuUpdaterClient)
         userDefaultsRepository = .init(userDefaultsClient, reset: needsResetUserDefaults)
         launchAtLoginRepository = .init(smAppServiceClient)
         logService = .init(loggingSystemClient)
@@ -58,6 +62,7 @@ public final class AppDependency: Sendable {
                              nsScreenClient,
                              nsWorkspaceClient)
         shortcutService = .init(userDefaultsRepository, shiftService)
+        updateService = .init(spuUpdaterClient)
     }
 }
 
@@ -71,6 +76,7 @@ struct AppDependencyKey: EnvironmentKey {
         nsScreenClient: .testValue,
         nsWorkspaceClient: .testValue,
         smAppServiceClient: .testValue,
+        spuUpdaterClient: .testValue,
         userDefaultsClient: .testValue
     )
 }
