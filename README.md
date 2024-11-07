@@ -27,6 +27,6 @@ You can also register your favorite keyboard-shortcuts for the command.
 
 ShiftWindow works on macOS 14.0 or later.
 
-1. Download `installer.dmg` from [releases](https://github.com/Kyome22/ShiftWindow/releases) page.
-2. Double-click on the `installer.dmg` and open the generated `ShiftWindow Installer`.
+1. Download `Installer.dmg` from [releases](https://github.com/Kyome22/ShiftWindow/releases) page.
+2. Double-click on the `Installer.dmg`.
 3. Copy the App to the Applications folder.
