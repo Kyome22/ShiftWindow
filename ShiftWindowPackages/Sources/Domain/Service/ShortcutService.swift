@@ -21,20 +21,23 @@
 import Combine
 import DataLayer
 import Foundation
-import PanelSceneKit
 import SpiceKey
 
 public actor ShortcutService {
     private let patternsSubject: CurrentValueSubject<[ShiftPattern], Never>
+    private let shiftTypeSubject = PassthroughSubject<ShiftType, Never>()
+    private let panelSceneMessengerClient: PanelSceneMessengerClient
+    private let spiceKeyClient: SpiceKeyClient
     private let userDefaultsRepository: UserDefaultsRepository
-    private let shiftService: ShiftService
 
     public init(
-        _ userDefaultsRepository: UserDefaultsRepository,
-        _ shiftService: ShiftService
+        _ panelSceneMessengerClient: PanelSceneMessengerClient,
+        _ spiceKeyClient: SpiceKeyClient,
+        _ userDefaultsClient: UserDefaultsClient
     ) {
-        self.userDefaultsRepository = userDefaultsRepository
-        self.shiftService = shiftService
+        self.panelSceneMessengerClient = panelSceneMessengerClient
+        self.spiceKeyClient = spiceKeyClient
+        self.userDefaultsRepository = .init(userDefaultsClient)
         patternsSubject = .init(userDefaultsRepository.patterns)
     }
 
@@ -49,23 +52,30 @@ public actor ShortcutService {
         }
     }
 
+    public func shiftTypeStream() -> AsyncStream<ShiftType> {
+        AsyncStream { continuation in
+            let cancellable = shiftTypeSubject.sink { value in
+                continuation.yield(value)
+            }
+            continuation.onTermination = { _ in
+                cancellable.cancel()
+            }
+        }
+    }
+
     public func initializeShortcuts() {
         patternsSubject.value.forEach { pattern in
             guard let keyCombo = pattern.spiceKeyData?.keyCombination else { return }
-            let spiceKey = SpiceKey(keyCombo) { @MainActor [weak self] in
+            let spiceKey = SpiceKey(keyCombo) { [weak self] in
                 guard let self else { return }
                 if userDefaultsRepository.showShortcutPanel {
-                    PanelSceneMessenger.request(
-                        panelAction: .open,
-                        with: .shortcutPanel,
-                        userInfo: [.keyEquivalent: keyCombo.string]
-                    )
+                    panelSceneMessengerClient.request(.open, .shortcutPanel, [.keyEquivalent: keyCombo.string])
                 }
-                await shiftService.shiftWindow(shiftType: pattern.shiftType)
-            } keyUpHandler: {
-                PanelSceneMessenger.request(panelAction: .close, with: .shortcutPanel)
+                shiftTypeSubject.send(pattern.shiftType)
+            } keyUpHandler: { [weak self] in
+                self?.panelSceneMessengerClient.request(.close, .shortcutPanel, nil)
             }
-            spiceKey.register()
+            spiceKeyClient.register(spiceKey)
             pattern.spiceKeyData?.spiceKey = spiceKey
         }
     }
@@ -77,20 +87,16 @@ public actor ShortcutService {
     public func updateShortcut(id: String, keyCombo: KeyCombination) {
         guard let index = getIndex(id: id) else { return }
         let pattern = patternsSubject.value[index]
-        let spiceKey = SpiceKey(keyCombo) { @MainActor [weak self] in
+        let spiceKey = SpiceKey(keyCombo) { [weak self] in
             guard let self else { return }
             if userDefaultsRepository.showShortcutPanel {
-                PanelSceneMessenger.request(
-                    panelAction: .open,
-                    with: .shortcutPanel,
-                    userInfo: [.keyEquivalent: keyCombo.string]
-                )
+                panelSceneMessengerClient.request(.open, .shortcutPanel, [.keyEquivalent: keyCombo.string])
             }
-            await shiftService.shiftWindow(shiftType: pattern.shiftType)
-        } keyUpHandler: {
-            PanelSceneMessenger.request(panelAction: .close, with: .shortcutPanel)
+            shiftTypeSubject.send(pattern.shiftType)
+        } keyUpHandler: { [weak self] in
+            self?.panelSceneMessengerClient.request(.close, .shortcutPanel, nil)
         }
-        spiceKey.register()
+        spiceKeyClient.register(spiceKey)
         let spiceKeyData = SpiceKeyData(id, keyCombo.key, keyCombo.modifierFlags, spiceKey)
         patternsSubject.value[index].spiceKeyData = spiceKeyData
         userDefaultsRepository.patterns = patternsSubject.value
@@ -98,10 +104,13 @@ public actor ShortcutService {
 
     public func removeShortcut(id: String) {
         guard let index = getIndex(id: id) else { return }
-        patternsSubject.value[index].spiceKeyData?.spiceKey?.unregister()
+        if let spiceKey = patternsSubject.value[index].spiceKeyData?.spiceKey {
+            spiceKeyClient.unregister(spiceKey)
+        }
         patternsSubject.value[index].spiceKeyData = nil
         userDefaultsRepository.patterns = patternsSubject.value
     }
 }
 
 extension AnyCancellable: @retroactive @unchecked Sendable {}
+extension PassthroughSubject<ShiftType, Never>: @retroactive @unchecked Sendable {}

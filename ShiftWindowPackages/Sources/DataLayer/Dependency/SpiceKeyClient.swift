@@ -1,8 +1,8 @@
 /*
- DependencyClient.swift
+ SpiceKeyClient.swift
  DataLayer
 
- Created by Takuto Nakamura on 2024/11/01.
+ Created by Takuto Nakamura on 2024/11/14.
  Copyright 2022 Takuto Nakamura (Kyome22)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,15 +18,19 @@
  limitations under the License.
 */
 
-import Foundation
+import SpiceKey
 
-public protocol DependencyClient: Sendable {
-    static var liveValue: Self { get }
-    static var testValue: Self { get }
-}
+public struct SpiceKeyClient: DependencyClient {
+    public var register: @Sendable (SpiceKey) -> Void
+    public var unregister: @Sendable (SpiceKey) -> Void
 
-public func testDependency<D: DependencyClient>(of type: D.Type, injection: (inout D) -> Void) -> D {
-    var dependencyClient = type.testValue
-    injection(&dependencyClient)
-    return dependencyClient
+    public static let liveValue = Self(
+        register: { $0.register() },
+        unregister: { $0.unregister() }
+    )
+
+    public static let testValue = Self(
+        register: { _ in },
+        unregister: { _ in }
+    )
 }

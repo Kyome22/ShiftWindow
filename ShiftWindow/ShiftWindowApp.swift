@@ -30,9 +30,11 @@ struct ShiftWindowApp: App {
 
     var body: some Scene {
         MenuBarScene()
-            .environment(\.appDependency, appDelegate.appDependency)
+            .environment(\.appDependencies, appDelegate.appDependencies)
+            .environment(\.appServices, appDelegate.appServices)
         SettingsWindowScene()
-            .environment(\.appDependency, appDelegate.appDependency)
+            .environment(\.appDependencies, appDelegate.appDependencies)
+            .environment(\.appServices, appDelegate.appServices)
         ShortcutPanelScene(isPresented: $isPresented)
     }
 }

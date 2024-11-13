@@ -39,11 +39,11 @@ public struct UserDefaultsRepository: Sendable {
         nonmutating set { userDefaultsClient.setBool(newValue, .showShortcutPanel) }
     }
 
-    public init(_ userDefaultsClient: UserDefaultsClient, reset: Bool) {
+    public init(_ userDefaultsClient: UserDefaultsClient) {
         self.userDefaultsClient = userDefaultsClient
 
         #if DEBUG
-        if reset {
+        if ProcessInfo.needsResetUserDefaults {
             userDefaultsClient.removePersistentDomain(Bundle.main.bundleIdentifier!)
         }
         #endif

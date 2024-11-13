@@ -22,28 +22,32 @@ import AppKit
 import DataLayer
 
 public final class AppDelegate: NSObject, NSApplicationDelegate {
-    public let appDependency: AppDependency
+    public let appDependencies = AppDependencies()
+    public let appServices: AppServices
 
     public override init() {
-        appDependency = .init(
-            needsResetUserDefaults: ProcessInfo.needsResetUserDefaults
-        )
+        appServices = .init(appDependencies: appDependencies)
         super.init()
     }
 
     public func applicationDidFinishLaunching(_ notification: Notification) {
         Task {
-            await appDependency.logService.bootstrap()
-            appDependency.logService.notice(.launchApp)
-            await appDependency.shortcutService.initializeShortcuts()
+            await appServices.logService.bootstrap()
+            appServices.logService.notice(.launchApp)
+            await appServices.shortcutService.initializeShortcuts()
         }
-        let unmanagedKey = appDependency.hiServicesClient.trustedCheckOptionPrompt()
+        Task {
+            for await shiftType in await appServices.shortcutService.shiftTypeStream() {
+                await appServices.shiftService.shiftWindow(shiftType: shiftType)
+            }
+        }
+        let unmanagedKey = appDependencies.hiServicesClient.trustedCheckOptionPrompt()
         let options = [unmanagedKey.takeRetainedValue(): true] as CFDictionary
-        _ = appDependency.hiServicesClient.isProcessTrusted(options)
+        _ = appDependencies.hiServicesClient.isProcessTrusted(options)
     }
 
     public func applicationWillTerminate(_ notification: Notification) {
-        let executeClient = appDependency.executeClient
+        let executeClient = appDependencies.executeClient
         Task.detached(priority: .background) {
             if try executeClient.checkIconsVisible() {
                 try executeClient.toggleIconsVisible(false)

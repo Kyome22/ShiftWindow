@@ -1,8 +1,8 @@
 /*
- DependencyClient.swift
+ PanelSceneMessengerClient.swift
  DataLayer
 
- Created by Takuto Nakamura on 2024/11/01.
+ Created by Takuto Nakamura on 2024/11/14.
  Copyright 2022 Takuto Nakamura (Kyome22)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,15 +18,16 @@
  limitations under the License.
 */
 
-import Foundation
+import PanelSceneKit
 
-public protocol DependencyClient: Sendable {
-    static var liveValue: Self { get }
-    static var testValue: Self { get }
-}
+public struct PanelSceneMessengerClient: DependencyClient {
+    public var request: @Sendable (PanelAction, String, [AnyHashable : Any]?) -> Void
 
-public func testDependency<D: DependencyClient>(of type: D.Type, injection: (inout D) -> Void) -> D {
-    var dependencyClient = type.testValue
-    injection(&dependencyClient)
-    return dependencyClient
+    public static let liveValue = Self(
+        request: { PanelSceneMessenger.request(panelAction: $0, with: $1, userInfo: $2) }
+    )
+
+    public static let testValue = Self(
+        request: { _, _, _ in }
+    )
 }

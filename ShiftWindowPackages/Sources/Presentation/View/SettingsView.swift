@@ -24,17 +24,18 @@ import SwiftUI
 
 public struct SettingsView: View {
     @State private var settingsTabType: SettingsTabType = .general
-    @Environment(\.appDependency) private var appDependency
+    @Environment(\.appDependencies) private var appDependencies
+    @Environment(\.appServices) private var appServices
 
     public init() {}
 
     public var body: some View {
         TabView(selection: $settingsTabType) {
             GeneralSettingsView(
-                nsWorkspaceClient: appDependency.nsWorkspaceClient,
-                checkForUpdatesRepository: appDependency.checkForUpdatesRepository,
-                launchAtLoginRepository: appDependency.launchAtLoginRepository,
-                logService: appDependency.logService
+                nsWorkspaceClient: appDependencies.nsWorkspaceClient,
+                spuUpdaterClient: appDependencies.spuUpdaterClient,
+                smAppServiceClient: appDependencies.smAppServiceClient,
+                logService: appServices.logService
             )
             .tabItem {
                 Label {
@@ -45,9 +46,9 @@ public struct SettingsView: View {
             }
             .tag(SettingsTabType.general)
             ShortcutSettingsView(
-                userDefaultsRepository: appDependency.userDefaultsRepository,
-                logService: appDependency.logService,
-                shortcutService: appDependency.shortcutService
+                userDefaultsClient: appDependencies.userDefaultsClient,
+                logService: appServices.logService,
+                shortcutService: appServices.shortcutService
             )
             .tabItem {
                 Label {

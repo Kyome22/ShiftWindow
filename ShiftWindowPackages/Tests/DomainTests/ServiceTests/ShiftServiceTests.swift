@@ -12,36 +12,45 @@ final class ShiftServiceTests: XCTestCase {
     }
 
     func test_getValidFrame_MainScreenが取得可能_Dockが下部に存在_有効領域が返される() async {
-        var nsScreenClient = NSScreenClient.testValue
-        nsScreenClient.mainScreen = { NSScreenMock(x: 0, y: 0, width: 100, height: 95) }
-        var cgDirectDisplayClient = CGDirectDisplayClient.testValue
-        cgDirectDisplayClient.bounds = { _ in CGRect(x: 0, y: 0, width: 100, height: 100) }
-        var nsAppClient = NSAppClient.testValue
-        nsAppClient.mainMenu = { NSMenuMock() }
+        let nsScreenClient = testDependency(of: NSScreenClient.self) {
+            $0.mainScreen = { NSScreenMock(x: 0, y: 0, width: 100, height: 95) }
+        }
+        let cgDirectDisplayClient = testDependency(of: CGDirectDisplayClient.self) {
+            $0.bounds = { _ in CGRect(x: 0, y: 0, width: 100, height: 100) }
+        }
+        let nsAppClient = testDependency(of: NSAppClient.self) {
+            $0.mainMenu = { NSMenuMock() }
+        }
         let sut = ShiftService(cgDirectDisplayClient, .testValue, nsAppClient, nsScreenClient, .testValue)
         let actual = await sut.getValidFrame()
         XCTAssertEqual(actual, CGRect(x: 0, y: 5, width: 100, height: 95))
     }
 
     func test_getValidFrame_MainScreenが取得可能_Dockが右側に存在_有効領域が返される() async {
-        var nsScreenClient = NSScreenClient.testValue
-        nsScreenClient.mainScreen = { NSScreenMock(x: 0, y: 0, width: 95, height: 95) }
-        var cgDirectDisplayClient = CGDirectDisplayClient.testValue
-        cgDirectDisplayClient.bounds = { _ in CGRect(x: 0, y: 0, width: 100, height: 100) }
-        var nsAppClient = NSAppClient.testValue
-        nsAppClient.mainMenu = { NSMenuMock() }
+        let nsScreenClient = testDependency(of: NSScreenClient.self) {
+            $0.mainScreen = { NSScreenMock(x: 0, y: 0, width: 95, height: 95) }
+        }
+        let cgDirectDisplayClient = testDependency(of: CGDirectDisplayClient.self) {
+            $0.bounds = { _ in CGRect(x: 0, y: 0, width: 100, height: 100) }
+        }
+        let nsAppClient = testDependency(of: NSAppClient.self) {
+            $0.mainMenu = { NSMenuMock() }
+        }
         let sut = ShiftService(cgDirectDisplayClient, .testValue, nsAppClient, nsScreenClient, .testValue)
         let actual = await sut.getValidFrame()
         XCTAssertEqual(actual, CGRect(x: 0, y: 5, width: 94, height: 95))
     }
 
     func test_getValidFrame_MainScreenが取得可能_Dockが左側に存在_有効領域が返される() async {
-        var nsScreenClient = NSScreenClient.testValue
-        nsScreenClient.mainScreen = { NSScreenMock(x: 5, y: 0, width: 95, height: 95) }
-        var cgDirectDisplayClient = CGDirectDisplayClient.testValue
-        cgDirectDisplayClient.bounds = { _ in CGRect(x: 0, y: 0, width: 100, height: 100) }
-        var nsAppClient = NSAppClient.testValue
-        nsAppClient.mainMenu = { NSMenuMock() }
+        let nsScreenClient = testDependency(of: NSScreenClient.self) {
+            $0.mainScreen = { NSScreenMock(x: 5, y: 0, width: 95, height: 95) }
+        }
+        let cgDirectDisplayClient = testDependency(of: CGDirectDisplayClient.self) {
+            $0.bounds = { _ in CGRect(x: 0, y: 0, width: 100, height: 100) }
+        }
+        let nsAppClient = testDependency(of: NSAppClient.self) {
+            $0.mainMenu = { NSMenuMock() }
+        }
         let sut = ShiftService(cgDirectDisplayClient, .testValue, nsAppClient, nsScreenClient, .testValue)
         let actual = await sut.getValidFrame()
         XCTAssertEqual(actual, CGRect(x: 6, y: 5, width: 94, height: 95))

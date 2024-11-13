@@ -27,18 +27,21 @@ struct GeneralSettingsView: View {
 
     init(
         nsWorkspaceClient: NSWorkspaceClient,
-        checkForUpdatesRepository: CheckForUpdatesRepository,
-        launchAtLoginRepository: LaunchAtLoginRepository,
+        spuUpdaterClient: SPUUpdaterClient,
+        smAppServiceClient: SMAppServiceClient,
         logService: LogService
     ) {
-        viewModel = .init(nsWorkspaceClient, checkForUpdatesRepository, launchAtLoginRepository, logService)
+        viewModel = .init(nsWorkspaceClient, spuUpdaterClient, smAppServiceClient, logService)
     }
 
     var body: some View {
         VStack(alignment: .leading) {
             Form {
                 LabeledContent {
-                    Toggle(isOn: $viewModel.launchAtLoginIsEnabled) {
+                    Toggle(isOn: Binding<Bool>(
+                        get: { viewModel.launchAtLoginIsEnabled },
+                        set: { viewModel.launchAtLoginSwitched($0) }
+                    )) {
                         Text("AutomaticallyLaunchAtLogin", bundle: .module)
                     }
                 } label: {
@@ -76,8 +79,8 @@ struct GeneralSettingsView: View {
 #Preview {
     GeneralSettingsView(
         nsWorkspaceClient: .testValue,
-        checkForUpdatesRepository: .init(.testValue),
-        launchAtLoginRepository: .init(.testValue),
+        spuUpdaterClient: .testValue,
+        smAppServiceClient: .testValue,
         logService: .init(.testValue)
     )
 }

@@ -22,19 +22,20 @@ import Domain
 import SwiftUI
 
 public struct MenuBarScene: Scene {
-    @Environment(\.appDependency) private var appDependency
+    @Environment(\.appDependencies) private var appDependencies
+    @Environment(\.appServices) private var appServices
 
     public init() {}
 
     public var body: some Scene {
         MenuBarExtra {
             MenuView(
-                executeClient: appDependency.executeClient,
-                nsAppClient: appDependency.nsAppClient,
-                logService: appDependency.logService,
-                shiftService: appDependency.shiftService,
-                shortcutService: appDependency.shortcutService,
-                updateService: appDependency.updateService
+                executeClient: appDependencies.executeClient,
+                nsAppClient: appDependencies.nsAppClient,
+                logService: appServices.logService,
+                shiftService: appServices.shiftService,
+                shortcutService: appServices.shortcutService,
+                updateService: appServices.updateService
             )
             .environment(\.displayScale, 2.0)
         } label: {

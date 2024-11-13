@@ -1,5 +1,5 @@
 /*
- AppDependency.swift
+ AppDependencies.swift
  Domain
 
  Created by Takuto Nakamura on 2024/11/01.
@@ -22,18 +22,19 @@ import DataLayer
 import Observation
 import SwiftUI
 
-public final class AppDependency: Sendable {
+public final class AppDependencies: Sendable {
+    public let cgDirectDisplayClient: CGDirectDisplayClient
     public let executeClient: ExecuteClient
     public let hiServicesClient: HIServicesClient
+    public let loggingSystemClient: LoggingSystemClient
     public let nsAppClient: NSAppClient
+    public let nsScreenClient: NSScreenClient
     public let nsWorkspaceClient: NSWorkspaceClient
-    public let checkForUpdatesRepository: CheckForUpdatesRepository
-    public let userDefaultsRepository: UserDefaultsRepository
-    public let launchAtLoginRepository: LaunchAtLoginRepository
-    public let logService: LogService
-    public let shiftService: ShiftService
-    public let shortcutService: ShortcutService
-    public let updateService: UpdateService
+    public let panelSceneMessengerClient: PanelSceneMessengerClient
+    public let smAppServiceClient: SMAppServiceClient
+    public let spiceKeyClient: SpiceKeyClient
+    public let spuUpdaterClient: SPUUpdaterClient
+    public let userDefaultsClient: UserDefaultsClient
 
     public nonisolated init(
         cgDirectDisplayClient: CGDirectDisplayClient = .liveValue,
@@ -43,31 +44,29 @@ public final class AppDependency: Sendable {
         nsAppClient: NSAppClient = .liveValue,
         nsScreenClient: NSScreenClient = .liveValue,
         nsWorkspaceClient: NSWorkspaceClient = .liveValue,
+        panelSceneMessengerClient: PanelSceneMessengerClient = .liveValue,
         smAppServiceClient: SMAppServiceClient = .liveValue,
+        spiceKeyClient: SpiceKeyClient = .liveValue,
         spuUpdaterClient: SPUUpdaterClient = .liveValue,
-        userDefaultsClient: UserDefaultsClient = .liveValue,
-        needsResetUserDefaults: Bool = false
+        userDefaultsClient: UserDefaultsClient = .liveValue
     ) {
+        self.cgDirectDisplayClient = cgDirectDisplayClient
         self.executeClient = executeClient
         self.hiServicesClient = hiServicesClient
+        self.loggingSystemClient = loggingSystemClient
         self.nsAppClient = nsAppClient
+        self.nsScreenClient = nsScreenClient
         self.nsWorkspaceClient = nsWorkspaceClient
-        checkForUpdatesRepository = .init(spuUpdaterClient)
-        userDefaultsRepository = .init(userDefaultsClient, reset: needsResetUserDefaults)
-        launchAtLoginRepository = .init(smAppServiceClient)
-        logService = .init(loggingSystemClient)
-        shiftService = .init(cgDirectDisplayClient,
-                             hiServicesClient,
-                             nsAppClient,
-                             nsScreenClient,
-                             nsWorkspaceClient)
-        shortcutService = .init(userDefaultsRepository, shiftService)
-        updateService = .init(spuUpdaterClient)
+        self.panelSceneMessengerClient = panelSceneMessengerClient
+        self.smAppServiceClient = smAppServiceClient
+        self.spiceKeyClient = spiceKeyClient
+        self.spuUpdaterClient = spuUpdaterClient
+        self.userDefaultsClient = userDefaultsClient
     }
 }
 
-struct AppDependencyKey: EnvironmentKey {
-    static let defaultValue = AppDependency(
+struct AppDependenciesKey: EnvironmentKey {
+    static let defaultValue = AppDependencies(
         cgDirectDisplayClient: .testValue,
         executeClient: .testValue,
         hiServicesClient: .testValue,
@@ -75,15 +74,17 @@ struct AppDependencyKey: EnvironmentKey {
         nsAppClient: .testValue,
         nsScreenClient: .testValue,
         nsWorkspaceClient: .testValue,
+        panelSceneMessengerClient: .testValue,
         smAppServiceClient: .testValue,
+        spiceKeyClient: .testValue,
         spuUpdaterClient: .testValue,
         userDefaultsClient: .testValue
     )
 }
 
 public extension EnvironmentValues {
-    var appDependency: AppDependency {
-        get { self[AppDependencyKey.self] }
-        set { self[AppDependencyKey.self] = newValue }
+    var appDependencies: AppDependencies {
+        get { self[AppDependenciesKey.self] }
+        set { self[AppDependenciesKey.self] = newValue }
     }
 }

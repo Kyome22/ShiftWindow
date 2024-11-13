@@ -28,23 +28,20 @@ import Observation
     private let launchAtLoginRepository: LaunchAtLoginRepository
     private let logService: LogService
 
-    public var launchAtLoginIsEnabled: Bool {
-        didSet { launchAtLoginSwitched(launchAtLoginIsEnabled) }
-    }
-
+    public var launchAtLoginIsEnabled: Bool
     public var checkForUpdatesIsEnabled: Bool {
         didSet { checkForUpdatesRepository.switchStatus(checkForUpdatesIsEnabled) }
     }
 
     public init(
         _ nsWorkspaceClient: NSWorkspaceClient,
-        _ checkForUpdatesRepository: CheckForUpdatesRepository,
-        _ launchAtLoginRepository: LaunchAtLoginRepository,
+        _ spuUpdaterClient: SPUUpdaterClient,
+        _ smAppServiceClient: SMAppServiceClient,
         _ logService: LogService
     ) {
         self.nsWorkspaceClient = nsWorkspaceClient
-        self.checkForUpdatesRepository = checkForUpdatesRepository
-        self.launchAtLoginRepository = launchAtLoginRepository
+        self.checkForUpdatesRepository = .init(spuUpdaterClient)
+        self.launchAtLoginRepository = .init(smAppServiceClient)
         self.logService = logService
         launchAtLoginIsEnabled = launchAtLoginRepository.isEnabled
         checkForUpdatesIsEnabled = checkForUpdatesRepository.isEnabled
@@ -59,10 +56,10 @@ import Observation
         _ = nsWorkspaceClient.open(URL(string: path)!)
     }
 
-    func launchAtLoginSwitched(_ isEnabled: Bool) {
+    public func launchAtLoginSwitched(_ isEnabled: Bool) {
         switch launchAtLoginRepository.switchStatus(isEnabled) {
         case .success:
-            break
+            launchAtLoginIsEnabled = isEnabled
         case let .failure(.switchFailed(value)):
             launchAtLoginIsEnabled = value
         }

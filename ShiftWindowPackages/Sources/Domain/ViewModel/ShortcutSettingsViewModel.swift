@@ -36,11 +36,11 @@ import SpiceKey
     }
 
     public init(
-        _ userDefaultsRepository: UserDefaultsRepository,
+        _ userDefaultsClient: UserDefaultsClient,
         _ logService: LogService,
         _ shortcutService: ShortcutService
     ) {
-        self.userDefaultsRepository = userDefaultsRepository
+        self.userDefaultsRepository = .init(userDefaultsClient)
         self.logService = logService
         self.shortcutService = shortcutService
         patterns = userDefaultsRepository.patterns
@@ -60,17 +60,13 @@ import SpiceKey
         logService.notice(.screenView(name: screenName))
     }
 
-    public func updateShortcut(id: String?, keyCombo: KeyCombination) {
+    public func updateShortcut(id: String?, keyCombo: KeyCombination) async {
         guard let id else { return }
-        Task {
-            await shortcutService.updateShortcut(id: id, keyCombo: keyCombo)
-        }
+        await shortcutService.updateShortcut(id: id, keyCombo: keyCombo)
     }
 
-    public func removeShortcut(id: String?) {
+    public func removeShortcut(id: String?) async {
         guard let id else { return }
-        Task {
-            await shortcutService.removeShortcut(id: id)
-        }
+        await shortcutService.removeShortcut(id: id)
     }
 }

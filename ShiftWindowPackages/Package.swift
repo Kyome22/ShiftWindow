@@ -37,6 +37,7 @@ let package = Package(
             name: "DataLayer",
             dependencies: [
                 .product(name: "Logging", package: "swift-log"),
+                .product(name: "PanelSceneKit", package: "PanelSceneKit"),
                 .product(name: "Sparkle", package: "Sparkle"),
                 .product(name: "SpiceKey", package: "SpiceKey"),
             ],
@@ -47,7 +48,6 @@ let package = Package(
             dependencies: [
                 "DataLayer",
                 .product(name: "Logging", package: "swift-log"),
-                .product(name: "PanelSceneKit", package: "PanelSceneKit"),
                 .product(name: "SpiceKey", package: "SpiceKey"),
             ],
             swiftSettings: swiftSettings

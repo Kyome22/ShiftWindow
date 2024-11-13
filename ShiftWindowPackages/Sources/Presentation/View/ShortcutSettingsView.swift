@@ -27,11 +27,11 @@ struct ShortcutSettingsView: View {
     @State private var viewModel: ShortcutSettingsViewModel
 
     init(
-        userDefaultsRepository: UserDefaultsRepository,
+        userDefaultsClient: UserDefaultsClient,
         logService: LogService,
         shortcutService: ShortcutService
     ) {
-        viewModel = .init(userDefaultsRepository, logService, shortcutService)
+        viewModel = .init(userDefaultsClient, logService, shortcutService)
     }
 
     var body: some View {
@@ -45,10 +45,14 @@ struct ShortcutSettingsView: View {
                             initialKeyCombination: pattern.keyCombination
                         )
                         .onRegistered { id, keyCombination in
-                            viewModel.updateShortcut(id: id, keyCombo: keyCombination)
+                            Task {
+                                await viewModel.updateShortcut(id: id, keyCombo: keyCombination)
+                            }
                         }
                         .onDeleted { id in
-                            viewModel.removeShortcut(id: id)
+                            Task {
+                                await viewModel.removeShortcut(id: id)
+                            }
                         }
                         .frame(width: 100)
                     }
@@ -80,11 +84,9 @@ struct ShortcutSettingsView: View {
 }
 
 #Preview {
-    let userDefaultsRepository = UserDefaultsRepository(.testValue, reset: false)
-    let shiftService = ShiftService(.testValue, .testValue, .testValue, .testValue, .testValue)
     ShortcutSettingsView(
-        userDefaultsRepository: userDefaultsRepository,
+        userDefaultsClient: .testValue,
         logService: .init(.testValue),
-        shortcutService: .init(userDefaultsRepository, shiftService)
+        shortcutService: .init(.testValue, .testValue, .testValue)
     )
 }

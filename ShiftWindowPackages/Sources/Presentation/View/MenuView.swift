@@ -41,7 +41,9 @@ struct MenuView: View {
         VStack {
             ForEach(viewModel.patterns) { pattern in
                 Button {
-                    viewModel.shiftWindow(shiftType: pattern.shiftType)
+                    Task {
+                        await viewModel.shiftWindow(shiftType: pattern.shiftType)
+                    }
                 } label: {
                     Label {
                         Text(pattern.label)
@@ -68,7 +70,9 @@ struct MenuView: View {
             }
             Divider()
             Button {
-                viewModel.checkForUpdates()
+                Task {
+                    await viewModel.checkForUpdates()
+                }
             } label: {
                 Text("checkForUpdates", bundle: .module)
             }
@@ -87,13 +91,12 @@ struct MenuView: View {
 }
 
 #Preview {
-    let shiftService = ShiftService(.testValue, .testValue, .testValue, .testValue, .testValue)
     MenuView(
         executeClient: .testValue,
         nsAppClient: .testValue,
         logService: .init(.testValue),
-        shiftService: shiftService,
-        shortcutService: .init(.init(.testValue, reset: false), shiftService),
+        shiftService: .init(.testValue, .testValue, .testValue, .testValue, .testValue),
+        shortcutService: .init(.testValue, .testValue, .testValue),
         updateService: .init(.testValue)
     )
 }

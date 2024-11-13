@@ -35,7 +35,7 @@ import Observation
     public var hideIcons: Bool {
         didSet { toggleIconsVisible(hideIcons) }
     }
-    public var canChecksForUpdates: Bool = false
+    public var canChecksForUpdates = false
 
     public init(
         _ executeClient: ExecuteClient,
@@ -75,20 +75,16 @@ import Observation
         task?.cancel()
     }
 
-    public func shiftWindow(shiftType: ShiftType) {
-        Task {
-            await shiftService.shiftWindow(shiftType: shiftType)
-        }
+    public func shiftWindow(shiftType: ShiftType) async {
+        await shiftService.shiftWindow(shiftType: shiftType)
     }
 
     public func activateApp() {
         nsAppClient.activate(true)
     }
 
-    public func checkForUpdates() {
-        Task {
-            await updateService.checkForUpdates()
-        }
+    public func checkForUpdates() async {
+        await updateService.checkForUpdates()
     }
 
     public func openAbout() {
