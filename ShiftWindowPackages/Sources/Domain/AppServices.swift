@@ -7,7 +7,6 @@
 */
 
 import DataLayer
-import Observation
 import SwiftUI
 
 public final class AppServices: Sendable {

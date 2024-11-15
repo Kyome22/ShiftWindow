@@ -40,3 +40,4 @@ public struct NSAppClient: DependencyClient {
         orderFrontStandardAboutPanel: { _ in }
     )
 }
+

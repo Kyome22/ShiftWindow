@@ -5,7 +5,7 @@ import XCTest
 @testable import Domain
 
 final class LoggerServiceTests: XCTestCase {
-    func test_bootstrapは一度しか実行されない() async throws {
+    func test_bootstrapは一度しか実行されない() async {
         let count = OSAllocatedUnfairLock(initialState: 0)
         let loggingSystemClient = testDependency(of: LoggingSystemClient.self) {
             $0.bootstrap = { _ in count.withLock { $0 += 1  } }
