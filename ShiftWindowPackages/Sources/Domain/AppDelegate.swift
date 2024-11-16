@@ -19,7 +19,6 @@
 */
 
 import AppKit
-import DataLayer
 
 public final class AppDelegate: NSObject, NSApplicationDelegate {
     public let appDependencies = AppDependencies()
