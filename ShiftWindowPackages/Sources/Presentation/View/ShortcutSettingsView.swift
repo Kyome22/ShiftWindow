@@ -80,6 +80,9 @@ struct ShortcutSettingsView: View {
         .onAppear {
             viewModel.onAppear(screenName: String(describing: Self.self))
         }
+        .onDisappear {
+            viewModel.onDisappear()
+        }
     }
 }
 

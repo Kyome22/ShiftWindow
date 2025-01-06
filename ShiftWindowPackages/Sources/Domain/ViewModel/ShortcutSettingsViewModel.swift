@@ -45,6 +45,10 @@ import SpiceKey
         self.shortcutService = shortcutService
         patterns = userDefaultsRepository.patterns
         showShortcutPanel = userDefaultsRepository.showShortcutPanel
+    }
+
+    public func onAppear(screenName: String) {
+        logService.notice(.screenView(name: screenName))
         task = Task {
             for await patterns in await shortcutService.patternsStream() {
                 self.patterns = patterns
@@ -52,12 +56,8 @@ import SpiceKey
         }
     }
 
-    deinit {
+    public func onDisappear() {
         task?.cancel()
-    }
-
-    public func onAppear(screenName: String) {
-        logService.notice(.screenView(name: screenName))
     }
 
     public func updateShortcut(id: String?, keyCombo: KeyCombination) async {

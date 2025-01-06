@@ -27,6 +27,7 @@ import Observation
     private let nsAppClient: NSAppClient
     private let logService: LogService
     private let shiftService: ShiftService
+    private let shortcutService: ShortcutService
     private let updateService: UpdateService
 
     @ObservationIgnored private var task: Task<Void, Never>?
@@ -49,19 +50,24 @@ import Observation
         self.nsAppClient = nsAppClient
         self.logService = logService
         self.shiftService = shiftService
+        self.shortcutService = shortcutService
         self.updateService = updateService
         hideIcons = (try? executeClient.checkIconsVisible()) ?? false
+    }
+
+    public func onAppear(screenName: String) {
+        logService.notice(.screenView(name: screenName))
         task = Task {
             await withTaskGroup(of: Void.self) { group in
                 group.addTask {
-                    for await value in await shortcutService.patternsStream() {
+                    for await value in await self.shortcutService.patternsStream() {
                         await MainActor.run {
                             self.patterns = value
                         }
                     }
                 }
                 group.addTask {
-                    for await value in await updateService.canChecksForUpdatesStream() {
+                    for await value in await self.updateService.canChecksForUpdatesStream() {
                         await MainActor.run {
                             self.canChecksForUpdates = value
                         }
@@ -71,12 +77,8 @@ import Observation
         }
     }
 
-    deinit {
+    public func onDisappear() {
         task?.cancel()
-    }
-
-    public func onAppear(screenName: String) {
-        logService.notice(.screenView(name: screenName))
     }
 
     public func shiftWindow(shiftType: ShiftType) async {
