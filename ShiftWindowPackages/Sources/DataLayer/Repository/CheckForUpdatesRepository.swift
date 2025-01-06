@@ -21,7 +21,7 @@
 import Foundation
 
 public struct CheckForUpdatesRepository: Sendable {
-    private let spuUpdaterClient: SPUUpdaterClient
+    private var spuUpdaterClient: SPUUpdaterClient
 
     public var isEnabled: Bool {
         spuUpdaterClient.automaticallyChecksForUpdates()

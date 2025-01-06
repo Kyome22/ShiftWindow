@@ -21,7 +21,7 @@
 import Foundation
 
 public struct UserDefaultsRepository: Sendable {
-    private let userDefaultsClient: UserDefaultsClient
+    private var userDefaultsClient: UserDefaultsClient
 
     public var patterns: [ShiftPattern] {
         get {

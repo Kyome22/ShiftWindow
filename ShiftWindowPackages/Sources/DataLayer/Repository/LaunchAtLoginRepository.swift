@@ -21,7 +21,7 @@
 import Foundation
 
 public struct LaunchAtLoginRepository: Sendable {
-    private let smAppServiceClient: SMAppServiceClient
+    private var smAppServiceClient: SMAppServiceClient
 
     public var isEnabled: Bool {
         smAppServiceClient.status() == .enabled

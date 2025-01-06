@@ -35,38 +35,36 @@ struct GeneralSettingsView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Form {
-                LabeledContent {
-                    Toggle(isOn: Binding<Bool>(
-                        get: { viewModel.launchAtLoginIsEnabled },
-                        set: { viewModel.launchAtLoginSwitched($0) }
-                    )) {
-                        Text("AutomaticallyLaunchAtLogin", bundle: .module)
-                    }
-                } label: {
-                    Text("launch", bundle: .module)
+        Form {
+            LabeledContent {
+                Toggle(isOn: Binding<Bool>(
+                    get: { viewModel.launchAtLoginIsEnabled },
+                    set: { viewModel.launchAtLoginSwitched($0) }
+                )) {
+                    Text("AutomaticallyLaunchAtLogin", bundle: .module)
                 }
-                LabeledContent {
-                    Toggle(isOn: $viewModel.checkForUpdatesIsEnabled) {
-                        Text("AutomaticallyCheckForUpdates", bundle: .module)
-                    }
-                } label: {
-                    Text("update", bundle: .module)
+            } label: {
+                Text("launch", bundle: .module)
+            }
+            LabeledContent {
+                Toggle(isOn: $viewModel.checkForUpdatesIsEnabled) {
+                    Text("AutomaticallyCheckForUpdates", bundle: .module)
                 }
-                Divider()
-                LabeledContent {
-                    Text("permissionExplain", bundle: .module)
-                        .frame(width: 300, alignment: .leading)
-                } label: {
-                    Text("permission", bundle: .module)
-                }
-                Button {
-                    viewModel.openSystemSettings()
-                } label: {
-                    Text("openSystemSettings", bundle: .module)
-                        .frame(maxWidth: .infinity)
-                }
+            } label: {
+                Text("update", bundle: .module)
+            }
+            Divider()
+            LabeledContent {
+                Text("permissionExplain", bundle: .module)
+                    .frame(width: 300, alignment: .leading)
+            } label: {
+                Text("permission", bundle: .module)
+            }
+            Button {
+                viewModel.openSystemSettings()
+            } label: {
+                Text("openSystemSettings", bundle: .module)
+                    .frame(maxWidth: .infinity)
             }
         }
         .fixedSize()

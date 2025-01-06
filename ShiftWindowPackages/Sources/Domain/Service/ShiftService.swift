@@ -68,7 +68,7 @@ public actor ShiftService {
         let visibleFrame = screen.visibleFrame
         let menuBarHeight = await MainActor.run {
             nsAppClient.mainMenu()?.menuBarHeight
-        } ?? 0
+        } ?? .zero
         var validFrame = CGRect(
             x: visibleFrame.origin.x,
             y: bounds.origin.y + menuBarHeight,
