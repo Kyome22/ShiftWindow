@@ -75,6 +75,10 @@ import Observation
         task?.cancel()
     }
 
+    public func onAppear(screenName: String) {
+        logService.notice(.screenView(name: screenName))
+    }
+
     public func shiftWindow(shiftType: ShiftType) async {
         await shiftService.shiftWindow(shiftType: shiftType)
     }
