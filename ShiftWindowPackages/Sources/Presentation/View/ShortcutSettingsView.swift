@@ -40,20 +40,12 @@ struct ShortcutSettingsView: View {
                 LabeledContent {
                     HStack {
                         Spacer()
-                        SKTextField(
-                            id: pattern.shiftType.id,
-                            initialKeyCombination: pattern.keyCombination
-                        )
-                        .onRegistered { id, keyCombination in
-                            Task {
-                                await viewModel.updateShortcut(id: id, keyCombo: keyCombination)
+                        SpiceKeyField(keyCombination: Binding<KeyCombination?>(
+                            get: { pattern.keyCombination },
+                            set: { newValue in
+                                Task { await viewModel.updateKeyCombination(pattern: pattern, keyCombo: newValue)}
                             }
-                        }
-                        .onDeleted { id in
-                            Task {
-                                await viewModel.removeShortcut(id: id)
-                            }
-                        }
+                        ))
                         .frame(width: 100)
                     }
                 } label: {

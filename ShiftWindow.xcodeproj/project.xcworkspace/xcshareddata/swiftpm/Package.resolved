@@ -1,15 +1,6 @@
 {
-  "originHash" : "d111412ccccc94ca5fe4a846eb78f4ab2f7d2da62b8999fb29a8850d087e284f",
+  "originHash" : "c8e4ae5d56bd2e8fe40d17c19badd405c7b07ad810b88b104e3ec290dafe69c8",
   "pins" : [
-    {
-      "identity" : "panelscenekit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Kyome22/PanelSceneKit.git",
-      "state" : {
-        "revision" : "2702aa928b7f3af5ba9ae983183d25d6905a6fec",
-        "version" : "1.2.0"
-      }
-    },
     {
       "identity" : "sparkle",
       "kind" : "remoteSourceControl",
@@ -24,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Kyome22/SpiceKey.git",
       "state" : {
-        "revision" : "2de004fd950f9e399e10591e20aeae83fcc6d22d",
-        "version" : "5.4.1"
+        "revision" : "5afc91d2707b6e97fcbb9a5714a5647accf07167",
+        "version" : "6.0.0"
       }
     },
     {
@@ -33,8 +24,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-log.git",
       "state" : {
-        "revision" : "9cb486020ebf03bfa5b5df985387a14a98744537",
-        "version" : "1.6.1"
+        "revision" : "96a2f8a0fa41e9e09af4585e2724c4e825410b91",
+        "version" : "1.6.2"
+      }
+    },
+    {
+      "identity" : "windowscenekit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Kyome22/WindowSceneKit.git",
+      "state" : {
+        "revision" : "dd80b2169b64761b986d7185ba528def719656d8",
+        "version" : "1.1.0"
       }
     }
   ],

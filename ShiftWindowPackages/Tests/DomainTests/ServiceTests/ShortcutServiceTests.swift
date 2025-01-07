@@ -17,7 +17,7 @@ final class ShortcutServiceTests: XCTestCase {
                 return try! JSONEncoder().encode([pattern])
             }
         }
-        let sut = ShortcutService(.testValue, spiceKeyClient, userDefaultsClient)
+        let sut = ShortcutService(spiceKeyClient, userDefaultsClient, .testValue)
         await sut.initializeShortcuts()
         let actual = count.withLock { $0 }
         XCTAssertEqual(actual, 1)
@@ -33,7 +33,7 @@ final class ShortcutServiceTests: XCTestCase {
                 ])
             }
         }
-        let sut = ShortcutService(.testValue, .testValue, userDefaultsClient)
+        let sut = ShortcutService(.testValue, userDefaultsClient, .testValue)
         let actual = await sut.getIndex(id: ShiftType.bottomHalf.id)
         XCTAssertEqual(actual, 1)
     }

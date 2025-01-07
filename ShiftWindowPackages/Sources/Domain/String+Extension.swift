@@ -23,8 +23,5 @@ import Foundation
 extension String {
     public static let shortcutPanel = "shortcutPanel"
     public static let kAXFullScreen = "AXFullScreen"
-}
-
-extension AnyHashable {
     public static let keyEquivalent = "keyEquivalent"
 }

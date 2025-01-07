@@ -29,11 +29,11 @@ public final class AppDependencies: Sendable {
     public let nsAppClient: NSAppClient
     public let nsScreenClient: NSScreenClient
     public let nsWorkspaceClient: NSWorkspaceClient
-    public let panelSceneMessengerClient: PanelSceneMessengerClient
     public let smAppServiceClient: SMAppServiceClient
     public let spiceKeyClient: SpiceKeyClient
     public let spuUpdaterClient: SPUUpdaterClient
     public let userDefaultsClient: UserDefaultsClient
+    public let windowSceneMessengerClient: WindowSceneMessengerClient
 
     public nonisolated init(
         cgDirectDisplayClient: CGDirectDisplayClient = .liveValue,
@@ -43,11 +43,11 @@ public final class AppDependencies: Sendable {
         nsAppClient: NSAppClient = .liveValue,
         nsScreenClient: NSScreenClient = .liveValue,
         nsWorkspaceClient: NSWorkspaceClient = .liveValue,
-        panelSceneMessengerClient: PanelSceneMessengerClient = .liveValue,
         smAppServiceClient: SMAppServiceClient = .liveValue,
         spiceKeyClient: SpiceKeyClient = .liveValue,
         spuUpdaterClient: SPUUpdaterClient = .liveValue,
-        userDefaultsClient: UserDefaultsClient = .liveValue
+        userDefaultsClient: UserDefaultsClient = .liveValue,
+        windowSceneMessengerClient: WindowSceneMessengerClient = .liveValue
     ) {
         self.cgDirectDisplayClient = cgDirectDisplayClient
         self.executeClient = executeClient
@@ -56,11 +56,11 @@ public final class AppDependencies: Sendable {
         self.nsAppClient = nsAppClient
         self.nsScreenClient = nsScreenClient
         self.nsWorkspaceClient = nsWorkspaceClient
-        self.panelSceneMessengerClient = panelSceneMessengerClient
         self.smAppServiceClient = smAppServiceClient
         self.spiceKeyClient = spiceKeyClient
         self.spuUpdaterClient = spuUpdaterClient
         self.userDefaultsClient = userDefaultsClient
+        self.windowSceneMessengerClient = windowSceneMessengerClient
     }
 }
 
@@ -73,11 +73,11 @@ struct AppDependenciesKey: EnvironmentKey {
         nsAppClient: .testValue,
         nsScreenClient: .testValue,
         nsWorkspaceClient: .testValue,
-        panelSceneMessengerClient: .testValue,
         smAppServiceClient: .testValue,
         spiceKeyClient: .testValue,
         spuUpdaterClient: .testValue,
-        userDefaultsClient: .testValue
+        userDefaultsClient: .testValue,
+        windowSceneMessengerClient: .testValue
     )
 }
 

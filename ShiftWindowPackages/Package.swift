@@ -27,9 +27,9 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-log.git", exact: "1.6.1"),
-        .package(url: "https://github.com/Kyome22/PanelSceneKit.git", exact: "1.2.0"),
-        .package(url: "https://github.com/Kyome22/SpiceKey.git", exact: "5.4.1"),
+        .package(url: "https://github.com/apple/swift-log.git", exact: "1.6.2"),
+        .package(url: "https://github.com/Kyome22/SpiceKey.git", exact: "6.0.0"),
+        .package(url: "https://github.com/Kyome22/WindowSceneKit.git", exact: "1.1.0"),
         .package(url: "https://github.com/sparkle-project/Sparkle.git", exact: "2.6.4"),
     ],
     targets: [
@@ -37,9 +37,9 @@ let package = Package(
             name: "DataLayer",
             dependencies: [
                 .product(name: "Logging", package: "swift-log"),
-                .product(name: "PanelSceneKit", package: "PanelSceneKit"),
                 .product(name: "Sparkle", package: "Sparkle"),
                 .product(name: "SpiceKey", package: "SpiceKey"),
+                .product(name: "WindowSceneKit", package: "WindowSceneKit"),
             ],
             swiftSettings: swiftSettings
         ),
@@ -64,8 +64,8 @@ let package = Package(
             name: "Presentation",
             dependencies: [
                 "Domain",
-                .product(name: "PanelSceneKit", package: "PanelSceneKit"),
                 .product(name: "SpiceKey", package: "SpiceKey"),
+                .product(name: "WindowSceneKit", package: "WindowSceneKit"),
             ],
             swiftSettings: swiftSettings
         ),

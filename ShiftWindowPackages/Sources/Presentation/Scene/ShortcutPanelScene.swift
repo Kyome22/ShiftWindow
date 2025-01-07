@@ -18,10 +18,8 @@
  limitations under the License.
 */
 
-import DataLayer
-import Domain
-import PanelSceneKit
 import SwiftUI
+import WindowSceneKit
 
 public struct ShortcutPanelScene: Scene {
     @Binding var isPresented: Bool
@@ -31,10 +29,48 @@ public struct ShortcutPanelScene: Scene {
     }
 
     public var body: some Scene {
-        PanelScene(isPresented: $isPresented, type: ShortcutPanel.self) { userInfo in
-            if let keyEquivalent = userInfo?[.keyEquivalent] as? String {
-                ShortcutView(keyEquivalent: keyEquivalent)
+        WindowScene(isPresented: $isPresented) { supplements in
+            ShortcutPanel {
+                ShortcutView(keyEquivalent: supplements[.keyEquivalent] as? String)
             }
+        }
+    }
+}
+
+private final class ShortcutPanel: NSPanel {
+    init<Content: View>(@ViewBuilder content: () -> Content) {
+        super.init(
+            contentRect: .zero,
+            styleMask: [.borderless, .nonactivatingPanel],
+            backing: .buffered,
+            defer: false
+        )
+        level = .floating
+        collectionBehavior = [.canJoinAllSpaces]
+        isOpaque = false
+        backgroundColor = NSColor.clear
+        contentView = NSHostingView(rootView: content())
+    }
+
+    override func center() {
+        if let screenFrame = NSScreen.main?.frame {
+            let origin = CGPoint(
+                x: 0.5 * (screenFrame.width - frame.size.width),
+                y: 0.5 * (screenFrame.height - frame.size.height)
+            )
+            setFrameOrigin(origin)
+        } else {
+            super.center()
+        }
+    }
+
+    override func close() {
+        NSAnimationContext.runAnimationGroup { context in
+            context.duration = 0.2
+            context.allowsImplicitAnimation = true
+            animator().alphaValue = .zero
+        } completionHandler: {
+            super.close()
         }
     }
 }

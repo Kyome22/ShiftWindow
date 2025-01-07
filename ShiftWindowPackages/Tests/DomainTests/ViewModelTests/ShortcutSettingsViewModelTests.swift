@@ -25,8 +25,8 @@ final class ShortcutSettingsViewModelTests: XCTestCase {
                 }
             }
         }
-        let sut = ShortcutSettingsViewModel(.testValue, .init(.testValue), .init(.testValue, spiceKeyClient, userDefaultsClient))
-        await sut.updateShortcut(id: ShiftType.topHalf.id, keyCombo: .init(.b, .cmd))
+        let sut = ShortcutSettingsViewModel(.testValue, .init(.testValue), .init(spiceKeyClient, userDefaultsClient, .testValue))
+        await sut.updateKeyCombination(pattern: .init(shiftType: .topHalf), keyCombo: .init(.b, .cmd))
         XCTAssertEqual(registerCount.withLock { $0 }, 1)
         XCTAssertEqual(setDataCount.withLock { $0 }, 1)
     }
@@ -46,8 +46,8 @@ final class ShortcutSettingsViewModelTests: XCTestCase {
                 }
             }
         }
-        let sut = ShortcutSettingsViewModel(.testValue, .init(.testValue), .init(.testValue, .testValue, userDefaultsClient))
-        await sut.removeShortcut(id: ShiftType.topHalf.id)
+        let sut = ShortcutSettingsViewModel(.testValue, .init(.testValue), .init(.testValue, userDefaultsClient, .testValue))
+        await sut.updateKeyCombination(pattern: .init(shiftType: .topHalf), keyCombo: nil)
         XCTAssertEqual(setDataCount.withLock { $0 }, 1)
     }
 }

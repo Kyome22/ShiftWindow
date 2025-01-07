@@ -45,6 +45,7 @@ public actor ShiftService {
 
     public func shiftWindow(shiftType: ShiftType) async {
         guard let app = nsWorkspaceClient.runningApplications().first(where: { $0.isActive }),
+              app.bundleIdentifier != Bundle.main.bundleIdentifier,
               let window = getFocusedWindow(pid: app.processIdentifier),
               let role = getRole(element: window),
               role == kAXWindowRole,

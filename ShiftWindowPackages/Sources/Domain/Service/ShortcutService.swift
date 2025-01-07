@@ -26,18 +26,18 @@ import SpiceKey
 public actor ShortcutService {
     private let patternsSubject: CurrentValueSubject<[ShiftPattern], Never>
     private let shiftTypeSubject = PassthroughSubject<ShiftType, Never>()
-    private let panelSceneMessengerClient: PanelSceneMessengerClient
     private let spiceKeyClient: SpiceKeyClient
     private let userDefaultsRepository: UserDefaultsRepository
+    private let windowSceneMessengerClient: WindowSceneMessengerClient
 
     public init(
-        _ panelSceneMessengerClient: PanelSceneMessengerClient,
         _ spiceKeyClient: SpiceKeyClient,
-        _ userDefaultsClient: UserDefaultsClient
+        _ userDefaultsClient: UserDefaultsClient,
+        _ windowSceneMessengerClient: WindowSceneMessengerClient
     ) {
-        self.panelSceneMessengerClient = panelSceneMessengerClient
         self.spiceKeyClient = spiceKeyClient
-        self.userDefaultsRepository = .init(userDefaultsClient)
+        userDefaultsRepository = .init(userDefaultsClient)
+        self.windowSceneMessengerClient = windowSceneMessengerClient
         patternsSubject = .init(userDefaultsRepository.patterns)
     }
 
@@ -69,11 +69,11 @@ public actor ShortcutService {
             let spiceKey = SpiceKey(keyCombo) { [weak self] in
                 guard let self else { return }
                 if userDefaultsRepository.showShortcutPanel {
-                    panelSceneMessengerClient.request(.open, .shortcutPanel, [.keyEquivalent: keyCombo.string])
+                    windowSceneMessengerClient.request(.open, .shortcutPanel, [.keyEquivalent: keyCombo.string])
                 }
                 shiftTypeSubject.send(pattern.shiftType)
             } keyUpHandler: { [weak self] in
-                self?.panelSceneMessengerClient.request(.close, .shortcutPanel, nil)
+                self?.windowSceneMessengerClient.request(.close, .shortcutPanel, [:])
             }
             spiceKeyClient.register(spiceKey)
             pattern.spiceKeyData?.spiceKey = spiceKey
@@ -90,11 +90,11 @@ public actor ShortcutService {
         let spiceKey = SpiceKey(keyCombo) { [weak self] in
             guard let self else { return }
             if userDefaultsRepository.showShortcutPanel {
-                panelSceneMessengerClient.request(.open, .shortcutPanel, [.keyEquivalent: keyCombo.string])
+                windowSceneMessengerClient.request(.open, .shortcutPanel, [.keyEquivalent: keyCombo.string])
             }
             shiftTypeSubject.send(pattern.shiftType)
         } keyUpHandler: { [weak self] in
-            self?.panelSceneMessengerClient.request(.close, .shortcutPanel, nil)
+            self?.windowSceneMessengerClient.request(.close, .shortcutPanel, [:])
         }
         spiceKeyClient.register(spiceKey)
         let spiceKeyData = SpiceKeyData(id, keyCombo.key, keyCombo.modifierFlags, spiceKey)

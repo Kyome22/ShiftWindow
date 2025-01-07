@@ -1,8 +1,8 @@
 /*
- PanelSceneMessengerClient.swift
- DataLayer
+ WindowSceneMessengerClient.swift
+ ShiftWindowPackages
 
- Created by Takuto Nakamura on 2024/11/14.
+ Created by Takuto Nakamura on 2025/01/07.
  Copyright 2022 Takuto Nakamura (Kyome22)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,13 +18,13 @@
  limitations under the License.
 */
 
-import PanelSceneKit
+import WindowSceneKit
 
-public struct PanelSceneMessengerClient: DependencyClient {
-    public var request: @Sendable (PanelAction, String, [AnyHashable : Any]?) -> Void
+public struct WindowSceneMessengerClient: DependencyClient {
+    public var request: @Sendable (WindowAction, String, [String: any Sendable]) -> Void
 
     public static let liveValue = Self(
-        request: { PanelSceneMessenger.request(panelAction: $0, with: $1, userInfo: $2) }
+        request: { WindowSceneMessenger.request(windowAction: $0, windowKey: $1, supplements: $2) }
     )
 
     public static let testValue = Self(

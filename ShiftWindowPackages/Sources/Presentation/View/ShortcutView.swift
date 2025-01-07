@@ -21,10 +21,10 @@
 import SwiftUI
 
 struct ShortcutView: View {
-    var keyEquivalent: String
+    var keyEquivalent: String?
 
     var body: some View {
-        Text(keyEquivalent)
+        Text(keyEquivalent ?? "")
             .font(.system(size: 100, weight: .bold, design: .default))
             .foregroundColor(Color.secondary)
             .padding(.horizontal, 20)

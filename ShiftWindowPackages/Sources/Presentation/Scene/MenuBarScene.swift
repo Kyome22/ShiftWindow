@@ -18,7 +18,6 @@
  limitations under the License.
 */
 
-import Domain
 import SwiftUI
 
 public struct MenuBarScene: Scene {

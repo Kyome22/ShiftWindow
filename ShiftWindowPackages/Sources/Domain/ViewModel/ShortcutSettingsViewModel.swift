@@ -60,13 +60,12 @@ import SpiceKey
         task?.cancel()
     }
 
-    public func updateShortcut(id: String?, keyCombo: KeyCombination) async {
-        guard let id else { return }
-        await shortcutService.updateShortcut(id: id, keyCombo: keyCombo)
-    }
-
-    public func removeShortcut(id: String?) async {
-        guard let id else { return }
-        await shortcutService.removeShortcut(id: id)
+    public func updateKeyCombination(pattern: ShiftPattern, keyCombo: KeyCombination?) async {
+        let id = pattern.shiftType.id
+        if let keyCombo {
+            await shortcutService.updateShortcut(id: id, keyCombo: keyCombo)
+        } else {
+            await shortcutService.removeShortcut(id: id)
+        }
     }
 }

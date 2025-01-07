@@ -22,9 +22,9 @@ public final class AppServices: Sendable {
                              appDependencies.nsAppClient,
                              appDependencies.nsScreenClient,
                              appDependencies.nsWorkspaceClient)
-        shortcutService = .init(appDependencies.panelSceneMessengerClient,
-                                appDependencies.spiceKeyClient,
-                                appDependencies.userDefaultsClient)
+        shortcutService = .init(appDependencies.spiceKeyClient,
+                                appDependencies.userDefaultsClient,
+                                appDependencies.windowSceneMessengerClient)
         updateService = .init(appDependencies.spuUpdaterClient)
     }
 }

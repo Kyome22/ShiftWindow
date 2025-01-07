@@ -19,14 +19,14 @@
 */
 
 import Domain
-import PanelSceneKit
 import Presentation
 import SwiftUI
+import WindowSceneKit
 
 @main
 struct ShiftWindowApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @PanelState(.shortcutPanel) private var isPresented = false
+    @WindowState(.shortcutPanel) private var isPresented = false
 
     var body: some Scene {
         MenuBarScene()
