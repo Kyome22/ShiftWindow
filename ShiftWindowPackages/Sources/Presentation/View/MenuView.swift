@@ -76,6 +76,7 @@ struct MenuView: View {
             } label: {
                 Text("checkForUpdates", bundle: .module)
             }
+            .disabled(!viewModel.canChecksForUpdates)
             Button {
                 viewModel.openAbout()
             } label: {
