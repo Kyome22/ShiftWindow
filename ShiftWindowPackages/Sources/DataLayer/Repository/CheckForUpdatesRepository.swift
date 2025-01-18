@@ -18,8 +18,6 @@
  limitations under the License.
 */
 
-import Foundation
-
 public struct CheckForUpdatesRepository: Sendable {
     private var spuUpdaterClient: SPUUpdaterClient
 
