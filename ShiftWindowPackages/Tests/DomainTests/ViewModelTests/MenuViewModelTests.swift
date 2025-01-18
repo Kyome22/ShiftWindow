@@ -21,7 +21,7 @@ final class MenuViewModelTests: XCTestCase {
             .init(.testValue)
         )
         sut.activateApp()
-        XCTAssertEqual(count.withLock { $0 }, 1)
+        XCTAssertEqual(count.withLock(\.self), 1)
     }
 
     @MainActor
@@ -39,7 +39,7 @@ final class MenuViewModelTests: XCTestCase {
             .init(spuUpdaterClient)
         )
         await sut.checkForUpdates()
-        XCTAssertEqual(count.withLock { $0 }, 1)
+        XCTAssertEqual(count.withLock(\.self), 1)
     }
 
     @MainActor
@@ -60,7 +60,7 @@ final class MenuViewModelTests: XCTestCase {
             .init(.testValue)
         )
         sut.openAbout()
-        XCTAssertEqual(callStack.withLock { $0 }, [
+        XCTAssertEqual(callStack.withLock(\.self), [
             "activate",
             "orderFrontStandardAboutPanel",
         ])
@@ -81,6 +81,6 @@ final class MenuViewModelTests: XCTestCase {
             .init(.testValue)
         )
         sut.terminateApp()
-        XCTAssertEqual(count.withLock { $0 }, 1)
+        XCTAssertEqual(count.withLock(\.self), 1)
     }
 }

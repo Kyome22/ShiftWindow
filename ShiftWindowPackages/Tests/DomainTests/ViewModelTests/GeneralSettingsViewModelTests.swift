@@ -18,7 +18,7 @@ final class GeneralSettingsViewModelTests: XCTestCase {
         }
         let sut = GeneralSettingsViewModel(nsWorkspaceClient, .testValue, .testValue, .init(.testValue))
         sut.openSystemSettings()
-        let actual = calledURLs.withLock { $0 }
+        let actual = calledURLs.withLock(\.self)
         XCTAssertEqual(actual, [URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!])
     }
 
@@ -26,7 +26,7 @@ final class GeneralSettingsViewModelTests: XCTestCase {
     func test_launchAtLoginSwitched_有効の要求_成功した_有効に変更される() async {
         let currentStatus = OSAllocatedUnfairLock(initialState: SMAppService.Status.notRegistered)
         let smAppServiceClient = testDependency(of: SMAppServiceClient.self) {
-            $0.status = { currentStatus.withLock { $0 } }
+            $0.status = { currentStatus.withLock(\.self) }
             $0.register = { currentStatus.withLock { $0 = .enabled } }
         }
         let sut = GeneralSettingsViewModel(.testValue, .testValue, smAppServiceClient, .init(.testValue))
@@ -49,7 +49,7 @@ final class GeneralSettingsViewModelTests: XCTestCase {
     func test_launchAtLoginSwitched_無効の要求_成功した_無効に変更される() async {
         let currentStatus = OSAllocatedUnfairLock(initialState: SMAppService.Status.enabled)
         let smAppServiceClient = testDependency(of: SMAppServiceClient.self) {
-            $0.status = { currentStatus.withLock { $0 } }
+            $0.status = { currentStatus.withLock(\.self) }
             $0.unregister = { currentStatus.withLock { $0 = .notRegistered } }
         }
         let sut = GeneralSettingsViewModel(.testValue, .testValue, smAppServiceClient, .init(.testValue))

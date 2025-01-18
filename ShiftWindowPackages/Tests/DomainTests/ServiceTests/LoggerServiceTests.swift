@@ -13,7 +13,7 @@ final class LoggerServiceTests: XCTestCase {
         let sut = LogService(loggingSystemClient)
         await sut.bootstrap()
         await sut.bootstrap()
-        let actual = count.withLock { $0 }
+        let actual = count.withLock(\.self)
         XCTAssertEqual(actual, 1)
     }
 }

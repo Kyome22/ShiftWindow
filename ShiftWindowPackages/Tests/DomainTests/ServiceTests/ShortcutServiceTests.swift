@@ -19,7 +19,7 @@ final class ShortcutServiceTests: XCTestCase {
         }
         let sut = ShortcutService(spiceKeyClient, userDefaultsClient, .testValue)
         await sut.initializeShortcuts()
-        let actual = count.withLock { $0 }
+        let actual = count.withLock(\.self)
         XCTAssertEqual(actual, 1)
     }
 
