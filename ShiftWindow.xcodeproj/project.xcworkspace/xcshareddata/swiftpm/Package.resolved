@@ -1,5 +1,5 @@
 {
-  "originHash" : "c8e4ae5d56bd2e8fe40d17c19badd405c7b07ad810b88b104e3ec290dafe69c8",
+  "originHash" : "c8f3b1894feb5201a45d4b440ee2ead51555eb4163320a97348515e6970b3ad1",
   "pins" : [
     {
       "identity" : "sparkle",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Kyome22/SpiceKey.git",
       "state" : {
-        "revision" : "5afc91d2707b6e97fcbb9a5714a5647accf07167",
-        "version" : "6.0.0"
+        "revision" : "2f4afcbb5dc44ed07097dc4a58898ea2f911d529",
+        "version" : "6.0.1"
       }
     },
     {

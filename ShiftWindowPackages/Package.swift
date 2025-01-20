@@ -28,7 +28,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-log.git", exact: "1.6.2"),
-        .package(url: "https://github.com/Kyome22/SpiceKey.git", exact: "6.0.0"),
+        .package(url: "https://github.com/Kyome22/SpiceKey.git", exact: "6.0.1"),
         .package(url: "https://github.com/Kyome22/WindowSceneKit.git", exact: "1.1.0"),
         .package(url: "https://github.com/sparkle-project/Sparkle.git", exact: "2.6.4"),
     ],
@@ -63,6 +63,7 @@ let package = Package(
         .target(
             name: "Presentation",
             dependencies: [
+                "DataLayer",
                 "Domain",
                 .product(name: "SpiceKey", package: "SpiceKey"),
                 .product(name: "WindowSceneKit", package: "WindowSceneKit"),
