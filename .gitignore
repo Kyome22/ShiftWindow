@@ -14,3 +14,7 @@ ShiftWindowPackages/Package.resolved
 
 # Test
 TestResults/
+
+# Release
+*.dmg
+*.app/
