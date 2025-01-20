@@ -3,6 +3,14 @@
     <channel>
         <title>ShiftWindow</title>
         <item>
+            <title>3.2</title>
+            <pubDate>Tue, 21 Jan 2025 01:55:20 +0900</pubDate>
+            <sparkle:version>3.2.0</sparkle:version>
+            <sparkle:shortVersionString>3.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/Kyome22/ShiftWindow/releases/download/3.2.0/Installer.dmg" length="1791915" type="application/octet-stream" sparkle:edSignature="Crhjy9YQiAZqYEWw+ukutyJkIaoKLIQ1yzwhBpBdIwVm8/ct+4y9ESp/6DdMpXB/BsSbj5AHizEH2RFPLMzAAA=="/>
+        </item>
+        <item>
             <title>3.1</title>
             <pubDate>Wed, 08 Jan 2025 00:05:37 +0900</pubDate>
             <sparkle:version>3.1.0</sparkle:version>
