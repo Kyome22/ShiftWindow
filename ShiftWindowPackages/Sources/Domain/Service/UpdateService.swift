@@ -28,7 +28,7 @@ public actor UpdateService {
         self.spuUpdaterClient = spuUpdaterClient
     }
 
-    public func canChecksForUpdatesStream() -> AsyncStream<Bool> {
+    func canChecksForUpdatesStream() -> AsyncStream<Bool> {
         AsyncStream { continuation in
             let cancellable = spuUpdaterClient
                 .canCheckForUpdatesPublisher()
@@ -41,7 +41,7 @@ public actor UpdateService {
         }
     }
 
-    public func checkForUpdates() {
+    func checkForUpdates() {
         spuUpdaterClient.checkForUpdates()
     }
 }

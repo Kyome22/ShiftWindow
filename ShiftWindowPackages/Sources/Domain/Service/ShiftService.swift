@@ -43,7 +43,7 @@ public actor ShiftService {
         self.nsWorkspaceClient = nsWorkspaceClient
     }
 
-    public func shiftWindow(shiftType: ShiftType) async {
+    func shiftWindow(shiftType: ShiftType) async {
         guard let app = nsWorkspaceClient.runningApplications().first(where: { $0.isActive }),
               app.bundleIdentifier != Bundle.main.bundleIdentifier,
               let window = getFocusedWindow(pid: app.processIdentifier),
@@ -130,7 +130,7 @@ public actor ShiftService {
 
     // MARK: Get Attribute Names of an AXUIElement
     #if DEBUG
-    func getAttributeNames(element: AXUIElement) -> [String]? {
+    private func getAttributeNames(element: AXUIElement) -> [String]? {
         var ref: CFArray? = nil
         guard hiServicesClient.copyAttributeNames(element, &ref) == .success, let ref else {
             return nil
@@ -140,7 +140,7 @@ public actor ShiftService {
     #endif
 
     // MARK: Get Window Attributes
-    func copyAttributeValue(_ element: AXUIElement, attribute: String) -> CFTypeRef? {
+    private func copyAttributeValue(_ element: AXUIElement, attribute: String) -> CFTypeRef? {
         var ref: CFTypeRef? = nil
         guard hiServicesClient.copyAttributeValue(element, attribute as CFString, &ref) == .success else {
             return nil
@@ -148,7 +148,7 @@ public actor ShiftService {
         return ref
     }
 
-    func getFocusedWindow(pid: pid_t) -> AXUIElement? {
+    private func getFocusedWindow(pid: pid_t) -> AXUIElement? {
         let element = AXUIElementCreateApplication(pid)
         guard let window = copyAttributeValue(element, attribute: kAXFocusedWindowAttribute) else {
             return nil
@@ -156,15 +156,15 @@ public actor ShiftService {
         return (window as! AXUIElement)
     }
 
-    func getRole(element: AXUIElement) -> String? {
+    private func getRole(element: AXUIElement) -> String? {
         copyAttributeValue(element, attribute: kAXRoleAttribute) as? String
     }
 
-    func getSubRole(element: AXUIElement) -> String? {
+    private func getSubRole(element: AXUIElement) -> String? {
         copyAttributeValue(element, attribute: kAXSubroleAttribute) as? String
     }
 
-    func isFullscreen(element: AXUIElement) -> Bool {
+    private func isFullscreen(element: AXUIElement) -> Bool {
         guard let number = copyAttributeValue(element, attribute: .kAXFullScreen) else {
             return false
         }
@@ -172,12 +172,12 @@ public actor ShiftService {
     }
 
     // MARK: Override Window Attributes
-    func setAttributeValue(_ element: AXUIElement, attribute: String, value: CFTypeRef) -> Bool {
+    private func setAttributeValue(_ element: AXUIElement, attribute: String, value: CFTypeRef) -> Bool {
         hiServicesClient.setAttributeValue(element, attribute as CFString, value) == .success
     }
 
     @discardableResult
-    func setPosition(element: AXUIElement, position: CGPoint) -> Bool {
+    private func setPosition(element: AXUIElement, position: CGPoint) -> Bool {
         var position = position
         guard let value = hiServicesClient.valueCreate(AXValueType.cgPoint, &position) else {
             return false
@@ -186,7 +186,7 @@ public actor ShiftService {
     }
 
     @discardableResult
-    func setSize(element: AXUIElement, size: CGSize) -> Bool {
+    private func setSize(element: AXUIElement, size: CGSize) -> Bool {
         var size = size
         guard let value = hiServicesClient.valueCreate(AXValueType.cgSize, &size) else {
             return false

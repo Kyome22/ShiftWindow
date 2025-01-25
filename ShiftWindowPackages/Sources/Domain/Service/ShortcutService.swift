@@ -41,7 +41,7 @@ public actor ShortcutService {
         patternsSubject = .init(userDefaultsRepository.patterns)
     }
 
-    public func patternsStream() -> AsyncStream<[ShiftPattern]> {
+    func patternsStream() -> AsyncStream<[ShiftPattern]> {
         AsyncStream { continuation in
             let cancellable = patternsSubject.sink { value in
                 continuation.yield(value)
@@ -52,7 +52,7 @@ public actor ShortcutService {
         }
     }
 
-    public func shiftTypeStream() -> AsyncStream<ShiftType> {
+    func shiftTypeStream() -> AsyncStream<ShiftType> {
         AsyncStream { continuation in
             let cancellable = shiftTypeSubject.sink { value in
                 continuation.yield(value)
@@ -63,7 +63,7 @@ public actor ShortcutService {
         }
     }
 
-    public func initializeShortcuts() {
+    func initializeShortcuts() {
         patternsSubject.value.forEach { pattern in
             guard let keyCombo = pattern.spiceKeyData?.keyCombination else { return }
             let spiceKey = SpiceKey(keyCombo) { [weak self] in
@@ -84,7 +84,7 @@ public actor ShortcutService {
         patternsSubject.value.firstIndex(where: { $0.shiftType.id == id })
     }
 
-    public func updateShortcut(id: String, keyCombo: KeyCombination) {
+    func updateShortcut(id: String, keyCombo: KeyCombination) {
         guard let index = getIndex(id: id) else { return }
         let pattern = patternsSubject.value[index]
         let spiceKey = SpiceKey(keyCombo) { [weak self] in
@@ -102,7 +102,7 @@ public actor ShortcutService {
         userDefaultsRepository.patterns = patternsSubject.value
     }
 
-    public func removeShortcut(id: String) {
+    func removeShortcut(id: String) {
         guard let index = getIndex(id: id) else { return }
         if let spiceKey = patternsSubject.value[index].spiceKeyData?.spiceKey {
             spiceKeyClient.unregister(spiceKey)
