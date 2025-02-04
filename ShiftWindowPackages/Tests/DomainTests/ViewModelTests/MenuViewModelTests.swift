@@ -83,4 +83,38 @@ final class MenuViewModelTests: XCTestCase {
         sut.terminateApp()
         XCTAssertEqual(count.withLock(\.self), 1)
     }
+
+    @MainActor
+    func test_toggleIconsVisible_変更の要求_成功した_変更される() {
+        let executeClient = testDependency(of: ExecuteClient.self) {
+            $0.toggleIconsVisible = { _ in }
+        }
+        let sut = MenuViewModel(
+            executeClient,
+            .testValue,
+            .init(.testValue),
+            .init(.testValue, .testValue, .testValue, .testValue, .testValue),
+            .init(.testValue, .testValue, .testValue),
+            .init(.testValue)
+        )
+        sut.toggleIconsVisible(true)
+        XCTAssertTrue(sut.hideIcons)
+    }
+
+    @MainActor
+    func test_toggleIconsVisible_変更の要求_失敗した_変更されない() {
+        let executeClient = testDependency(of: ExecuteClient.self) {
+            $0.toggleIconsVisible = { _ in throw CocoaError(.fileNoSuchFile) }
+        }
+        let sut = MenuViewModel(
+            executeClient,
+            .testValue,
+            .init(.testValue),
+            .init(.testValue, .testValue, .testValue, .testValue, .testValue),
+            .init(.testValue, .testValue, .testValue),
+            .init(.testValue)
+        )
+        sut.toggleIconsVisible(true)
+        XCTAssertFalse(sut.hideIcons)
+    }
 }

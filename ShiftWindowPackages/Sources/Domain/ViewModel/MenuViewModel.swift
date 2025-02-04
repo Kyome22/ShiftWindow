@@ -97,9 +97,9 @@ import Observation
     }
 
     public func toggleIconsVisible(_ value: Bool) {
-        hideIcons = value
         do {
             try executeClient.toggleIconsVisible(value)
+            hideIcons = value
         } catch {
             logService.critical(.failedExecuteScript(error))
         }
