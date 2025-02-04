@@ -88,12 +88,6 @@ struct MenuView: View {
                 Text("terminateApp", bundle: .module)
             }
         }
-        .onAppear {
-            viewModel.onAppear(screenName: String(describing: Self.self))
-        }
-        .onDisappear {
-            viewModel.onDisappear()
-        }
     }
 }
 
