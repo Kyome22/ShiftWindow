@@ -31,9 +31,7 @@ import SpiceKey
     @ObservationIgnored private var task: Task<Void, Never>?
 
     public var patterns: [ShiftPattern]
-    public var showShortcutPanel: Bool {
-        didSet { userDefaultsRepository.showShortcutPanel = showShortcutPanel }
-    }
+    public var showShortcutPanel: Bool
 
     public init(
         _ userDefaultsClient: UserDefaultsClient,
@@ -49,9 +47,9 @@ import SpiceKey
 
     public func onAppear(screenName: String) {
         logService.notice(.screenView(name: screenName))
-        task = Task {
+        task = Task { [weak self, shortcutService] in
             for await patterns in await shortcutService.patternsStream() {
-                self.patterns = patterns
+                self?.patterns = patterns
             }
         }
     }
@@ -67,5 +65,10 @@ import SpiceKey
         } else {
             await shortcutService.removeShortcut(id: id)
         }
+    }
+
+    public func toggleShowShortcutPanel(_ isOn: Bool) {
+        showShortcutPanel = isOn
+        userDefaultsRepository.showShortcutPanel = isOn
     }
 }

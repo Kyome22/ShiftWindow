@@ -28,10 +28,8 @@ import Observation
     private let launchAtLoginRepository: LaunchAtLoginRepository
     private let logService: LogService
 
-    public var launchAtLoginIsEnabled: Bool
-    public var checkForUpdatesIsEnabled: Bool {
-        didSet { checkForUpdatesRepository.switchStatus(checkForUpdatesIsEnabled) }
-    }
+    public var launchAtLogin: Bool
+    public var checkForUpdates: Bool
 
     public init(
         _ nsWorkspaceClient: NSWorkspaceClient,
@@ -43,8 +41,8 @@ import Observation
         self.checkForUpdatesRepository = .init(spuUpdaterClient)
         self.launchAtLoginRepository = .init(smAppServiceClient)
         self.logService = logService
-        launchAtLoginIsEnabled = launchAtLoginRepository.isEnabled
-        checkForUpdatesIsEnabled = checkForUpdatesRepository.isEnabled
+        launchAtLogin = launchAtLoginRepository.isEnabled
+        checkForUpdates = checkForUpdatesRepository.isEnabled
     }
 
     public func onAppear(screenName: String) {
@@ -56,12 +54,17 @@ import Observation
         _ = nsWorkspaceClient.open(URL(string: path)!)
     }
 
-    public func launchAtLoginSwitched(_ isEnabled: Bool) {
-        switch launchAtLoginRepository.switchStatus(isEnabled) {
+    public func toggleLaunchAtLogin(_ isOn: Bool) {
+        switch launchAtLoginRepository.switchStatus(isOn) {
         case .success:
-            launchAtLoginIsEnabled = isEnabled
+            launchAtLogin = isOn
         case let .failure(.switchFailed(value)):
-            launchAtLoginIsEnabled = value
+            launchAtLogin = value
         }
+    }
+
+    public func toggleCheckForUpdates(_ isOn: Bool) {
+        checkForUpdates = isOn
+        checkForUpdatesRepository.switchStatus(isOn)
     }
 }

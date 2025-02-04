@@ -33,9 +33,7 @@ import Observation
     @ObservationIgnored private var task: Task<Void, Never>?
 
     public var patterns = [ShiftPattern]()
-    public var hideIcons: Bool {
-        didSet { toggleIconsVisible(hideIcons) }
-    }
+    public var hideIcons: Bool
     public var canChecksForUpdates = false
 
     public init(
@@ -98,13 +96,12 @@ import Observation
         nsAppClient.terminate(nil)
     }
 
-    func toggleIconsVisible(_ value: Bool) {
-        Task.detached(priority: .background) {
-            do {
-                try self.executeClient.toggleIconsVisible(value)
-            } catch {
-                self.logService.critical(.failedExecuteScript(error))
-            }
+    public func toggleIconsVisible(_ value: Bool) {
+        hideIcons = value
+        do {
+            try executeClient.toggleIconsVisible(value)
+        } catch {
+            logService.critical(.failedExecuteScript(error))
         }
     }
 }

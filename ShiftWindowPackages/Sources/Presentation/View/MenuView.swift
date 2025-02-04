@@ -58,7 +58,10 @@ struct MenuView: View {
                 }
             }
             Divider()
-            Toggle(isOn: $viewModel.hideIcons) {
+            Toggle(isOn: Binding<Bool>(
+                get: { viewModel.hideIcons },
+                set: { viewModel.toggleIconsVisible($0) }
+            )) {
                 Text("hideDesktopIcons", bundle: .module)
             }
             Divider()

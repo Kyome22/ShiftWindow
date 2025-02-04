@@ -38,8 +38,8 @@ struct GeneralSettingsView: View {
         Form {
             LabeledContent {
                 Toggle(isOn: Binding<Bool>(
-                    get: { viewModel.launchAtLoginIsEnabled },
-                    set: { viewModel.launchAtLoginSwitched($0) }
+                    get: { viewModel.launchAtLogin },
+                    set: { viewModel.toggleLaunchAtLogin($0) }
                 )) {
                     Text("AutomaticallyLaunchAtLogin", bundle: .module)
                 }
@@ -47,7 +47,10 @@ struct GeneralSettingsView: View {
                 Text("launch", bundle: .module)
             }
             LabeledContent {
-                Toggle(isOn: $viewModel.checkForUpdatesIsEnabled) {
+                Toggle(isOn: Binding<Bool>(
+                    get: { viewModel.checkForUpdates },
+                    set: { viewModel.toggleCheckForUpdates($0) }
+                )) {
                     Text("AutomaticallyCheckForUpdates", bundle: .module)
                 }
             } label: {
