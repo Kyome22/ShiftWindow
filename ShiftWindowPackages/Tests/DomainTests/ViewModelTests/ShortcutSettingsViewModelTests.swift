@@ -1,13 +1,13 @@
 import Foundation
 import os
-import XCTest
+import Testing
 
 @testable import DataLayer
 @testable import Domain
 
-final class ShortcutSettingsViewModelTests: XCTestCase {
-    @MainActor
-    func test_updateShortcut() async {
+struct ShortcutSettingsViewModelTests {
+    @MainActor @Test
+    func updateShortcut() async {
         let registerCount = OSAllocatedUnfairLock(initialState: 0)
         let spiceKeyClient = testDependency(of: SpiceKeyClient.self) {
             $0.register = { _ in registerCount.withLock { $0 += 1 } }
@@ -27,12 +27,12 @@ final class ShortcutSettingsViewModelTests: XCTestCase {
         }
         let sut = ShortcutSettingsViewModel(.testValue, .init(.testValue), .init(spiceKeyClient, userDefaultsClient, .testValue))
         await sut.updateKeyCombination(pattern: .init(shiftType: .topHalf), keyCombo: .init(.b, .cmd))
-        XCTAssertEqual(registerCount.withLock(\.self), 1)
-        XCTAssertEqual(setDataCount.withLock(\.self), 1)
+        #expect(registerCount.withLock(\.self) == 1)
+        #expect(setDataCount.withLock(\.self) == 1)
     }
 
-    @MainActor
-    func test_removeShortcut() async {
+    @MainActor @Test
+    func removeShortcut() async {
         let setDataCount = OSAllocatedUnfairLock(initialState: 0)
         let userDefaultsClient = testDependency(of: UserDefaultsClient.self) {
             $0.data = { _ in
@@ -48,6 +48,6 @@ final class ShortcutSettingsViewModelTests: XCTestCase {
         }
         let sut = ShortcutSettingsViewModel(.testValue, .init(.testValue), .init(.testValue, userDefaultsClient, .testValue))
         await sut.updateKeyCombination(pattern: .init(shiftType: .topHalf), keyCombo: nil)
-        XCTAssertEqual(setDataCount.withLock(\.self), 1)
+        #expect(setDataCount.withLock(\.self) == 1)
     }
 }

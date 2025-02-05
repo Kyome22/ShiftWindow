@@ -1,11 +1,12 @@
 import DataLayer
 import os
-import XCTest
+import Testing
 
 @testable import Domain
 
-final class LogServiceTests: XCTestCase {
-    func test_bootstrapは一度しか実行されない() async {
+struct LogServiceTests {
+    @Test
+    func bootstrapは一度しか実行されない() async {
         let count = OSAllocatedUnfairLock(initialState: 0)
         let loggingSystemClient = testDependency(of: LoggingSystemClient.self) {
             $0.bootstrap = { _ in count.withLock { $0 += 1  } }
@@ -14,6 +15,6 @@ final class LogServiceTests: XCTestCase {
         await sut.bootstrap()
         await sut.bootstrap()
         let actual = count.withLock(\.self)
-        XCTAssertEqual(actual, 1)
+        #expect(actual == 1)
     }
 }
