@@ -3,6 +3,14 @@
     <channel>
         <title>ShiftWindow</title>
         <item>
+            <title>3.3</title>
+            <pubDate>Wed, 05 Feb 2025 23:33:25 +0900</pubDate>
+            <sparkle:version>3.3.0</sparkle:version>
+            <sparkle:shortVersionString>3.3</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/Kyome22/ShiftWindow/releases/download/3.3.0/Installer.dmg" length="1786994" type="application/octet-stream" sparkle:edSignature="oEiKRJZD3KeiEduFqIsXLvDFYMxhnmhr1DBbEmZqUzYZ2IztkOHUANhfzR+7rc5EtHQb49qXhboaFW1WgdDVDw=="/>
+        </item>
+        <item>
             <title>3.2</title>
             <pubDate>Tue, 21 Jan 2025 01:55:20 +0900</pubDate>
             <sparkle:version>3.2.0</sparkle:version>
@@ -17,14 +25,6 @@
             <sparkle:shortVersionString>3.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/Kyome22/ShiftWindow/releases/download/3.1.0/Installer.dmg" length="1789141" type="application/octet-stream" sparkle:edSignature="rwefyo6hOIkTWf0O28AoVe8n2pdJamM0RbzNpZJFGvNmbqkdaJlYtSi6WofFeakgtSeq23M90DLsz0fivKb/Aw=="/>
-        </item>
-        <item>
-            <title>3.0</title>
-            <pubDate>Thu, 07 Nov 2024 20:44:39 +0900</pubDate>
-            <sparkle:version>3.0.0</sparkle:version>
-            <sparkle:shortVersionString>3.0</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/Kyome22/ShiftWindow/releases/download/3.0.0/Installer.dmg" length="1767713" type="application/octet-stream" sparkle:edSignature="U9g1z9S6KdXEmImu101nHHs1T5no0tDj1aDMb/6N96st+za56imUljwRnc2imesll+0iBPhh8gkIqA4uQ+ABCw=="/>
         </item>
     </channel>
 </rss>
