@@ -41,11 +41,8 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     public func applicationWillTerminate(_ notification: Notification) {
-        let executeClient = appDependencies.executeClient
-        Task.detached(priority: .background) {
-            if try executeClient.checkIconsVisible() {
-                try executeClient.toggleIconsVisible(false)
-            }
+        if (try? appDependencies.executeClient.checkIconsVisible()) == true {
+            try? appDependencies.executeClient.toggleIconsVisible(false)
         }
     }
 }

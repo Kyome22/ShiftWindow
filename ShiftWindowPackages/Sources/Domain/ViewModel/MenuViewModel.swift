@@ -33,9 +33,7 @@ import Observation
     @ObservationIgnored private var task: Task<Void, Never>?
 
     public var patterns = [ShiftPattern]()
-    public var hideIcons: Bool {
-        didSet { toggleIconsVisible(hideIcons) }
-    }
+    public var hideIcons: Bool
     public var canChecksForUpdates = false
 
     public init(
@@ -53,32 +51,28 @@ import Observation
         self.shortcutService = shortcutService
         self.updateService = updateService
         hideIcons = (try? executeClient.checkIconsVisible()) ?? false
-    }
-
-    public func onAppear(screenName: String) {
-        logService.notice(.screenView(name: screenName))
-        task = Task {
+        task = Task { [shortcutService, updateService] in
             await withTaskGroup(of: Void.self) { group in
-                group.addTask {
-                    for await value in await self.shortcutService.patternsStream() {
-                        await MainActor.run {
-                            self.patterns = value
-                        }
+                group.addTask { [weak self] in
+                    for await value in await shortcutService.patternsStream() {
+                        await self?.updatePatterns(value)
                     }
                 }
-                group.addTask {
-                    for await value in await self.updateService.canChecksForUpdatesStream() {
-                        await MainActor.run {
-                            self.canChecksForUpdates = value
-                        }
+                group.addTask { [weak self] in
+                    for await value in await updateService.canChecksForUpdatesStream() {
+                        await self?.updateCanChecksForUpdates(value)
                     }
                 }
             }
         }
     }
 
-    public func onDisappear() {
-        task?.cancel()
+    private func updatePatterns(_ patterns: [ShiftPattern]) {
+        self.patterns = patterns
+    }
+
+    private func updateCanChecksForUpdates(_ canChecksForUpdates: Bool) {
+        self.canChecksForUpdates = canChecksForUpdates
     }
 
     public func shiftWindow(shiftType: ShiftType) async {
@@ -102,13 +96,12 @@ import Observation
         nsAppClient.terminate(nil)
     }
 
-    func toggleIconsVisible(_ value: Bool) {
-        Task.detached(priority: .background) {
-            do {
-                try self.executeClient.toggleIconsVisible(value)
-            } catch {
-                self.logService.critical(.failedExecuteScript(error))
-            }
+    public func toggleIconsVisible(_ value: Bool) {
+        do {
+            try executeClient.toggleIconsVisible(value)
+            hideIcons = value
+        } catch {
+            logService.critical(.failedExecuteScript(error))
         }
     }
 }

@@ -61,7 +61,10 @@ struct ShortcutSettingsView: View {
             }
             Divider()
             LabeledContent {
-                Toggle(isOn: $viewModel.showShortcutPanel) {
+                Toggle(isOn: Binding<Bool>(
+                    get: { viewModel.showShortcutPanel },
+                    set: { viewModel.toggleShowShortcutPanel($0) }
+                )) {
                     Text("enable", bundle: .module)
                 }
             } label: {
