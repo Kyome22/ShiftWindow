@@ -1,14 +1,14 @@
 import Foundation
 import os
 import ServiceManagement
-import XCTest
+import Testing
 
 @testable import DataLayer
 @testable import Domain
 
-final class GeneralSettingsViewModelTests: XCTestCase {
-    @MainActor
-    func test_openSystemSettings() async {
+struct GeneralSettingsViewModelTests {
+    @MainActor @Test
+    func openSystemSettings() async {
         let calledURLs = OSAllocatedUnfairLock(initialState: [URL]())
         let nsWorkspaceClient = testDependency(of: NSWorkspaceClient.self) {
             $0.open = { url in
@@ -19,11 +19,11 @@ final class GeneralSettingsViewModelTests: XCTestCase {
         let sut = GeneralSettingsViewModel(nsWorkspaceClient, .testValue, .testValue, .init(.testValue))
         sut.openSystemSettings()
         let actual = calledURLs.withLock(\.self)
-        XCTAssertEqual(actual, [URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!])
+        #expect(actual == [URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!])
     }
 
-    @MainActor
-    func test_toggleLaunchAtLogin_有効の要求_成功した_有効に変更される() async {
+    @MainActor @Test
+    func toggleLaunchAtLogin_有効の要求_成功した_有効に変更される() async {
         let currentStatus = OSAllocatedUnfairLock(initialState: SMAppService.Status.notRegistered)
         let smAppServiceClient = testDependency(of: SMAppServiceClient.self) {
             $0.status = { currentStatus.withLock(\.self) }
@@ -31,22 +31,23 @@ final class GeneralSettingsViewModelTests: XCTestCase {
         }
         let sut = GeneralSettingsViewModel(.testValue, .testValue, smAppServiceClient, .init(.testValue))
         sut.toggleLaunchAtLogin(true)
-        XCTAssertTrue(sut.launchAtLogin)
+        #expect(sut.launchAtLogin)
     }
 
-    @MainActor
-    func test_toggleLaunchAtLogin_有効の要求_失敗した_無効に戻される() async {
+
+    @MainActor @Test
+    func toggleLaunchAtLogin_有効の要求_失敗した_無効に戻される() async {
         let smAppServiceClient = testDependency(of: SMAppServiceClient.self) {
             $0.status = { .notRegistered }
             $0.register = { throw NSError(domain: "", code: kSMErrorInternalFailure) }
         }
         let sut = GeneralSettingsViewModel(.testValue, .testValue, smAppServiceClient, .init(.testValue))
         sut.toggleLaunchAtLogin(true)
-        XCTAssertFalse(sut.launchAtLogin)
+        #expect(sut.launchAtLogin == false)
     }
 
-    @MainActor
-    func test_toggleLaunchAtLogin_無効の要求_成功した_無効に変更される() async {
+    @MainActor @Test
+    func toggleLaunchAtLogin_無効の要求_成功した_無効に変更される() async {
         let currentStatus = OSAllocatedUnfairLock(initialState: SMAppService.Status.enabled)
         let smAppServiceClient = testDependency(of: SMAppServiceClient.self) {
             $0.status = { currentStatus.withLock(\.self) }
@@ -54,17 +55,17 @@ final class GeneralSettingsViewModelTests: XCTestCase {
         }
         let sut = GeneralSettingsViewModel(.testValue, .testValue, smAppServiceClient, .init(.testValue))
         sut.toggleLaunchAtLogin(false)
-        XCTAssertFalse(sut.launchAtLogin)
+        #expect(sut.launchAtLogin == false)
     }
 
-    @MainActor
-    func test_toggleLaunchAtLogin_無効の要求_失敗した_有効に戻される() async {
+    @MainActor @Test
+    func toggleLaunchAtLogin_無効の要求_失敗した_有効に戻される() async {
         let smAppServiceClient = testDependency(of: SMAppServiceClient.self) {
             $0.status = { .enabled }
             $0.unregister = { throw NSError(domain: "", code: kSMErrorInternalFailure) }
         }
         let sut = GeneralSettingsViewModel(.testValue, .testValue, smAppServiceClient, .init(.testValue))
         sut.toggleLaunchAtLogin(false)
-        XCTAssertTrue(sut.launchAtLogin)
+        #expect(sut.launchAtLogin)
     }
 }

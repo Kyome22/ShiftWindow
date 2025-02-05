@@ -1,13 +1,13 @@
+import DataLayer
 import Foundation
 import os
-import XCTest
+import Testing
 
-@testable import DataLayer
 @testable import Domain
 
-final class MenuViewModelTests: XCTestCase {
-    @MainActor
-    func test_activateApp() {
+struct MenuViewModelTests {
+    @MainActor @Test
+    func activateApp() {
         let count = OSAllocatedUnfairLock(initialState: 0)
         let nsAppClient = testDependency(of: NSAppClient.self) {
             $0.activate = { _ in count.withLock { $0 += 1 } }
@@ -21,11 +21,11 @@ final class MenuViewModelTests: XCTestCase {
             .init(.testValue)
         )
         sut.activateApp()
-        XCTAssertEqual(count.withLock(\.self), 1)
+        #expect(count.withLock(\.self) == 1)
     }
 
-    @MainActor
-    func test_checkForUpdates() async {
+    @MainActor @Test
+    func checkForUpdates() async {
         let count = OSAllocatedUnfairLock(initialState: 0)
         let spuUpdaterClient = testDependency(of: SPUUpdaterClient.self) {
             $0.checkForUpdates = { count.withLock { $0 += 1 } }
@@ -39,11 +39,11 @@ final class MenuViewModelTests: XCTestCase {
             .init(spuUpdaterClient)
         )
         await sut.checkForUpdates()
-        XCTAssertEqual(count.withLock(\.self), 1)
+        #expect(count.withLock(\.self) == 1)
     }
 
-    @MainActor
-    func test_openAbout() {
+    @MainActor @Test
+    func openAbout() {
         let callStack = OSAllocatedUnfairLock(initialState: [String]())
         let nsAppClient = testDependency(of: NSAppClient.self) {
             $0.activate = { _ in callStack.withLock { $0.append("activate") } }
@@ -60,14 +60,11 @@ final class MenuViewModelTests: XCTestCase {
             .init(.testValue)
         )
         sut.openAbout()
-        XCTAssertEqual(callStack.withLock(\.self), [
-            "activate",
-            "orderFrontStandardAboutPanel",
-        ])
+        #expect(callStack.withLock(\.self) == ["activate", "orderFrontStandardAboutPanel"])
     }
 
-    @MainActor
-    func test_terminateApp() {
+    @MainActor @Test
+    func terminateApp() {
         let count = OSAllocatedUnfairLock(initialState: 0)
         let nsAppClient = testDependency(of: NSAppClient.self) {
             $0.terminate = { _ in count.withLock { $0 += 1 } }
@@ -81,11 +78,11 @@ final class MenuViewModelTests: XCTestCase {
             .init(.testValue)
         )
         sut.terminateApp()
-        XCTAssertEqual(count.withLock(\.self), 1)
+        #expect(count.withLock(\.self) == 1)
     }
 
-    @MainActor
-    func test_toggleIconsVisible_変更の要求_成功した_変更される() {
+    @MainActor @Test
+    func toggleIconsVisible_変更の要求_成功した_変更される() {
         let executeClient = testDependency(of: ExecuteClient.self) {
             $0.toggleIconsVisible = { _ in }
         }
@@ -98,11 +95,11 @@ final class MenuViewModelTests: XCTestCase {
             .init(.testValue)
         )
         sut.toggleIconsVisible(true)
-        XCTAssertTrue(sut.hideIcons)
+        #expect(sut.hideIcons)
     }
 
-    @MainActor
-    func test_toggleIconsVisible_変更の要求_失敗した_変更されない() {
+    @MainActor @Test
+    func toggleIconsVisible_変更の要求_失敗した_変更されない() {
         let executeClient = testDependency(of: ExecuteClient.self) {
             $0.toggleIconsVisible = { _ in throw CocoaError(.fileNoSuchFile) }
         }
@@ -115,6 +112,6 @@ final class MenuViewModelTests: XCTestCase {
             .init(.testValue)
         )
         sut.toggleIconsVisible(true)
-        XCTAssertFalse(sut.hideIcons)
+        #expect(sut.hideIcons == false)
     }
 }
