@@ -40,26 +40,33 @@ import Observation
         checkForUpdates = checkForUpdatesRepository.isEnabled
     }
 
-    public func onAppear(screenName: String) {
-        logService.notice(.screenView(name: screenName))
-    }
+    public func send(_ action: Action) {
+        switch action {
+        case .onAppear(let screenName):
+            logService.notice(.screenView(name: screenName))
 
-    public func openSystemSettings() {
-        let path = "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
-        _ = nsWorkspaceClient.open(URL(string: path)!)
-    }
+        case .openSystemSettingsButtonTapped:
+            let path = "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
+            _ = nsWorkspaceClient.open(URL(string: path)!)
 
-    public func toggleLaunchAtLogin(_ isOn: Bool) {
-        switch launchAtLoginRepository.switchStatus(isOn) {
-        case .success:
-            launchAtLogin = isOn
-        case let .failure(.switchFailed(value)):
-            launchAtLogin = value
+        case .launchAtLoginToggleSwitched(let isOn):
+            switch launchAtLoginRepository.switchStatus(isOn) {
+            case .success:
+                launchAtLogin = isOn
+            case let .failure(.switchFailed(value)):
+                launchAtLogin = value
+            }
+
+        case .checkForUpdatesToggleSwitched(let isOn):
+            checkForUpdates = isOn
+            checkForUpdatesRepository.switchStatus(isOn)
         }
     }
 
-    public func toggleCheckForUpdates(_ isOn: Bool) {
-        checkForUpdates = isOn
-        checkForUpdatesRepository.switchStatus(isOn)
+    public enum Action {
+        case onAppear(String)
+        case openSystemSettingsButtonTapped
+        case launchAtLoginToggleSwitched(Bool)
+        case checkForUpdatesToggleSwitched(Bool)
     }
 }

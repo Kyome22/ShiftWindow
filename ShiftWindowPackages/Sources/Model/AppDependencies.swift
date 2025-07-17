@@ -77,3 +77,27 @@ public extension EnvironmentValues {
         set { self[AppDependenciesKey.self] = newValue }
     }
 }
+
+extension AppDependencies {
+    static let testValue = AppDependencies(
+        appStateClient: .testValue,
+        cgDirectDisplayClient: .testValue,
+        executeClient: .testValue,
+        hiServicesClient: .testValue,
+        loggingSystemClient: .testValue,
+        nsAppClient: .testValue,
+        nsScreenClient: .testValue,
+        nsWorkspaceClient: .testValue,
+        smAppServiceClient: .testValue,
+        spiceKeyClient: .testValue,
+        spuUpdaterClient: .testValue,
+        userDefaultsClient: .testValue,
+        windowSceneMessengerClient: .testValue
+    )
+}
+
+public func testDependencies(injection: (AppDependencies) -> Void) -> AppDependencies {
+    let appDependencies = AppDependencies.testValue
+    injection(appDependencies)
+    return appDependencies
+}

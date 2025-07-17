@@ -43,31 +43,38 @@ import SpiceKey
         showShortcutPanel = userDefaultsRepository.showShortcutPanel
     }
 
-    public func onAppear(screenName: String) {
-        logService.notice(.screenView(name: screenName))
-        task = Task { [weak self, appStateClient] in
-            let values = appStateClient.withLock(\.shiftPatternsSubject.values)
-            for await value in values {
-                self?.shiftPatterns = value
+    public func send(_ action: Action) {
+        switch action {
+        case .onAppear(let screenName):
+            logService.notice(.screenView(name: screenName))
+            task = Task { [weak self, appStateClient] in
+                let values = appStateClient.withLock(\.shiftPatternsSubject.values)
+                for await value in values {
+                    self?.shiftPatterns = value
+                }
             }
+
+        case .onDisappear:
+            task?.cancel()
+
+        case .onUpdateShortcut(let shiftPattern, let keyCombination):
+            let id = shiftPattern.shiftType.id
+            if let keyCombination {
+                shortcutService.updateShortcut(id: id, keyCombo: keyCombination)
+            } else {
+                shortcutService.removeShortcut(id: id)
+            }
+
+        case .showShortcutPanelToggleSwitched(let isOn):
+            showShortcutPanel = isOn
+            userDefaultsRepository.showShortcutPanel = isOn
         }
     }
 
-    public func onDisappear() {
-        task?.cancel()
-    }
-
-    public func updateKeyCombination(pattern: ShiftPattern, keyCombo: KeyCombination?) {
-        let id = pattern.shiftType.id
-        if let keyCombo {
-            shortcutService.updateShortcut(id: id, keyCombo: keyCombo)
-        } else {
-            shortcutService.removeShortcut(id: id)
-        }
-    }
-
-    public func toggleShowShortcutPanel(_ isOn: Bool) {
-        showShortcutPanel = isOn
-        userDefaultsRepository.showShortcutPanel = isOn
+    public enum Action {
+        case onAppear(String)
+        case onDisappear
+        case onUpdateShortcut(ShiftPattern, KeyCombination?)
+        case showShortcutPanelToggleSwitched(Bool)
     }
 }
