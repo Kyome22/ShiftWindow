@@ -19,7 +19,7 @@
 */
 
 import Combine
-import DataLayer
+import LegacyDataLayer
 
 public actor UpdateService {
     private let spuUpdaterClient: SPUUpdaterClient

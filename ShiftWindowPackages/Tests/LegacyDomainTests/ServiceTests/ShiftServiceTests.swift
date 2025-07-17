@@ -1,9 +1,9 @@
 import AppKit
-import DataLayer
+import LegacyDataLayer
 import os
 import Testing
 
-@testable import Domain
+@testable import LegacyDomain
 
 struct ShiftServiceTests {
     @Test

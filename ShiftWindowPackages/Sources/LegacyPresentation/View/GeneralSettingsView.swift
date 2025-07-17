@@ -18,8 +18,8 @@
  limitations under the License.
 */
 
-import DataLayer
-import Domain
+import LegacyDataLayer
+import LegacyDomain
 import SwiftUI
 
 struct GeneralSettingsView: View {

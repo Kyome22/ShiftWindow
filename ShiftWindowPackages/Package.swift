@@ -14,16 +14,16 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "DataLayer",
-            targets: ["DataLayer"]
+            name: "LegacyDataLayer",
+            targets: ["LegacyDataLayer"]
         ),
         .library(
-            name: "Domain",
-            targets: ["Domain"]
+            name: "LegacyDomain",
+            targets: ["LegacyDomain"]
         ),
         .library(
-            name: "Presentation",
-            targets: ["Presentation"]
+            name: "LegacyPresentation",
+            targets: ["LegacyPresentation"]
         ),
     ],
     dependencies: [
@@ -34,7 +34,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "DataLayer",
+            name: "LegacyDataLayer",
             dependencies: [
                 .product(name: "Logging", package: "swift-log"),
                 .product(name: "Sparkle", package: "Sparkle"),
@@ -44,27 +44,27 @@ let package = Package(
             swiftSettings: swiftSettings
         ),
         .target(
-            name: "Domain",
+            name: "LegacyDomain",
             dependencies: [
-                "DataLayer",
+                "LegacyDataLayer",
                 .product(name: "Logging", package: "swift-log"),
                 .product(name: "SpiceKey", package: "SpiceKey"),
             ],
             swiftSettings: swiftSettings
         ),
         .testTarget(
-            name: "DomainTests",
+            name: "LegacyDomainTests",
             dependencies: [
-                "DataLayer",
-                "Domain",
+                "LegacyDataLayer",
+                "LegacyDomain",
             ],
             swiftSettings: swiftSettings
         ),
         .target(
-            name: "Presentation",
+            name: "LegacyPresentation",
             dependencies: [
-                "DataLayer",
-                "Domain",
+                "LegacyDataLayer",
+                "LegacyDomain",
                 .product(name: "SpiceKey", package: "SpiceKey"),
                 .product(name: "WindowSceneKit", package: "WindowSceneKit"),
             ],

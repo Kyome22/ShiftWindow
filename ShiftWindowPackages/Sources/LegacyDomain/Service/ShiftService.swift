@@ -19,7 +19,7 @@
 */
 
 import AppKit
-import DataLayer
+import LegacyDataLayer
 import Foundation
 
 public actor ShiftService {

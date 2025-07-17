@@ -70,7 +70,9 @@ private final class ShortcutPanel: NSPanel {
             context.allowsImplicitAnimation = true
             animator().alphaValue = .zero
         } completionHandler: {
-            super.close()
+            Task { @MainActor in
+                super.close()
+            }
         }
     }
 }

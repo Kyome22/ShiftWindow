@@ -19,7 +19,7 @@
 */
 
 import Combine
-import DataLayer
+import LegacyDataLayer
 import Foundation
 import SpiceKey
 

@@ -3,8 +3,8 @@ import os
 import ServiceManagement
 import Testing
 
-@testable import DataLayer
-@testable import Domain
+@testable import LegacyDataLayer
+@testable import LegacyDomain
 
 struct GeneralSettingsViewModelTests {
     @MainActor @Test

@@ -18,7 +18,7 @@
  limitations under the License.
 */
 
-import DataLayer
+import LegacyDataLayer
 import SwiftUI
 
 public final class AppDependencies: Sendable {

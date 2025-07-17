@@ -18,8 +18,8 @@
  limitations under the License.
 */
 
-import Domain
-import Presentation
+import LegacyDomain
+import LegacyPresentation
 import SwiftUI
 import WindowSceneKit
 

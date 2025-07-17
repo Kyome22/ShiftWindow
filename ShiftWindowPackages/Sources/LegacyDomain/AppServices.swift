@@ -6,7 +6,7 @@
  
 */
 
-import DataLayer
+import LegacyDataLayer
 import SwiftUI
 
 public final class AppServices: Sendable {

@@ -1,9 +1,9 @@
-import DataLayer
+import LegacyDataLayer
 import Foundation
 import os
 import Testing
 
-@testable import Domain
+@testable import LegacyDomain
 
 struct MenuViewModelTests {
     @MainActor @Test
