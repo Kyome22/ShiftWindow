@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.1
 
 import PackageDescription
 
@@ -24,19 +24,6 @@ let package = Package(
         .library(
             name: "Presentation",
             targets: ["Presentation"]
-        ),
-
-        .library(
-            name: "LegacyDataLayer",
-            targets: ["LegacyDataLayer"]
-        ),
-        .library(
-            name: "LegacyDomain",
-            targets: ["LegacyDomain"]
-        ),
-        .library(
-            name: "LegacyPresentation",
-            targets: ["LegacyPresentation"]
         ),
     ],
     dependencies: [
@@ -75,42 +62,11 @@ let package = Package(
             ],
             swiftSettings: swiftSettings
         ),
-
-
-        .target(
-            name: "LegacyDataLayer",
-            dependencies: [
-                .product(name: "Logging", package: "swift-log"),
-                .product(name: "Sparkle", package: "Sparkle"),
-                .product(name: "SpiceKey", package: "SpiceKey"),
-                .product(name: "WindowSceneKit", package: "WindowSceneKit"),
-            ],
-            swiftSettings: swiftSettings
-        ),
-        .target(
-            name: "LegacyDomain",
-            dependencies: [
-                "LegacyDataLayer",
-                .product(name: "Logging", package: "swift-log"),
-                .product(name: "SpiceKey", package: "SpiceKey"),
-            ],
-            swiftSettings: swiftSettings
-        ),
         .testTarget(
-            name: "LegacyDomainTests",
+            name: "ModelTests",
             dependencies: [
-                "LegacyDataLayer",
-                "LegacyDomain",
-            ],
-            swiftSettings: swiftSettings
-        ),
-        .target(
-            name: "LegacyPresentation",
-            dependencies: [
-                "LegacyDataLayer",
-                "LegacyDomain",
-                .product(name: "SpiceKey", package: "SpiceKey"),
-                .product(name: "WindowSceneKit", package: "WindowSceneKit"),
+                "Infrastructure",
+                "Model",
             ],
             swiftSettings: swiftSettings
         ),
