@@ -36,7 +36,11 @@ public struct ShortcutService {
     }
 
     func initializeShortcuts() {
-        appStateClient.withLock(\.shiftPatternsSubject.value).forEach { shiftPattern in
+        let shiftPatterns = userDefaultsRepository.shiftPatterns
+        appStateClient.withLock {
+            $0.shiftPatternsSubject.send(shiftPatterns)
+        }
+        shiftPatterns.forEach { shiftPattern in
             guard let keyCombo = shiftPattern.spiceKeyData?.keyCombination else { return }
             let spiceKey = SpiceKey(keyCombo) { [appStateClient, userDefaultsRepository, windowSceneMessengerClient] in
                 if userDefaultsRepository.showShortcutPanel {

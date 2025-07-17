@@ -79,25 +79,35 @@ public extension EnvironmentValues {
 }
 
 extension AppDependencies {
-    static let testValue = AppDependencies(
-        appStateClient: .testValue,
-        cgDirectDisplayClient: .testValue,
-        executeClient: .testValue,
-        hiServicesClient: .testValue,
-        loggingSystemClient: .testValue,
-        nsAppClient: .testValue,
-        nsScreenClient: .testValue,
-        nsWorkspaceClient: .testValue,
-        smAppServiceClient: .testValue,
-        spiceKeyClient: .testValue,
-        spuUpdaterClient: .testValue,
-        userDefaultsClient: .testValue,
-        windowSceneMessengerClient: .testValue
-    )
-}
-
-public func testDependencies(injection: (AppDependencies) -> Void) -> AppDependencies {
-    let appDependencies = AppDependencies.testValue
-    injection(appDependencies)
-    return appDependencies
+    public static func testDependencies(
+        appStateClient: AppStateClient = .testValue,
+        cgDirectDisplayClient: CGDirectDisplayClient = .testValue,
+        executeClient: ExecuteClient = .testValue,
+        hiServicesClient: HIServicesClient = .testValue,
+        loggingSystemClient: LoggingSystemClient = .testValue,
+        nsAppClient: NSAppClient = .testValue,
+        nsScreenClient: NSScreenClient = .testValue,
+        nsWorkspaceClient: NSWorkspaceClient = .testValue,
+        smAppServiceClient: SMAppServiceClient = .testValue,
+        spiceKeyClient: SpiceKeyClient = .testValue,
+        spuUpdaterClient: SPUUpdaterClient = .testValue,
+        userDefaultsClient: UserDefaultsClient = .testValue,
+        windowSceneMessengerClient: WindowSceneMessengerClient = .testValue
+    ) -> AppDependencies {
+        AppDependencies(
+            appStateClient: appStateClient,
+            cgDirectDisplayClient: cgDirectDisplayClient,
+            executeClient: executeClient,
+            hiServicesClient: hiServicesClient,
+            loggingSystemClient: loggingSystemClient,
+            nsAppClient: nsAppClient,
+            nsScreenClient: nsScreenClient,
+            nsWorkspaceClient: nsWorkspaceClient,
+            smAppServiceClient: smAppServiceClient,
+            spiceKeyClient: spiceKeyClient,
+            spuUpdaterClient: spuUpdaterClient,
+            userDefaultsClient: userDefaultsClient,
+            windowSceneMessengerClient: windowSceneMessengerClient
+        )
+    }
 }

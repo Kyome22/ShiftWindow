@@ -76,5 +76,5 @@ struct ShortcutSettingsView: View {
 }
 
 #Preview {
-    ShortcutSettingsView(testDependencies(injection: { _ in }))
+    ShortcutSettingsView(.testDependencies())
 }

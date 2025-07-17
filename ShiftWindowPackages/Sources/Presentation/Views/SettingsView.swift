@@ -59,5 +59,5 @@ public struct SettingsView: View {
 
 #Preview {
     SettingsView(settingsTab: .general)
-        .environment(\.appDependencies, testDependencies(injection: { _ in }))
+        .environment(\.appDependencies, .testDependencies())
 }

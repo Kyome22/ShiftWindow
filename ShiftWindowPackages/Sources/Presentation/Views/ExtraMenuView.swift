@@ -99,5 +99,5 @@ struct ExtraMenuView: View {
 }
 
 #Preview {
-    ExtraMenuView(testDependencies(injection: { _ in }))
+    ExtraMenuView(.testDependencies())
 }

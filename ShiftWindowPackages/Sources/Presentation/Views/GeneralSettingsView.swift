@@ -73,5 +73,5 @@ struct GeneralSettingsView: View {
 }
 
 #Preview {
-    GeneralSettingsView(testDependencies(injection: { _ in }))
+    GeneralSettingsView(.testDependencies())
 }

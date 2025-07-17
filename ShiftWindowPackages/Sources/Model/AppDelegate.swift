@@ -25,11 +25,6 @@ public final class AppDelegate: NSObject, NSApplicationDelegate {
     public let appDependencies = AppDependenciesKey.defaultValue
 
     public func applicationDidFinishLaunching(_ notification: Notification) {
-        let userDefaultsRepository = UserDefaultsRepository(appDependencies.userDefaultsClient)
-        appDependencies.appStateClient.withLock {
-            $0.shiftPatternsSubject.send(userDefaultsRepository.shiftPatterns)
-        }
-
         let logService = LogService(appDependencies)
         logService.bootstrap()
         logService.notice(.launchApp)
