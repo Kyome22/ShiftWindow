@@ -23,7 +23,7 @@ import Foundation
 public struct UserDefaultsRepository: Sendable {
     private var userDefaultsClient: UserDefaultsClient
 
-    public var patterns: [ShiftPattern] {
+    public var shiftPatterns: [ShiftPattern] {
         get {
             guard let data = userDefaultsClient.data(.patterns) else { return [] }
             return (try? JSONDecoder().decode([ShiftPattern].self, from: data)) ?? []
@@ -48,8 +48,8 @@ public struct UserDefaultsRepository: Sendable {
         }
         #endif
 
-        if patterns.isEmpty {
-            patterns = ShiftPattern.defaults
+        if shiftPatterns.isEmpty {
+            shiftPatterns = ShiftPattern.defaults
         }
 
         #if DEBUG
