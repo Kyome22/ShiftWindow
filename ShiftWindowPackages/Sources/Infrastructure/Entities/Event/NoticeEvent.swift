@@ -1,8 +1,8 @@
 /*
- ShiftWindowApp.swift
- ShiftWindow
+ NoticeEvent.swift
+ Infrastructure
 
- Created by Takuto Nakamura on 2022/06/27.
+ Created by Takuto Nakamura on 2024/11/01.
  Copyright 2022 Takuto Nakamura (Kyome22)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,19 +18,27 @@
  limitations under the License.
 */
 
-import Model
-import Presentation
-import SwiftUI
-import WindowSceneKit
+import Logging
 
-@main
-struct ShiftWindowApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @WindowState(.shortcutPanel) private var isPresented = false
+public enum NoticeEvent {
+    case launchApp
+    case screenView(name: String)
 
-    var body: some Scene {
-        MenuBarScene()
-        SettingsWindowScene()
-        ShortcutPanelScene(isPresented: $isPresented)
+    public var message: Logger.Message {
+        switch self {
+        case .launchApp:
+            "launch_app"
+        case .screenView:
+            "screen_view"
+        }
+    }
+
+    public var metadata: Logger.Metadata? {
+        switch self {
+        case .launchApp:
+            [:]
+        case let .screenView(name):
+            ["screen": .string(name)]
+        }
     }
 }

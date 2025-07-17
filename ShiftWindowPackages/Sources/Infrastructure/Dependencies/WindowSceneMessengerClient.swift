@@ -1,8 +1,8 @@
 /*
- ShiftWindowApp.swift
- ShiftWindow
+ WindowSceneMessengerClient.swift
+ Infrastructure
 
- Created by Takuto Nakamura on 2022/06/27.
+ Created by Takuto Nakamura on 2025/01/07.
  Copyright 2022 Takuto Nakamura (Kyome22)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,19 +18,16 @@
  limitations under the License.
 */
 
-import Model
-import Presentation
-import SwiftUI
 import WindowSceneKit
 
-@main
-struct ShiftWindowApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @WindowState(.shortcutPanel) private var isPresented = false
+public struct WindowSceneMessengerClient: DependencyClient {
+    public var request: @Sendable (WindowAction, String, [String: any Sendable]) -> Void
 
-    var body: some Scene {
-        MenuBarScene()
-        SettingsWindowScene()
-        ShortcutPanelScene(isPresented: $isPresented)
-    }
+    public static let liveValue = Self(
+        request: { WindowSceneMessenger.request(windowAction: $0, windowKey: $1, supplements: $2) }
+    )
+
+    public static let testValue = Self(
+        request: { _, _, _ in }
+    )
 }

@@ -1,8 +1,8 @@
 /*
- ShiftWindowApp.swift
- ShiftWindow
+ SpiceKeyClient.swift
+ Infrastructure
 
- Created by Takuto Nakamura on 2022/06/27.
+ Created by Takuto Nakamura on 2024/11/14.
  Copyright 2022 Takuto Nakamura (Kyome22)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,19 +18,19 @@
  limitations under the License.
 */
 
-import Model
-import Presentation
-import SwiftUI
-import WindowSceneKit
+import SpiceKey
 
-@main
-struct ShiftWindowApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @WindowState(.shortcutPanel) private var isPresented = false
+public struct SpiceKeyClient: DependencyClient {
+    public var register: @Sendable (SpiceKey) -> Void
+    public var unregister: @Sendable (SpiceKey) -> Void
 
-    var body: some Scene {
-        MenuBarScene()
-        SettingsWindowScene()
-        ShortcutPanelScene(isPresented: $isPresented)
-    }
+    public static let liveValue = Self(
+        register: { $0.register() },
+        unregister: { $0.unregister() }
+    )
+
+    public static let testValue = Self(
+        register: { _ in },
+        unregister: { _ in }
+    )
 }

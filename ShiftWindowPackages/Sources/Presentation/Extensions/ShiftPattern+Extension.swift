@@ -1,8 +1,8 @@
 /*
- ShiftWindowApp.swift
- ShiftWindow
+ ShiftPattern+Extension.swift
+ Presentation
 
- Created by Takuto Nakamura on 2022/06/27.
+ Created by Takuto Nakamura on 2024/11/01.
  Copyright 2022 Takuto Nakamura (Kyome22)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,19 +18,20 @@
  limitations under the License.
 */
 
-import Model
-import Presentation
+import Infrastructure
 import SwiftUI
-import WindowSceneKit
 
-@main
-struct ShiftWindowApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @WindowState(.shortcutPanel) private var isPresented = false
+extension ShiftPattern {
+    var label: String {
+        shiftType.label
+    }
 
-    var body: some Scene {
-        MenuBarScene()
-        SettingsWindowScene()
-        ShortcutPanelScene(isPresented: $isPresented)
+    var imageResource: ImageResource {
+        shiftType.imageResource
+    }
+
+    var description: String {
+        let str = spiceKeyData?.keyCombination?.string ?? "nil"
+        return "type: \(label), spiceKeyData: \(str)"
     }
 }

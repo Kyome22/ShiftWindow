@@ -1,8 +1,8 @@
 /*
- ShiftWindowApp.swift
- ShiftWindow
+ CGDirectDisplayClient.swift
+ Infrastructure
 
- Created by Takuto Nakamura on 2022/06/27.
+ Created by Takuto Nakamura on 2024/11/06.
  Copyright 2022 Takuto Nakamura (Kyome22)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,19 +18,16 @@
  limitations under the License.
 */
 
-import Model
-import Presentation
-import SwiftUI
-import WindowSceneKit
+import CoreGraphics
 
-@main
-struct ShiftWindowApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @WindowState(.shortcutPanel) private var isPresented = false
+public struct CGDirectDisplayClient: DependencyClient {
+    public var bounds: @Sendable (CGDirectDisplayID) -> CGRect
 
-    var body: some Scene {
-        MenuBarScene()
-        SettingsWindowScene()
-        ShortcutPanelScene(isPresented: $isPresented)
-    }
+    public static let liveValue = Self(
+        bounds: { CGDisplayBounds($0) }
+    )
+
+    public static let testValue = Self(
+        bounds: { _ in CGRect.zero }
+    )
 }

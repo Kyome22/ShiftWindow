@@ -1,8 +1,8 @@
 /*
- ShiftWindowApp.swift
- ShiftWindow
+ ShiftType.swift
+ Infrastructure
 
- Created by Takuto Nakamura on 2022/06/27.
+ Created by Takuto Nakamura on 2024/11/01.
  Copyright 2022 Takuto Nakamura (Kyome22)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,19 +18,19 @@
  limitations under the License.
 */
 
-import Model
-import Presentation
-import SwiftUI
-import WindowSceneKit
+import Foundation
 
-@main
-struct ShiftWindowApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @WindowState(.shortcutPanel) private var isPresented = false
+public enum ShiftType: Int, Codable, Identifiable, Sendable, CaseIterable {
+    case topHalf
+    case bottomHalf
+    case leftHalf
+    case rightHalf
+    case leftThird
+    case leftTwoThirds
+    case middleThird
+    case rightTwoThirds
+    case rightThird
+    case maximize
 
-    var body: some Scene {
-        MenuBarScene()
-        SettingsWindowScene()
-        ShortcutPanelScene(isPresented: $isPresented)
-    }
+    public var id: String { String(describing: self) }
 }

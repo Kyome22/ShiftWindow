@@ -1,8 +1,8 @@
 /*
- ShiftWindowApp.swift
- ShiftWindow
+ UpdateService.swift
+ Model
 
- Created by Takuto Nakamura on 2022/06/27.
+ Created by Takuto Nakamura on 2024/11/07.
  Copyright 2022 Takuto Nakamura (Kyome22)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,19 +18,21 @@
  limitations under the License.
 */
 
-import Model
-import Presentation
-import SwiftUI
-import WindowSceneKit
+import Combine
+import Infrastructure
 
-@main
-struct ShiftWindowApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @WindowState(.shortcutPanel) private var isPresented = false
+public struct UpdateService {
+    private let spuUpdaterClient: SPUUpdaterClient
 
-    var body: some Scene {
-        MenuBarScene()
-        SettingsWindowScene()
-        ShortcutPanelScene(isPresented: $isPresented)
+    var canChecksForUpdates: AsyncPublisher<AnyPublisher<Bool, Never>> {
+        spuUpdaterClient.canCheckForUpdatesPublisher().values
+    }
+
+    public init(_ appDependencies: AppDependencies) {
+        self.spuUpdaterClient = appDependencies.spuUpdaterClient
+    }
+
+    func checkForUpdates() {
+        spuUpdaterClient.checkForUpdates()
     }
 }

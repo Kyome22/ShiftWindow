@@ -177,6 +177,22 @@
         }
       }
     },
+    "quitApp" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quit ShiftWindow"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ShiftWindowを終了"
+          }
+        }
+      }
+    },
     "settings" : {
       "localizations" : {
         "en" : {
@@ -381,22 +397,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ショートカットのパネルを表示:"
-          }
-        }
-      }
-    },
-    "terminateApp" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quit ShiftWindow"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ShiftWindowを終了"
           }
         }
       }

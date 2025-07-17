@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.1
 
 import PackageDescription
 
@@ -10,16 +10,16 @@ let package = Package(
     name: "ShiftWindowPackages",
     defaultLocalization: "en",
     platforms: [
-        .macOS(.v14)
+        .macOS(.v14),
     ],
     products: [
         .library(
-            name: "DataLayer",
-            targets: ["DataLayer"]
+            name: "Infrastructure",
+            targets: ["Infrastructure"]
         ),
         .library(
-            name: "Domain",
-            targets: ["Domain"]
+            name: "Model",
+            targets: ["Model"]
         ),
         .library(
             name: "Presentation",
@@ -34,7 +34,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "DataLayer",
+            name: "Infrastructure",
             dependencies: [
                 .product(name: "Logging", package: "swift-log"),
                 .product(name: "Sparkle", package: "Sparkle"),
@@ -44,29 +44,29 @@ let package = Package(
             swiftSettings: swiftSettings
         ),
         .target(
-            name: "Domain",
+            name: "Model",
             dependencies: [
-                "DataLayer",
+                "Infrastructure",
                 .product(name: "Logging", package: "swift-log"),
                 .product(name: "SpiceKey", package: "SpiceKey"),
-            ],
-            swiftSettings: swiftSettings
-        ),
-        .testTarget(
-            name: "DomainTests",
-            dependencies: [
-                "DataLayer",
-                "Domain",
             ],
             swiftSettings: swiftSettings
         ),
         .target(
             name: "Presentation",
             dependencies: [
-                "DataLayer",
-                "Domain",
+                "Infrastructure",
+                "Model",
                 .product(name: "SpiceKey", package: "SpiceKey"),
                 .product(name: "WindowSceneKit", package: "WindowSceneKit"),
+            ],
+            swiftSettings: swiftSettings
+        ),
+        .testTarget(
+            name: "ModelTests",
+            dependencies: [
+                "Infrastructure",
+                "Model",
             ],
             swiftSettings: swiftSettings
         ),

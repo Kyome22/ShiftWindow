@@ -1,8 +1,8 @@
 /*
- ShiftWindowApp.swift
- ShiftWindow
+ CheckForUpdatesRepository.swift
+ Infrastructure
 
- Created by Takuto Nakamura on 2022/06/27.
+ Created by Takuto Nakamura on 2024/11/07.
  Copyright 2022 Takuto Nakamura (Kyome22)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,19 +18,18 @@
  limitations under the License.
 */
 
-import Model
-import Presentation
-import SwiftUI
-import WindowSceneKit
+public struct CheckForUpdatesRepository: Sendable {
+    private var spuUpdaterClient: SPUUpdaterClient
 
-@main
-struct ShiftWindowApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @WindowState(.shortcutPanel) private var isPresented = false
+    public var isEnabled: Bool {
+        spuUpdaterClient.automaticallyChecksForUpdates()
+    }
 
-    var body: some Scene {
-        MenuBarScene()
-        SettingsWindowScene()
-        ShortcutPanelScene(isPresented: $isPresented)
+    public init(_ spuUpdaterClient: SPUUpdaterClient) {
+        self.spuUpdaterClient = spuUpdaterClient
+    }
+
+    public func switchStatus(_ isEnabled: Bool) {
+        spuUpdaterClient.setAutomaticallyChecksForUpdates(isEnabled)
     }
 }

@@ -1,8 +1,8 @@
 /*
- ShiftWindowApp.swift
- ShiftWindow
+ String+Extension.swift
+ Infrastructure
 
- Created by Takuto Nakamura on 2022/06/27.
+ Created by Takuto Nakamura on 2024/11/01.
  Copyright 2022 Takuto Nakamura (Kyome22)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,19 +18,12 @@
  limitations under the License.
 */
 
-import Model
-import Presentation
-import SwiftUI
-import WindowSceneKit
+import Foundation
 
-@main
-struct ShiftWindowApp: App {
-    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @WindowState(.shortcutPanel) private var isPresented = false
-
-    var body: some Scene {
-        MenuBarScene()
-        SettingsWindowScene()
-        ShortcutPanelScene(isPresented: $isPresented)
-    }
+extension String {
+    static let patterns = "patterns"
+    static let showShortcutPanel = "showShortcutPanel"
+    static let createDesktopRead = "defaults read com.apple.finder CreateDesktop"
+    static let createDesktopDelete = "defaults delete com.apple.finder CreateDesktop; killall Finder"
+    static let createDesktopWriteFalse = "defaults write com.apple.finder CreateDesktop -bool FALSE; killall Finder"
 }
