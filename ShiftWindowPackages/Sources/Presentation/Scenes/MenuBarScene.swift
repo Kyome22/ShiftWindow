@@ -27,7 +27,7 @@ public struct MenuBarScene: Scene {
 
     public var body: some Scene {
         MenuBarExtra {
-            ExtraMenuView(appDependencies)
+            ExtraMenuView(store: .init(appDependencies))
                 .environment(\.displayScale, 2.0)
         } label: {
             Image(.statusIcon)

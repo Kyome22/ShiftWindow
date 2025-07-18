@@ -23,16 +23,12 @@ import Model
 import SwiftUI
 
 public struct SettingsView: View {
-    @State private var settingsTab: SettingsTab
+    @State var settingsTab: SettingsTab = .general
     @Environment(\.appDependencies) private var appDependencies
-
-    public init(settingsTab: SettingsTab = .general) {
-        self.settingsTab = settingsTab
-    }
 
     public var body: some View {
         TabView(selection: $settingsTab) {
-            GeneralSettingsView(appDependencies)
+            GeneralSettingsView(store: .init(appDependencies))
                 .tabItem {
                     Label {
                         Text("general", bundle: .module)
@@ -41,7 +37,7 @@ public struct SettingsView: View {
                     }
                 }
                 .tag(SettingsTab.general)
-            ShortcutSettingsView(appDependencies)
+            ShortcutSettingsView(store: .init(appDependencies))
                 .tabItem {
                     Label {
                         Text("shortcut", bundle: .module)

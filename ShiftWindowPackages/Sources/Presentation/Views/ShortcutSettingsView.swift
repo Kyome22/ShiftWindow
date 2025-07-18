@@ -24,11 +24,7 @@ import SpiceKey
 import SwiftUI
 
 struct ShortcutSettingsView: View {
-    @State private var store: ShortcutSettings
-
-    init(_ appDependencies: AppDependencies) {
-        store = .init(appDependencies)
-    }
+    @State var store: ShortcutSettings
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -76,5 +72,5 @@ struct ShortcutSettingsView: View {
 }
 
 #Preview {
-    ShortcutSettingsView(.testDependencies())
+    ShortcutSettingsView(store: .init(.testDependencies()))
 }

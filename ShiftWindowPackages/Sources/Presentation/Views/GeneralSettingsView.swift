@@ -23,11 +23,7 @@ import Model
 import SwiftUI
 
 struct GeneralSettingsView: View {
-    @State private var store: GeneralSettings
-
-    init(_ appDependencies: AppDependencies) {
-        store = .init(appDependencies)
-    }
+    @State var store: GeneralSettings
 
     var body: some View {
         Form {
@@ -73,5 +69,5 @@ struct GeneralSettingsView: View {
 }
 
 #Preview {
-    GeneralSettingsView(.testDependencies())
+    GeneralSettingsView(store: .init(.testDependencies()))
 }

@@ -24,11 +24,7 @@ import SpiceKey
 import SwiftUI
 
 struct ExtraMenuView: View {
-    @State private var store: ExtraMenu
-
-    init(_ appDependencies: AppDependencies) {
-        store = .init(appDependencies)
-    }
+    @State var store: ExtraMenu
 
     var body: some View {
         VStack {
@@ -99,5 +95,5 @@ struct ExtraMenuView: View {
 }
 
 #Preview {
-    ExtraMenuView(.testDependencies())
+    ExtraMenuView(store: .init(.testDependencies()))
 }
