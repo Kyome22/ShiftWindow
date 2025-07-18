@@ -19,7 +19,7 @@
 */
 
 import Combine
-import Infrastructure
+import DataSource
 
 public struct UpdateService {
     private let spuUpdaterClient: SPUUpdaterClient

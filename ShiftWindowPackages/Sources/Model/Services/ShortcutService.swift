@@ -19,7 +19,7 @@
 */
 
 import Foundation
-import Infrastructure
+import DataSource
 import SpiceKey
 
 public struct ShortcutService {

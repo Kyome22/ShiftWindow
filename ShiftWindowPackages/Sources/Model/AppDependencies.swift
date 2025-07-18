@@ -18,7 +18,7 @@
  limitations under the License.
 */
 
-import Infrastructure
+import DataSource
 import SwiftUI
 
 public final class AppDependencies: Sendable {

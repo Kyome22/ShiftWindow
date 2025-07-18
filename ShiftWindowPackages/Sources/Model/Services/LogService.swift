@@ -19,7 +19,7 @@
 */
 
 import Foundation
-import Infrastructure
+import DataSource
 import Logging
 
 public struct LogService {

@@ -19,7 +19,7 @@
 */
 
 import AppKit
-import Infrastructure
+import DataSource
 
 public final class AppDelegate: NSObject, NSApplicationDelegate {
     public let appDependencies = AppDependenciesKey.defaultValue

@@ -18,7 +18,7 @@
  limitations under the License.
 */
 
-import Infrastructure
+import DataSource
 import Model
 import SwiftUI
 

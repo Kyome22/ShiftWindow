@@ -1,7 +1,7 @@
 import os
 import Testing
 
-@testable import Infrastructure
+@testable import DataSource
 @testable import Model
 
 struct LogServiceTests {

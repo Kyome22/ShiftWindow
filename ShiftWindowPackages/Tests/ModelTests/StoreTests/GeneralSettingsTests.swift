@@ -3,7 +3,7 @@ import os
 import ServiceManagement
 import Testing
 
-@testable import Infrastructure
+@testable import DataSource
 @testable import Model
 
 struct GeneralSettingsTests {

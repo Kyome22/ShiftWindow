@@ -19,7 +19,7 @@
 */
 
 import Model
-import Presentation
+import UserInterface
 import SwiftUI
 import WindowSceneKit
 

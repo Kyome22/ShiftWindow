@@ -14,16 +14,16 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "Infrastructure",
-            targets: ["Infrastructure"]
+            name: "DataSource",
+            targets: ["DataSource"]
         ),
         .library(
             name: "Model",
             targets: ["Model"]
         ),
         .library(
-            name: "Presentation",
-            targets: ["Presentation"]
+            name: "UserInterface",
+            targets: ["UserInterface"]
         ),
     ],
     dependencies: [
@@ -34,7 +34,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Infrastructure",
+            name: "DataSource",
             dependencies: [
                 .product(name: "Logging", package: "swift-log"),
                 .product(name: "Sparkle", package: "Sparkle"),
@@ -46,16 +46,16 @@ let package = Package(
         .target(
             name: "Model",
             dependencies: [
-                "Infrastructure",
+                "DataSource",
                 .product(name: "Logging", package: "swift-log"),
                 .product(name: "SpiceKey", package: "SpiceKey"),
             ],
             swiftSettings: swiftSettings
         ),
         .target(
-            name: "Presentation",
+            name: "UserInterface",
             dependencies: [
-                "Infrastructure",
+                "DataSource",
                 "Model",
                 .product(name: "SpiceKey", package: "SpiceKey"),
                 .product(name: "WindowSceneKit", package: "WindowSceneKit"),
@@ -65,7 +65,7 @@ let package = Package(
         .testTarget(
             name: "ModelTests",
             dependencies: [
-                "Infrastructure",
+                "DataSource",
                 "Model",
             ],
             swiftSettings: swiftSettings

@@ -20,7 +20,7 @@
 
 import AppKit
 import Foundation
-import Infrastructure
+import DataSource
 
 public struct ShiftService {
     private let cgDirectDisplayClient: CGDirectDisplayClient

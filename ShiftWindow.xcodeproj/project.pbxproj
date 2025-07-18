@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1850CA4B2E294FC400E1042E /* Presentation in Frameworks */ = {isa = PBXBuildFile; productRef = 1850CA4A2E294FC400E1042E /* Presentation */; };
 		1C0D29DE26AEFBDC00DD0690 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C0D29DD26AEFBDC00DD0690 /* Assets.xcassets */; };
+		1C56FB9B2E2A894C00D92D7B /* UserInterface in Frameworks */ = {isa = PBXBuildFile; productRef = 1C56FB9A2E2A894C00D92D7B /* UserInterface */; };
 		1CC92CF82869E51C00D46424 /* ShiftWindowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC92CF72869E51C00D46424 /* ShiftWindowApp.swift */; };
 		1CEF19E42CD523DE0069E419 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 1CEF19E32CD523DE0069E419 /* InfoPlist.xcstrings */; };
 /* End PBXBuildFile section */
@@ -40,7 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1850CA4B2E294FC400E1042E /* Presentation in Frameworks */,
+				1C56FB9B2E2A894C00D92D7B /* UserInterface in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,7 +102,7 @@
 			);
 			name = ShiftWindow;
 			packageProductDependencies = (
-				1850CA4A2E294FC400E1042E /* Presentation */,
+				1C56FB9A2E2A894C00D92D7B /* UserInterface */,
 			);
 			productName = ShiftWindow;
 			productReference = 1C0D29D626AEFBDA00DD0690 /* ShiftWindow.app */;
@@ -386,9 +386,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1850CA4A2E294FC400E1042E /* Presentation */ = {
+		1C56FB9A2E2A894C00D92D7B /* UserInterface */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Presentation;
+			productName = UserInterface;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
