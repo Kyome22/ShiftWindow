@@ -34,13 +34,17 @@ import SpiceKey
     public var shiftPatterns: [ShiftPattern]
     public var showShortcutPanel: Bool
 
-    public init(_ appDependencies: AppDependencies) {
+    public init(
+        _ appDependencies: AppDependencies,
+        shiftPatterns: [ShiftPattern]? = nil,
+        showShortcutPanel: Bool? = nil
+    ) {
         self.appStateClient = appDependencies.appStateClient
         self.userDefaultsRepository = .init(appDependencies.userDefaultsClient)
         self.logService = .init(appDependencies)
         self.shortcutService = .init(appDependencies)
-        shiftPatterns = userDefaultsRepository.shiftPatterns
-        showShortcutPanel = userDefaultsRepository.showShortcutPanel
+        self.shiftPatterns = shiftPatterns ?? userDefaultsRepository.shiftPatterns
+        self.showShortcutPanel = showShortcutPanel ?? userDefaultsRepository.showShortcutPanel
     }
 
     public func send(_ action: Action) {

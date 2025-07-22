@@ -33,11 +33,16 @@ import Observation
 
     @ObservationIgnored private var task: Task<Void, Never>?
 
-    public var shiftPatterns = [ShiftPattern]()
+    public var shiftPatterns: [ShiftPattern]
     public var hideIcons: Bool
-    public var canChecksForUpdates = false
+    public var canChecksForUpdates: Bool
 
-    public init(_ appDependencies: AppDependencies) {
+    public init(
+        _ appDependencies: AppDependencies,
+        shiftPatterns: [ShiftPattern] = [],
+        hideIcons: Bool = false,
+        canChecksForUpdates: Bool = false
+    ) {
         self.appStateClient = appDependencies.appStateClient
         self.executeClient = appDependencies.executeClient
         self.nsAppClient = appDependencies.nsAppClient
@@ -45,7 +50,9 @@ import Observation
         self.shiftService = .init(appDependencies)
         self.shortcutService = .init(appDependencies)
         self.updateService = .init(appDependencies)
-        hideIcons = (try? executeClient.checkIconsVisible()) ?? false
+        self.shiftPatterns = shiftPatterns
+        self.hideIcons = (try? executeClient.checkIconsVisible()) ?? hideIcons
+        self.canChecksForUpdates = canChecksForUpdates
     }
 
     public func send(_ action: Action) async {

@@ -31,13 +31,17 @@ import Observation
     public var launchAtLogin: Bool
     public var checkForUpdates: Bool
 
-    public init(_ appDependencies: AppDependencies) {
+    public init(
+        _ appDependencies: AppDependencies,
+        launchAtLogin: Bool? = nil,
+        checkForUpdates: Bool? = nil
+    ) {
         self.nsWorkspaceClient = appDependencies.nsWorkspaceClient
         self.checkForUpdatesRepository = .init(appDependencies.spuUpdaterClient)
         self.launchAtLoginRepository = .init(appDependencies.smAppServiceClient)
         self.logService = .init(appDependencies)
-        launchAtLogin = launchAtLoginRepository.isEnabled
-        checkForUpdates = checkForUpdatesRepository.isEnabled
+        self.launchAtLogin = launchAtLogin ?? launchAtLoginRepository.isEnabled
+        self.checkForUpdates = checkForUpdates ?? checkForUpdatesRepository.isEnabled
     }
 
     public func send(_ action: Action) {

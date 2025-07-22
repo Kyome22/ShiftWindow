@@ -3,14 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1C0D29DE26AEFBDC00DD0690 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C0D29DD26AEFBDC00DD0690 /* Assets.xcassets */; };
 		1C56FB9B2E2A894C00D92D7B /* UserInterface in Frameworks */ = {isa = PBXBuildFile; productRef = 1C56FB9A2E2A894C00D92D7B /* UserInterface */; };
-		1CC92CF82869E51C00D46424 /* ShiftWindowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC92CF72869E51C00D46424 /* ShiftWindowApp.swift */; };
-		1CEF19E42CD523DE0069E419 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 1CEF19E32CD523DE0069E419 /* InfoPlist.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,13 +24,22 @@
 
 /* Begin PBXFileReference section */
 		1C0D29D626AEFBDA00DD0690 /* ShiftWindow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShiftWindow.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1C0D29DD26AEFBDC00DD0690 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		1C0D29E326AEFBDC00DD0690 /* ShiftWindow.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShiftWindow.entitlements; sourceTree = "<group>"; };
-		1C90D5CA2CDCABD800C1DD2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		1CC92CF72869E51C00D46424 /* ShiftWindowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftWindowApp.swift; sourceTree = "<group>"; };
 		1CEF19DB2CD3CDC60069E419 /* ShiftWindowPackages */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ShiftWindowPackages; sourceTree = "<group>"; };
-		1CEF19E32CD523DE0069E419 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		1C56FBE62E2B981300D92D7B /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 1C0D29D526AEFBDA00DD0690 /* ShiftWindow */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		1C56FBE12E2B981300D92D7B /* ShiftWindow */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (1C56FBE62E2B981300D92D7B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ShiftWindow; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		1C0D29D326AEFBDA00DD0690 /* Frameworks */ = {
@@ -51,7 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				1CEF19DB2CD3CDC60069E419 /* ShiftWindowPackages */,
-				1C0D29D826AEFBDA00DD0690 /* ShiftWindow */,
+				1C56FBE12E2B981300D92D7B /* ShiftWindow */,
 				1CEF19DC2CD50E790069E419 /* Frameworks */,
 				1C0D29D726AEFBDA00DD0690 /* Products */,
 			);
@@ -63,18 +69,6 @@
 				1C0D29D626AEFBDA00DD0690 /* ShiftWindow.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		1C0D29D826AEFBDA00DD0690 /* ShiftWindow */ = {
-			isa = PBXGroup;
-			children = (
-				1C90D5CA2CDCABD800C1DD2A /* Info.plist */,
-				1C0D29E326AEFBDC00DD0690 /* ShiftWindow.entitlements */,
-				1C0D29DD26AEFBDC00DD0690 /* Assets.xcassets */,
-				1CEF19E32CD523DE0069E419 /* InfoPlist.xcstrings */,
-				1CC92CF72869E51C00D46424 /* ShiftWindowApp.swift */,
-			);
-			path = ShiftWindow;
 			sourceTree = "<group>";
 		};
 		1CEF19DC2CD50E790069E419 /* Frameworks */ = {
@@ -99,6 +93,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				1C56FBE12E2B981300D92D7B /* ShiftWindow */,
 			);
 			name = ShiftWindow;
 			packageProductDependencies = (
@@ -149,8 +146,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CEF19E42CD523DE0069E419 /* InfoPlist.xcstrings in Resources */,
-				1C0D29DE26AEFBDC00DD0690 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,7 +156,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CC92CF82869E51C00D46424 /* ShiftWindowApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
