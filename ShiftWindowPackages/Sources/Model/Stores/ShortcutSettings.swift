@@ -49,7 +49,7 @@ import SpiceKey
 
     public func send(_ action: Action) {
         switch action {
-        case .onAppear(let screenName):
+        case let .onAppear(screenName):
             logService.notice(.screenView(name: screenName))
             task = Task { [weak self, appStateClient] in
                 let values = appStateClient.withLock(\.shiftPatternsSubject.values)
@@ -61,7 +61,7 @@ import SpiceKey
         case .onDisappear:
             task?.cancel()
 
-        case .onUpdateShortcut(let shiftPattern, let keyCombination):
+        case let .onUpdateShortcut(shiftPattern, keyCombination):
             let id = shiftPattern.shiftType.id
             if let keyCombination {
                 shortcutService.updateShortcut(id: id, keyCombo: keyCombination)
@@ -69,7 +69,7 @@ import SpiceKey
                 shortcutService.removeShortcut(id: id)
             }
 
-        case .showShortcutPanelToggleSwitched(let isOn):
+        case let .showShortcutPanelToggleSwitched(isOn):
             showShortcutPanel = isOn
             userDefaultsRepository.showShortcutPanel = isOn
         }

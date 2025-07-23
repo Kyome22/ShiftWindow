@@ -57,7 +57,7 @@ import Observation
 
     public func send(_ action: Action) async {
         switch action {
-        case .task(let screenName):
+        case let .task(screenName):
             logService.notice(.screenView(name: screenName))
             task = Task { [weak self, appStateClient, updateService] in
                 await withTaskGroup(of: Void.self) { group in
@@ -76,12 +76,12 @@ import Observation
                 }
             }
 
-        case .shiftPatternButtonTapped(let shiftType):
+        case let .shiftPatternButtonTapped(shiftType):
             await Task { @MainActor [shiftService] in
                 await shiftService.shiftWindow(shiftType: shiftType)
             }.value
 
-        case .hideDesktopIconsButtonTapped(let isOn):
+        case let .hideDesktopIconsButtonTapped(isOn):
             do {
                 try executeClient.toggleIconsVisible(isOn)
                 hideIcons = isOn

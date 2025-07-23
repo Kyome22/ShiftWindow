@@ -46,14 +46,14 @@ import Observation
 
     public func send(_ action: Action) {
         switch action {
-        case .onAppear(let screenName):
+        case let .onAppear(screenName):
             logService.notice(.screenView(name: screenName))
 
         case .openSystemSettingsButtonTapped:
             let path = "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
             _ = nsWorkspaceClient.open(URL(string: path)!)
 
-        case .launchAtLoginToggleSwitched(let isOn):
+        case let .launchAtLoginToggleSwitched(isOn):
             switch launchAtLoginRepository.switchStatus(isOn) {
             case .success:
                 launchAtLogin = isOn
@@ -61,7 +61,7 @@ import Observation
                 launchAtLogin = value
             }
 
-        case .checkForUpdatesToggleSwitched(let isOn):
+        case let .checkForUpdatesToggleSwitched(isOn):
             checkForUpdates = isOn
             checkForUpdatesRepository.switchStatus(isOn)
         }
