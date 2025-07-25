@@ -35,7 +35,7 @@
                BlueprintIdentifier = "DomainTests"
                BuildableName = "DomainTests"
                BlueprintName = "DomainTests"
-               ReferencedContainer = "container:ShiftWindowPackages">
+               ReferencedContainer = "container:LocalPackage">
             </BuildableReference>
          </TestableReference>
       </Testables>

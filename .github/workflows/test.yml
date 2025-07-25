@@ -22,10 +22,10 @@ jobs:
         run: xcodebuild -version
 
       - name: Run Test
-        working-directory: ShiftWindowPackages
+        working-directory: LocalPackage
         run: |
           xcodebuild test \
-            -scheme ShiftWindowPackages-Package \
+            -scheme LocalPackage-Package \
             -destination "platform=macOS,arch=arm64" \
             -resultBundlePath TestResults |\
             xcpretty -c && exit ${PIPESTATUS[0]}

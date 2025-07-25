@@ -7,7 +7,7 @@ let swiftSettings: [SwiftSetting] = [
 ]
 
 let package = Package(
-    name: "ShiftWindowPackages",
+    name: "LocalPackage",
     defaultLocalization: "en",
     platforms: [
         .macOS(.v14),

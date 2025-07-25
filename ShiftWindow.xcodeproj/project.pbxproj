@@ -24,7 +24,7 @@
 
 /* Begin PBXFileReference section */
 		1C0D29D626AEFBDA00DD0690 /* ShiftWindow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShiftWindow.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1CEF19DB2CD3CDC60069E419 /* ShiftWindowPackages */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ShiftWindowPackages; sourceTree = "<group>"; };
+		1CEF19DB2CD3CDC60069E419 /* LocalPackage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = LocalPackage; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -56,7 +56,7 @@
 		1C0D29CD26AEFBDA00DD0690 = {
 			isa = PBXGroup;
 			children = (
-				1CEF19DB2CD3CDC60069E419 /* ShiftWindowPackages */,
+				1CEF19DB2CD3CDC60069E419 /* LocalPackage */,
 				1C56FBE12E2B981300D92D7B /* ShiftWindow */,
 				1CEF19DC2CD50E790069E419 /* Frameworks */,
 				1C0D29D726AEFBDA00DD0690 /* Products */,

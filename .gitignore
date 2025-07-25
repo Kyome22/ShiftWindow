@@ -10,7 +10,7 @@ xcuserdata/
 Packages.resolved
 .swiftpm/
 .build/
-ShiftWindowPackages/Package.resolved
+LocalPackage/Package.resolved
 
 # Test
 TestResults/
