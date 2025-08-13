@@ -78,68 +78,27 @@ struct ShiftServiceTests {
         #expect(actual == nil)
     }
 
-    @Test
-    func makeNewFrame_上側1／2_領域が返される() async {
+    @Test(arguments: [
+        .init(input: .topHalf, expect: CGRect(x: 0, y: 0, width: 100, height: 50)),
+        .init(input: .bottomHalf, expect: CGRect(x: 0, y: 50, width: 100, height: 50)),
+        .init(input: .leftHalf, expect: CGRect(x: 0, y: 0, width: 50, height: 100)),
+        .init(input: .rightHalf, expect: CGRect(x: 50, y: 0, width: 50, height: 100)),
+        .init(input: .leftThird, expect: CGRect(x: 0, y: 0, width: 33, height: 100)),
+        .init(input: .leftTwoThirds, expect: CGRect(x: 0, y: 0, width: 66, height: 100)),
+        .init(input: .middleThird, expect: CGRect(x: 33, y: 0, width: 33, height: 100)),
+        .init(input: .rightTwoThirds, expect: CGRect(x: 33, y: 0, width: 67, height: 100)),
+        .init(input: .rightThird, expect: CGRect(x: 66, y: 0, width: 34, height: 100)),
+    ] as [MakeNewFrameProperty])
+    func makeNewFrame_幅と高さが正_補正した領域が返される(_ property: MakeNewFrameProperty) async {
         let sut = ShiftService(.testDependencies())
-        let actual = await sut.makeNewFrame(shiftType: .topHalf, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        #expect(actual == CGRect(x: 0, y: 0, width: 100, height: 50))
+        let actual = await sut.makeNewFrame(shiftType: property.input, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        #expect(actual == property.expect)
     }
+}
 
-    @Test
-    func makeNewFrame_下側1／2_領域が返される() async {
-        let sut = ShiftService(.testDependencies())
-        let actual = await sut.makeNewFrame(shiftType: .bottomHalf, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        #expect(actual == CGRect(x: 0, y: 50, width: 100, height: 50))
-    }
-
-    @Test
-    func makeNewFrame_左側1／2_領域が返される() async {
-        let sut = ShiftService(.testDependencies())
-        let actual = await sut.makeNewFrame(shiftType: .leftHalf, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        #expect(actual == CGRect(x: 0, y: 0, width: 50, height: 100))
-    }
-
-    @Test
-    func makeNewFrame_右側1／2_領域が返される() async {
-        let sut = ShiftService(.testDependencies())
-        let actual = await sut.makeNewFrame(shiftType: .rightHalf, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        #expect(actual == CGRect(x: 50, y: 0, width: 50, height: 100))
-    }
-
-    @Test
-    func makeNewFrame_左側1／3_領域が返される() async {
-        let sut = ShiftService(.testDependencies())
-        let actual = await sut.makeNewFrame(shiftType: .leftThird, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        #expect(actual == CGRect(x: 0, y: 0, width: 33, height: 100))
-    }
-
-    @Test
-    func makeNewFrame_左側2／3_領域が返される() async {
-        let sut = ShiftService(.testDependencies())
-        let actual = await sut.makeNewFrame(shiftType: .leftTwoThirds, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        #expect(actual == CGRect(x: 0, y: 0, width: 66, height: 100))
-    }
-
-    @Test
-    func makeNewFrame_中央1／3_領域が返される() async {
-        let sut = ShiftService(.testDependencies())
-        let actual = await sut.makeNewFrame(shiftType: .middleThird, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        #expect(actual == CGRect(x: 33, y: 0, width: 33, height: 100))
-    }
-
-    @Test
-    func makeNewFrame_右側2／3_領域が返される() async {
-        let sut = ShiftService(.testDependencies())
-        let actual = await sut.makeNewFrame(shiftType: .rightTwoThirds, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        #expect(actual == CGRect(x: 33, y: 0, width: 67, height: 100))
-    }
-
-    @Test
-    func makeNewFrame_右側1／3_領域が返される() async {
-        let sut = ShiftService(.testDependencies())
-        let actual = await sut.makeNewFrame(shiftType: .rightThird, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        #expect(actual == CGRect(x: 66, y: 0, width: 34, height: 100))
-    }
+struct MakeNewFrameProperty {
+    var input: ShiftType
+    var expect: CGRect
 }
 
 fileprivate class NSScreenMock: NSScreen {
