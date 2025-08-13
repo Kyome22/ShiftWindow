@@ -28,4 +28,4 @@ jobs:
             -scheme LocalPackage-Package \
             -destination "platform=macOS,arch=arm64" \
             -resultBundlePath TestResults |\
-            xcpretty -c && exit ${PIPESTATUS[0]}
+            xcbeautify && exit ${PIPESTATUS[0]}
