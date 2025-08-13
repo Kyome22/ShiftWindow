@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DomainTests"
-               BuildableName = "DomainTests"
-               BlueprintName = "DomainTests"
+               BlueprintIdentifier = "ModelTests"
+               BuildableName = "ModelTests"
+               BlueprintName = "ModelTests"
                ReferencedContainer = "container:LocalPackage">
             </BuildableReference>
          </TestableReference>

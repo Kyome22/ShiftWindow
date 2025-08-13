@@ -1,6 +1,6 @@
 /*
  ShiftType.swift
- Infrastructure
+ DataSource
 
  Created by Takuto Nakamura on 2024/11/01.
  Copyright 2022 Takuto Nakamura (Kyome22)

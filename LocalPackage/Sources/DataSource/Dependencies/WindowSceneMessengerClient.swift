@@ -1,6 +1,6 @@
 /*
  WindowSceneMessengerClient.swift
- Infrastructure
+ DataSource
 
  Created by Takuto Nakamura on 2025/01/07.
  Copyright 2022 Takuto Nakamura (Kyome22)
