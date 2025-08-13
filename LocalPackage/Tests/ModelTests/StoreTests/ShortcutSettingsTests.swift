@@ -7,7 +7,7 @@ import Testing
 
 struct ShortcutSettingsTests {
     @MainActor @Test
-    func send_onUpdateShortcut_ショートカットが入力された_ショートカットが設定される() {
+    func send_onUpdateShortcut_ショートカットが入力された_ショートカットが設定される() async {
         let appState = OSAllocatedUnfairLock(initialState: {
             var shiftPattern = ShiftPattern(shiftType: .topHalf)
             shiftPattern.spiceKeyData = .init(ShiftType.topHalf.id, .init(.a, .cmd))
@@ -38,13 +38,13 @@ struct ShortcutSettingsTests {
                 }
             }
         ))
-        sut.send(.onUpdateShortcut(.init(shiftType: .topHalf), .init(.b, .cmd)))
+        await sut.send(.onUpdateShortcut(.init(shiftType: .topHalf), .init(.b, .cmd)))
         #expect(registerCount.withLock(\.self) == 1)
         #expect(setDataCount.withLock(\.self) == 1)
     }
 
     @MainActor @Test
-    func send_onUpdateShortcut_ショートカット削除ボタンが押された_ショートカットが削除される() {
+    func send_onUpdateShortcut_ショートカット削除ボタンが押された_ショートカットが削除される() async {
         let appState = OSAllocatedUnfairLock(initialState: {
             var shiftPattern = ShiftPattern(shiftType: .topHalf)
             shiftPattern.spiceKeyData = .init(ShiftType.topHalf.id, .init(.a, .cmd))
@@ -71,7 +71,7 @@ struct ShortcutSettingsTests {
                 }
             }
         ))
-        sut.send(.onUpdateShortcut(.init(shiftType: .topHalf), nil))
+        await sut.send(.onUpdateShortcut(.init(shiftType: .topHalf), nil))
         #expect(setDataCount.withLock(\.self) == 1)
     }
 }

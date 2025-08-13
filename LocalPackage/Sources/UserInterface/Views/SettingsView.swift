@@ -23,8 +23,8 @@ import Model
 import SwiftUI
 
 public struct SettingsView: View {
-    @State var settingsTab: SettingsTab = .general
     @Environment(\.appDependencies) private var appDependencies
+    @State var settingsTab: SettingsTab = .general
 
     public var body: some View {
         TabView(selection: $settingsTab) {

@@ -22,14 +22,14 @@ import AppKit
 import Foundation
 import DataSource
 
-public struct ShiftService {
+actor ShiftService {
     private let cgDirectDisplayClient: CGDirectDisplayClient
     private let hiServicesClient: HIServicesClient
     private let nsAppClient: NSAppClient
     private let nsScreenClient: NSScreenClient
     private let nsWorkspaceClient: NSWorkspaceClient
 
-    public init(_ appDependencies: AppDependencies) {
+    init(_ appDependencies: AppDependencies) {
         self.cgDirectDisplayClient = appDependencies.cgDirectDisplayClient
         self.hiServicesClient = appDependencies.hiServicesClient
         self.nsAppClient = appDependencies.nsAppClient

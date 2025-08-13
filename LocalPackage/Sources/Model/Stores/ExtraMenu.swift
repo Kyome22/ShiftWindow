@@ -22,7 +22,7 @@ import Foundation
 import DataSource
 import Observation
 
-@MainActor @Observable public final class ExtraMenu {
+@MainActor @Observable public final class ExtraMenu: Composable {
     private let appStateClient: AppStateClient
     private let executeClient: ExecuteClient
     private let nsAppClient: NSAppClient
@@ -36,12 +36,14 @@ import Observation
     public var shiftPatterns: [ShiftPattern]
     public var hideIcons: Bool
     public var canChecksForUpdates: Bool
+    public let action: (Action) async -> Void
 
     public init(
         _ appDependencies: AppDependencies,
         shiftPatterns: [ShiftPattern] = [],
         hideIcons: Bool = false,
-        canChecksForUpdates: Bool = false
+        canChecksForUpdates: Bool = false,
+        action: @escaping (Action) async -> Void = { _ in }
     ) {
         self.appStateClient = appDependencies.appStateClient
         self.executeClient = appDependencies.executeClient
@@ -53,9 +55,10 @@ import Observation
         self.shiftPatterns = shiftPatterns
         self.hideIcons = (try? executeClient.checkIconsVisible()) ?? hideIcons
         self.canChecksForUpdates = canChecksForUpdates
+        self.action = action
     }
 
-    public func send(_ action: Action) async {
+    public func reduce(_ action: Action) async {
         switch action {
         case let .task(screenName):
             logService.notice(.screenView(name: screenName))
@@ -77,9 +80,7 @@ import Observation
             }
 
         case let .shiftPatternButtonTapped(shiftType):
-            await Task { @MainActor [shiftService] in
-                await shiftService.shiftWindow(shiftType: shiftType)
-            }.value
+            await shiftService.shiftWindow(shiftType: shiftType)
 
         case let .hideDesktopIconsButtonTapped(isOn):
             do {
@@ -112,7 +113,7 @@ import Observation
         self.canChecksForUpdates = canChecksForUpdates
     }
 
-    public enum Action {
+    public enum Action: Sendable {
         case task(String)
         case shiftPatternButtonTapped(ShiftType)
         case hideDesktopIconsButtonTapped(Bool)

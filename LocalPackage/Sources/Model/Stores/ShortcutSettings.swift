@@ -23,7 +23,7 @@ import DataSource
 import Observation
 import SpiceKey
 
-@MainActor @Observable public final class ShortcutSettings {
+@MainActor @Observable public final class ShortcutSettings: Composable {
     private let appStateClient: AppStateClient
     private let userDefaultsRepository: UserDefaultsRepository
     private let logService: LogService
@@ -33,11 +33,13 @@ import SpiceKey
 
     public var shiftPatterns: [ShiftPattern]
     public var showShortcutPanel: Bool
+    public let action: (Action) async -> Void
 
     public init(
         _ appDependencies: AppDependencies,
         shiftPatterns: [ShiftPattern]? = nil,
-        showShortcutPanel: Bool? = nil
+        showShortcutPanel: Bool? = nil,
+        action: @escaping (Action) async -> Void = { _ in }
     ) {
         self.appStateClient = appDependencies.appStateClient
         self.userDefaultsRepository = .init(appDependencies.userDefaultsClient)
@@ -45,11 +47,12 @@ import SpiceKey
         self.shortcutService = .init(appDependencies)
         self.shiftPatterns = shiftPatterns ?? userDefaultsRepository.shiftPatterns
         self.showShortcutPanel = showShortcutPanel ?? userDefaultsRepository.showShortcutPanel
+        self.action = action
     }
 
-    public func send(_ action: Action) {
+    public func reduce(_ action: Action) async {
         switch action {
-        case let .onAppear(screenName):
+        case let .task(screenName):
             logService.notice(.screenView(name: screenName))
             task = Task { [weak self, appStateClient] in
                 let values = appStateClient.withLock(\.shiftPatternsSubject.values)
@@ -75,8 +78,8 @@ import SpiceKey
         }
     }
 
-    public enum Action {
-        case onAppear(String)
+    public enum Action: Sendable {
+        case task(String)
         case onDisappear
         case onUpdateShortcut(ShiftPattern, KeyCombination?)
         case showShortcutPanelToggleSwitched(Bool)

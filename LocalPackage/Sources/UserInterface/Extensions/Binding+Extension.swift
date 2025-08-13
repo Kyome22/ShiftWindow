@@ -1,8 +1,8 @@
 /*
- ShiftType.swift
- DataSource
+ Binding+Extension.swift
+ UserInterface
 
- Created by Takuto Nakamura on 2024/11/01.
+ Created by Takuto Nakamura on 2025/08/14.
  Copyright 2022 Takuto Nakamura (Kyome22)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,19 +18,13 @@
  limitations under the License.
 */
 
-import Foundation
+import SwiftUI
 
-public enum ShiftType: Int, Sendable, Codable, Identifiable, CaseIterable {
-    case topHalf
-    case bottomHalf
-    case leftHalf
-    case rightHalf
-    case leftThird
-    case leftTwoThirds
-    case middleThird
-    case rightTwoThirds
-    case rightThird
-    case maximize
-
-    public var id: String { String(describing: self) }
+extension Binding where Value : Sendable {
+    @preconcurrency init(
+        @_inheritActorContext get: @escaping @isolated(any) @Sendable () -> Value,
+        @_inheritActorContext asyncSet: @escaping @isolated(any) @Sendable (Value) async -> Void
+    ) {
+        self.init(get: get, set: { newValue in Task { await asyncSet(newValue) } })
+    }
 }

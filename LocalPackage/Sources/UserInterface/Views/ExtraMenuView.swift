@@ -24,7 +24,7 @@ import SpiceKey
 import SwiftUI
 
 struct ExtraMenuView: View {
-    @State var store: ExtraMenu
+    @StateObject var store: ExtraMenu
 
     var body: some View {
         VStack {
@@ -59,11 +59,9 @@ struct ExtraMenuView: View {
             SettingsLink {
                 Text("settings", bundle: .module)
             }
-            .preActionButtonStyle {
-                Task {
-                    await store.send(.settingsButtonTapped)
-                }
-            }
+            .buttonStyle(.preAction {
+                await store.send(.settingsButtonTapped)
+            })
             Divider()
             Button {
                 Task {
@@ -93,6 +91,8 @@ struct ExtraMenuView: View {
         }
     }
 }
+
+extension ExtraMenu: ObservableObject {}
 
 #Preview {
     ExtraMenuView(store: .init(.testDependencies()))

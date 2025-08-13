@@ -22,7 +22,7 @@ import Foundation
 
 extension String {
     static let screenNumber = "NSScreenNumber"
+    static let kAXFullScreen = "AXFullScreen"
     public static let shortcutPanel = "shortcutPanel"
-    public static let kAXFullScreen = "AXFullScreen"
     public static let keyEquivalent = "keyEquivalent"
 }

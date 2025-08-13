@@ -23,14 +23,14 @@ import Model
 import SwiftUI
 
 struct GeneralSettingsView: View {
-    @State var store: GeneralSettings
+    @StateObject var store: GeneralSettings
 
     var body: some View {
         Form {
             LabeledContent {
                 Toggle(isOn: Binding<Bool>(
                     get: { store.launchAtLogin },
-                    set: { store.send(.launchAtLoginToggleSwitched($0)) }
+                    asyncSet: { await store.send(.launchAtLoginToggleSwitched($0)) }
                 )) {
                     Text("AutomaticallyLaunchAtLogin", bundle: .module)
                 }
@@ -40,7 +40,7 @@ struct GeneralSettingsView: View {
             LabeledContent {
                 Toggle(isOn: Binding<Bool>(
                     get: { store.checkForUpdates },
-                    set: { store.send(.checkForUpdatesToggleSwitched($0)) }
+                    asyncSet: { await store.send(.checkForUpdatesToggleSwitched($0)) }
                 )) {
                     Text("AutomaticallyCheckForUpdates", bundle: .module)
                 }
@@ -55,18 +55,22 @@ struct GeneralSettingsView: View {
                 Text("permission", bundle: .module)
             }
             Button {
-                store.send(.openSystemSettingsButtonTapped)
+                Task {
+                    await store.send(.openSystemSettingsButtonTapped)
+                }
             } label: {
                 Text("openSystemSettings", bundle: .module)
                     .frame(maxWidth: .infinity)
             }
         }
         .fixedSize()
-        .onAppear {
-            store.send(.onAppear(String(describing: Self.self)))
+        .task {
+            await store.send(.task(String(describing: Self.self)))
         }
     }
 }
+
+extension GeneralSettings: ObservableObject {}
 
 #Preview {
     GeneralSettingsView(store: .init(.testDependencies()))

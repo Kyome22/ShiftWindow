@@ -21,36 +21,26 @@
 import SwiftUI
 
 struct PreActionButtonStyle: PrimitiveButtonStyle {
-    let preAction: () -> Void
+    var preAction: () async -> Void
 
-    init(preAction: @escaping () -> Void) {
+    init(preAction: @escaping () async -> Void) {
         self.preAction = preAction
     }
 
     func makeBody(configuration: Configuration) -> some View {
         Button(role: configuration.role) {
-            preAction()
-            configuration.trigger()
+            Task {
+                await preAction()
+                configuration.trigger()
+            }
         } label: {
             configuration.label
         }
     }
 }
 
-struct PreActionButtonStyleModifier: ViewModifier {
-    let preAction: () -> Void
-
-    init(preAction: @escaping () -> Void) {
-        self.preAction = preAction
-    }
-
-    func body(content: Content) -> some View {
-        content.buttonStyle(PreActionButtonStyle(preAction: preAction))
-    }
-}
-
-extension View {
-    func preActionButtonStyle(preAction: @escaping () -> Void) -> some View {
-        modifier(PreActionButtonStyleModifier(preAction: preAction))
+extension PrimitiveButtonStyle where Self == PreActionButtonStyle {
+    static func preAction(perform action: @escaping () async -> Void) -> PreActionButtonStyle {
+        PreActionButtonStyle(preAction: action)
     }
 }

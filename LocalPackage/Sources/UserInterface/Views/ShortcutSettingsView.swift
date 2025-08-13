@@ -24,7 +24,7 @@ import SpiceKey
 import SwiftUI
 
 struct ShortcutSettingsView: View {
-    @State var store: ShortcutSettings
+    @StateObject var store: ShortcutSettings
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -34,7 +34,7 @@ struct ShortcutSettingsView: View {
                         Spacer()
                         SpiceKeyField(keyCombination: Binding<KeyCombination?>(
                             get: { shiftPattern.keyCombination },
-                            set: { store.send(.onUpdateShortcut(shiftPattern, $0)) }
+                            asyncSet: { await store.send(.onUpdateShortcut(shiftPattern, $0)) }
                         ))
                         .frame(width: 100)
                     }
@@ -53,7 +53,7 @@ struct ShortcutSettingsView: View {
             LabeledContent {
                 Toggle(isOn: Binding<Bool>(
                     get: { store.showShortcutPanel },
-                    set: { store.send(.showShortcutPanelToggleSwitched($0)) }
+                    asyncSet: { await store.send(.showShortcutPanelToggleSwitched($0)) }
                 )) {
                     Text("enable", bundle: .module)
                 }
@@ -62,14 +62,18 @@ struct ShortcutSettingsView: View {
             }
         }
         .fixedSize()
-        .onAppear {
-            store.send(.onAppear(String(describing: Self.self)))
+        .task {
+            await store.send(.task(String(describing: Self.self)))
         }
         .onDisappear {
-            store.send(.onDisappear)
+            Task {
+                await store.send(.onDisappear)
+            }
         }
     }
 }
+
+extension ShortcutSettings: ObservableObject {}
 
 #Preview {
     ShortcutSettingsView(store: .init(.testDependencies()))

@@ -22,7 +22,7 @@ import Foundation
 import DataSource
 import Observation
 
-@MainActor @Observable public final class GeneralSettings {
+@MainActor @Observable public final class GeneralSettings: Composable {
     private let nsWorkspaceClient: NSWorkspaceClient
     private let checkForUpdatesRepository: CheckForUpdatesRepository
     private let launchAtLoginRepository: LaunchAtLoginRepository
@@ -30,11 +30,13 @@ import Observation
 
     public var launchAtLogin: Bool
     public var checkForUpdates: Bool
+    public let action: (Action) async -> Void
 
     public init(
         _ appDependencies: AppDependencies,
         launchAtLogin: Bool? = nil,
-        checkForUpdates: Bool? = nil
+        checkForUpdates: Bool? = nil,
+        action: @escaping (Action) async -> Void = { _ in }
     ) {
         self.nsWorkspaceClient = appDependencies.nsWorkspaceClient
         self.checkForUpdatesRepository = .init(appDependencies.spuUpdaterClient)
@@ -42,11 +44,12 @@ import Observation
         self.logService = .init(appDependencies)
         self.launchAtLogin = launchAtLogin ?? launchAtLoginRepository.isEnabled
         self.checkForUpdates = checkForUpdates ?? checkForUpdatesRepository.isEnabled
+        self.action = action
     }
 
-    public func send(_ action: Action) {
+    public func reduce(_ action: Action) async {
         switch action {
-        case let .onAppear(screenName):
+        case let .task(screenName):
             logService.notice(.screenView(name: screenName))
 
         case .openSystemSettingsButtonTapped:
@@ -67,8 +70,8 @@ import Observation
         }
     }
 
-    public enum Action {
-        case onAppear(String)
+    public enum Action: Sendable {
+        case task(String)
         case openSystemSettingsButtonTapped
         case launchAtLoginToggleSwitched(Bool)
         case checkForUpdatesToggleSwitched(Bool)

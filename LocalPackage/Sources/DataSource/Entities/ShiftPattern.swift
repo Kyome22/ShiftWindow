@@ -21,7 +21,7 @@
 import SpiceKey
 import SwiftUI
 
-public struct ShiftPattern: Codable, Identifiable, Sendable {
+public struct ShiftPattern: Sendable, Codable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case shiftType
         case spiceKeyData

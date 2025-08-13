@@ -8,7 +8,7 @@ import Testing
 
 struct GeneralSettingsTests {
     @MainActor @Test
-    func send_launchAtLoginToggleSwitched_有効の要求_成功した_有効に変更される() {
+    func send_launchAtLoginToggleSwitched_有効の要求_成功した_有効に変更される() async {
         let currentStatus = OSAllocatedUnfairLock(initialState: SMAppService.Status.notRegistered)
         let sut = GeneralSettings(.testDependencies(
             smAppServiceClient: testDependency(of: SMAppServiceClient.self) {
@@ -16,24 +16,24 @@ struct GeneralSettingsTests {
                 $0.register = { currentStatus.withLock { $0 = .enabled } }
             }
         ))
-        sut.send(.launchAtLoginToggleSwitched(true))
+        await sut.send(.launchAtLoginToggleSwitched(true))
         #expect(sut.launchAtLogin)
     }
 
     @MainActor @Test
-    func send_launchAtLoginToggleSwitched_有効の要求_失敗した_無効に戻される() {
+    func send_launchAtLoginToggleSwitched_有効の要求_失敗した_無効に戻される() async {
         let sut = GeneralSettings(.testDependencies(
             smAppServiceClient: testDependency(of: SMAppServiceClient.self) {
                 $0.status = { .notRegistered }
                 $0.register = { throw NSError(domain: "", code: kSMErrorInternalFailure) }
             }
         ))
-        sut.send(.launchAtLoginToggleSwitched(true))
+        await sut.send(.launchAtLoginToggleSwitched(true))
         #expect(sut.launchAtLogin == false)
     }
 
     @MainActor @Test
-    func send_checkForUpdatesToggleSwitched_無効の要求_成功した_無効に変更される() {
+    func send_checkForUpdatesToggleSwitched_無効の要求_成功した_無効に変更される() async {
         let currentStatus = OSAllocatedUnfairLock(initialState: false)
         let sut = GeneralSettings(.testDependencies(
             spuUpdaterClient: testDependency(of: SPUUpdaterClient.self) {
@@ -45,12 +45,12 @@ struct GeneralSettingsTests {
                 }
             }
         ))
-        sut.send(.checkForUpdatesToggleSwitched(false))
+        await sut.send(.checkForUpdatesToggleSwitched(false))
         #expect(sut.checkForUpdates == false)
     }
 
     @MainActor @Test
-    func send_openSystemSettingsButtonTapped() {
+    func send_openSystemSettingsButtonTapped() async {
         let calledURLs = OSAllocatedUnfairLock(initialState: [URL]())
         let sut = GeneralSettings(.testDependencies(
             nsWorkspaceClient: testDependency(of: NSWorkspaceClient.self) {
@@ -60,7 +60,7 @@ struct GeneralSettingsTests {
                 }
             }
         ))
-        sut.send(.openSystemSettingsButtonTapped)
+        await sut.send(.openSystemSettingsButtonTapped)
         let actual = calledURLs.withLock(\.self)
         #expect(actual == [URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!])
     }

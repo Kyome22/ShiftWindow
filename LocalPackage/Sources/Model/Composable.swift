@@ -1,8 +1,8 @@
 /*
- ShiftType.swift
- DataSource
+ Composable.swift
+ Model
 
- Created by Takuto Nakamura on 2024/11/01.
+ Created by Takuto Nakamura on 2025/08/13.
  Copyright 2022 Takuto Nakamura (Kyome22)
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,21 +16,24 @@
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
-*/
+ */
 
-import Foundation
+import Observation
 
-public enum ShiftType: Int, Sendable, Codable, Identifiable, CaseIterable {
-    case topHalf
-    case bottomHalf
-    case leftHalf
-    case rightHalf
-    case leftThird
-    case leftTwoThirds
-    case middleThird
-    case rightTwoThirds
-    case rightThird
-    case maximize
+@MainActor
+public protocol Composable: AnyObject {
+    associatedtype Action: Sendable
 
-    public var id: String { String(describing: self) }
+    var action: (Action) async -> Void { get }
+
+    func reduce(_ action: Action) async
+}
+
+public extension Composable {
+    func reduce(_ action: Action) async {}
+
+    func send(_ action: Action) async {
+        await self.action(action)
+        await reduce(action)
+    }
 }

@@ -22,13 +22,13 @@ import Foundation
 import DataSource
 import SpiceKey
 
-public struct ShortcutService {
+struct ShortcutService {
     private let appStateClient: AppStateClient
     private let spiceKeyClient: SpiceKeyClient
     private let windowSceneMessengerClient: WindowSceneMessengerClient
     private let userDefaultsRepository: UserDefaultsRepository
 
-    public init(_ appDependencies: AppDependencies) {
+    init(_ appDependencies: AppDependencies) {
         self.appStateClient = appDependencies.appStateClient
         self.spiceKeyClient = appDependencies.spiceKeyClient
         self.windowSceneMessengerClient = appDependencies.windowSceneMessengerClient

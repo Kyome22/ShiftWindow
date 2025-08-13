@@ -21,14 +21,14 @@
 import Combine
 import DataSource
 
-public struct UpdateService {
+struct UpdateService {
     private let spuUpdaterClient: SPUUpdaterClient
 
     var canChecksForUpdates: AsyncPublisher<AnyPublisher<Bool, Never>> {
         spuUpdaterClient.canCheckForUpdatesPublisher().values
     }
 
-    public init(_ appDependencies: AppDependencies) {
+    init(_ appDependencies: AppDependencies) {
         self.spuUpdaterClient = appDependencies.spuUpdaterClient
     }
 

@@ -22,16 +22,16 @@ import Foundation
 import DataSource
 import Logging
 
-public struct LogService {
+struct LogService {
     private let appStateClient: AppStateClient
     private let loggingSystemClient: LoggingSystemClient
 
-    public init(_ appDependencies: AppDependencies) {
+    init(_ appDependencies: AppDependencies) {
         self.appStateClient = appDependencies.appStateClient
         self.loggingSystemClient = appDependencies.loggingSystemClient
     }
 
-    public func bootstrap() {
+    func bootstrap() {
         guard !appStateClient.withLock(\.hasAlreadyBootstrap) else {
             return
         }
@@ -43,7 +43,7 @@ public struct LogService {
         appStateClient.withLock { $0.hasAlreadyBootstrap = true }
     }
 
-    public nonisolated func notice(
+    nonisolated func notice(
         _ event: NoticeEvent,
         source: @autoclosure () -> String? = nil,
         file: String = #fileID,
@@ -60,7 +60,7 @@ public struct LogService {
         )
     }
 
-    public nonisolated func error(
+    nonisolated func error(
         _ event: ErrorEvent,
         source: @autoclosure () -> String? = nil,
         file: String = #fileID,
@@ -77,7 +77,7 @@ public struct LogService {
         )
     }
 
-    public nonisolated func critical(
+    nonisolated func critical(
         _ event: CriticalEvent,
         source: @autoclosure () -> String? = nil,
         file: String = #fileID,

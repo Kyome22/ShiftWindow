@@ -65,79 +65,79 @@ struct ShiftServiceTests {
     }
 
     @Test
-    func makeNewFrame_幅が負_nilが返される() {
+    func makeNewFrame_幅が負_nilが返される() async {
         let sut = ShiftService(.testDependencies())
-        let actual = sut.makeNewFrame(shiftType: .maximize, validFrame: CGRect(x: 0, y: 0, width: -1, height: 0))
+        let actual = await sut.makeNewFrame(shiftType: .maximize, validFrame: CGRect(x: 0, y: 0, width: -1, height: 0))
         #expect(actual == nil)
     }
 
     @Test
-    func makeNewFrame_高さが負_nilが返される() {
+    func makeNewFrame_高さが負_nilが返される() async {
         let sut = ShiftService(.testDependencies())
-        let actual = sut.makeNewFrame(shiftType: .maximize, validFrame: CGRect(x: 0, y: 0, width: 0, height: -1))
+        let actual = await sut.makeNewFrame(shiftType: .maximize, validFrame: CGRect(x: 0, y: 0, width: 0, height: -1))
         #expect(actual == nil)
     }
 
     @Test
-    func makeNewFrame_上側1／2_領域が返される() {
+    func makeNewFrame_上側1／2_領域が返される() async {
         let sut = ShiftService(.testDependencies())
-        let actual = sut.makeNewFrame(shiftType: .topHalf, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        let actual = await sut.makeNewFrame(shiftType: .topHalf, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
         #expect(actual == CGRect(x: 0, y: 0, width: 100, height: 50))
     }
 
     @Test
-    func makeNewFrame_下側1／2_領域が返される() {
+    func makeNewFrame_下側1／2_領域が返される() async {
         let sut = ShiftService(.testDependencies())
-        let actual = sut.makeNewFrame(shiftType: .bottomHalf, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        let actual = await sut.makeNewFrame(shiftType: .bottomHalf, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
         #expect(actual == CGRect(x: 0, y: 50, width: 100, height: 50))
     }
 
     @Test
-    func makeNewFrame_左側1／2_領域が返される() {
+    func makeNewFrame_左側1／2_領域が返される() async {
         let sut = ShiftService(.testDependencies())
-        let actual = sut.makeNewFrame(shiftType: .leftHalf, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        let actual = await sut.makeNewFrame(shiftType: .leftHalf, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
         #expect(actual == CGRect(x: 0, y: 0, width: 50, height: 100))
     }
 
     @Test
-    func makeNewFrame_右側1／2_領域が返される() {
+    func makeNewFrame_右側1／2_領域が返される() async {
         let sut = ShiftService(.testDependencies())
-        let actual = sut.makeNewFrame(shiftType: .rightHalf, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        let actual = await sut.makeNewFrame(shiftType: .rightHalf, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
         #expect(actual == CGRect(x: 50, y: 0, width: 50, height: 100))
     }
 
     @Test
-    func makeNewFrame_左側1／3_領域が返される() {
+    func makeNewFrame_左側1／3_領域が返される() async {
         let sut = ShiftService(.testDependencies())
-        let actual = sut.makeNewFrame(shiftType: .leftThird, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        let actual = await sut.makeNewFrame(shiftType: .leftThird, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
         #expect(actual == CGRect(x: 0, y: 0, width: 33, height: 100))
     }
 
     @Test
-    func makeNewFrame_左側2／3_領域が返される() {
+    func makeNewFrame_左側2／3_領域が返される() async {
         let sut = ShiftService(.testDependencies())
-        let actual = sut.makeNewFrame(shiftType: .leftTwoThirds, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        let actual = await sut.makeNewFrame(shiftType: .leftTwoThirds, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
         #expect(actual == CGRect(x: 0, y: 0, width: 66, height: 100))
     }
 
     @Test
-    func makeNewFrame_中央1／3_領域が返される() {
+    func makeNewFrame_中央1／3_領域が返される() async {
         let sut = ShiftService(.testDependencies())
-        let actual = sut.makeNewFrame(shiftType: .middleThird, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        let actual = await sut.makeNewFrame(shiftType: .middleThird, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
         #expect(actual == CGRect(x: 33, y: 0, width: 33, height: 100))
     }
 
     @Test
-    func makeNewFrame_右側2／3_領域が返される() {
+    func makeNewFrame_右側2／3_領域が返される() async {
         let sut = ShiftService(.testDependencies())
-        let actual = sut.makeNewFrame(shiftType: .rightTwoThirds, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        let actual = await sut.makeNewFrame(shiftType: .rightTwoThirds, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
         #expect(actual == CGRect(x: 33, y: 0, width: 67, height: 100))
     }
 
     @Test
-    func makeNewFrame_右側1／3_領域が返される() {
+    func makeNewFrame_右側1／3_領域が返される() async {
         let sut = ShiftService(.testDependencies())
-        let actual = sut.makeNewFrame(shiftType: .rightThird, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        let actual = await sut.makeNewFrame(shiftType: .rightThird, validFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
         #expect(actual == CGRect(x: 66, y: 0, width: 34, height: 100))
     }
 }
