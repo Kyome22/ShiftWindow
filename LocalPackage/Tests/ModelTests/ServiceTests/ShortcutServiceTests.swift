@@ -11,10 +11,7 @@ struct ShortcutServiceTests {
         let appState = OSAllocatedUnfairLock<AppState>(initialState: .init())
         let count = OSAllocatedUnfairLock(initialState: 0)
         let sut = ShortcutService(.testDependencies(
-            appStateClient: testDependency(of: AppStateClient.self) {
-                $0.getAppState = { appState.withLock(\.self) }
-                $0.setAppState = { value in appState.withLock { $0 = value } }
-            },
+            appStateClient: .testDependency(appState),
             spiceKeyClient: testDependency(of: SpiceKeyClient.self) {
                 $0.register = { _ in count.withLock { $0 += 1 } }
             },
@@ -33,18 +30,17 @@ struct ShortcutServiceTests {
 
     @Test
     func getIndex_正しくIndexが取得される() async {
+        let appState = OSAllocatedUnfairLock(initialState: {
+            let state = AppState()
+            state.shiftPatternsSubject.send([
+                ShiftPattern(shiftType: .topHalf),
+                ShiftPattern(shiftType: .bottomHalf),
+                ShiftPattern(shiftType: .leftHalf),
+            ])
+            return state
+        }())
         let sut = ShortcutService(.testDependencies(
-            appStateClient: testDependency(of: AppStateClient.self) {
-                $0.getAppState = {
-                    let state = AppState()
-                    state.shiftPatternsSubject.send([
-                        ShiftPattern(shiftType: .topHalf),
-                        ShiftPattern(shiftType: .bottomHalf),
-                        ShiftPattern(shiftType: .leftHalf),
-                    ])
-                    return state
-                }
-            }
+            appStateClient: .testDependency(appState)
         ))
         let actual = sut.getIndex(id: ShiftType.bottomHalf.id)
         #expect(actual == 1)

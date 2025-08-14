@@ -18,10 +18,7 @@ struct ShortcutSettingsTests {
         let registerCount = OSAllocatedUnfairLock(initialState: 0)
         let setDataCount = OSAllocatedUnfairLock(initialState: 0)
         let sut = ShortcutSettings(.testDependencies(
-            appStateClient: testDependency(of: AppStateClient.self) {
-                $0.getAppState = { appState.withLock(\.self) }
-                $0.setAppState = { value in appState.withLock { $0 = value } }
-            },
+            appStateClient: .testDependency(appState),
             spiceKeyClient: testDependency(of: SpiceKeyClient.self) {
                 $0.register = { _ in registerCount.withLock { $0 += 1 } }
             },
@@ -54,10 +51,7 @@ struct ShortcutSettingsTests {
         }())
         let setDataCount = OSAllocatedUnfairLock(initialState: 0)
         let sut = ShortcutSettings(.testDependencies(
-            appStateClient: testDependency(of: AppStateClient.self) {
-                $0.getAppState = { appState.withLock(\.self) }
-                $0.setAppState = { value in appState.withLock { $0 = value } }
-            },
+            appStateClient: .testDependency(appState),
             userDefaultsClient: testDependency(of: UserDefaultsClient.self) {
                 $0.data = { _ in
                     var pattern = ShiftPattern(shiftType: .topHalf)

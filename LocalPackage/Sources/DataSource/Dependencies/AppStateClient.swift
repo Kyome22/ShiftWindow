@@ -43,4 +43,11 @@ public struct AppStateClient: DependencyClient {
         getAppState: { .init() },
         setAppState: { _ in }
     )
+
+    public static func testDependency(_ appState: OSAllocatedUnfairLock<AppState>) -> Self {
+        Self(
+            getAppState: { appState.withLock(\.self) },
+            setAppState: { value in appState.withLock { $0 = value } }
+        )
+    }
 }
