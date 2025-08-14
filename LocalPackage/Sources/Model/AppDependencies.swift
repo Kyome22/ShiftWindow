@@ -36,7 +36,7 @@ public final class AppDependencies: Sendable {
     public let userDefaultsClient: UserDefaultsClient
     public let windowSceneMessengerClient: WindowSceneMessengerClient
 
-    public nonisolated init(
+    nonisolated init(
         appStateClient: AppStateClient = .liveValue,
         cgDirectDisplayClient: CGDirectDisplayClient = .liveValue,
         executeClient: ExecuteClient = .liveValue,
@@ -69,7 +69,7 @@ public final class AppDependencies: Sendable {
     static let shared = AppDependencies()
 }
 
-public extension EnvironmentValues {
+extension EnvironmentValues {
     @Entry var appDependencies = AppDependencies.shared
 }
 
