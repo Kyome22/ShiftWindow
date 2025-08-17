@@ -18,6 +18,7 @@
  limitations under the License.
 */
 
+import Model
 import SwiftUI
 
 public struct MenuBarScene: Scene {

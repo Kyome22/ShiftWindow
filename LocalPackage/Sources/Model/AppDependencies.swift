@@ -70,7 +70,7 @@ public final class AppDependencies: Sendable {
 }
 
 extension EnvironmentValues {
-    @Entry var appDependencies = AppDependencies.shared
+    @Entry public var appDependencies = AppDependencies.shared
 }
 
 extension AppDependencies {
