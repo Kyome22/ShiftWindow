@@ -21,50 +21,20 @@
 import DataSource
 import SwiftUI
 
-public final class AppDependencies: Sendable {
-    public let appStateClient: AppStateClient
-    public let cgDirectDisplayClient: CGDirectDisplayClient
-    public let executeClient: ExecuteClient
-    public let hiServicesClient: HIServicesClient
-    public let loggingSystemClient: LoggingSystemClient
-    public let nsAppClient: NSAppClient
-    public let nsScreenClient: NSScreenClient
-    public let nsWorkspaceClient: NSWorkspaceClient
-    public let smAppServiceClient: SMAppServiceClient
-    public let spiceKeyClient: SpiceKeyClient
-    public let spuUpdaterClient: SPUUpdaterClient
-    public let userDefaultsClient: UserDefaultsClient
-    public let windowSceneMessengerClient: WindowSceneMessengerClient
-
-    nonisolated init(
-        appStateClient: AppStateClient = .liveValue,
-        cgDirectDisplayClient: CGDirectDisplayClient = .liveValue,
-        executeClient: ExecuteClient = .liveValue,
-        hiServicesClient: HIServicesClient = .liveValue,
-        loggingSystemClient: LoggingSystemClient = .liveValue,
-        nsAppClient: NSAppClient = .liveValue,
-        nsScreenClient: NSScreenClient = .liveValue,
-        nsWorkspaceClient: NSWorkspaceClient = .liveValue,
-        smAppServiceClient: SMAppServiceClient = .liveValue,
-        spiceKeyClient: SpiceKeyClient = .liveValue,
-        spuUpdaterClient: SPUUpdaterClient = .liveValue,
-        userDefaultsClient: UserDefaultsClient = .liveValue,
-        windowSceneMessengerClient: WindowSceneMessengerClient = .liveValue
-    ) {
-        self.appStateClient = appStateClient
-        self.cgDirectDisplayClient = cgDirectDisplayClient
-        self.executeClient = executeClient
-        self.hiServicesClient = hiServicesClient
-        self.loggingSystemClient = loggingSystemClient
-        self.nsAppClient = nsAppClient
-        self.nsScreenClient = nsScreenClient
-        self.nsWorkspaceClient = nsWorkspaceClient
-        self.smAppServiceClient = smAppServiceClient
-        self.spiceKeyClient = spiceKeyClient
-        self.spuUpdaterClient = spuUpdaterClient
-        self.userDefaultsClient = userDefaultsClient
-        self.windowSceneMessengerClient = windowSceneMessengerClient
-    }
+public struct AppDependencies: Sendable {
+    public var appStateClient = AppStateClient.liveValue
+    public var cgDirectDisplayClient = CGDirectDisplayClient.liveValue
+    public var executeClient = ExecuteClient.liveValue
+    public var hiServicesClient = HIServicesClient.liveValue
+    public var loggingSystemClient = LoggingSystemClient.liveValue
+    public var nsAppClient = NSAppClient.liveValue
+    public var nsScreenClient = NSScreenClient.liveValue
+    public var nsWorkspaceClient = NSWorkspaceClient.liveValue
+    public var smAppServiceClient = SMAppServiceClient.liveValue
+    public var spiceKeyClient = SpiceKeyClient.liveValue
+    public var spuUpdaterClient = SPUUpdaterClient.liveValue
+    public var userDefaultsClient = UserDefaultsClient.liveValue
+    public var windowSceneMessengerClient = WindowSceneMessengerClient.liveValue
 
     static let shared = AppDependencies()
 }

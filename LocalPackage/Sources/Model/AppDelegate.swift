@@ -22,7 +22,7 @@ import AppKit
 import DataSource
 
 public final class AppDelegate: NSObject, NSApplicationDelegate {
-    public let appDependencies = AppDependencies.shared
+    let appDependencies = AppDependencies.shared
 
     public func applicationDidFinishLaunching(_ notification: Notification) {
         let logService = LogService(appDependencies)
